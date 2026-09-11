@@ -1,0 +1,9 @@
+debug_viz_gateway:
+  ros__parameters:
+    host: 0.0.0.0
+    port: 8080
+    image_topic: /debug/viz
+    stream_fps: 15.0
+    jpeg_quality: 55
+    output_width: 640
+    output_height: 360
