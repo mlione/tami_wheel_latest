@@ -113,6 +113,7 @@ ObstacleFusion -> DWA(v,w + local path) -> LQR tracking -> Safety Layer -> cmd_v
 | `/dwa/local_trajectory` | `nav_msgs/Path` | ControllerNode → Rviz | LQR 当前跟踪的局部轨迹 |
 | `/dwa/best_path` | `nav_msgs/Path` | ControllerNode → Rviz | DWA 最优轨迹 |
 | `/dwa/candidate_paths` | `visualization_msgs/MarkerArray` | ControllerNode → Rviz | 候选轨迹（绿=可行，红=碰撞/越界） |
+| `/dwa/obstacle_cloud` | `sensor_msgs/PointCloud2` | ControllerNode → Rviz | 实际送入 DWA 的 XYZ ROI 过滤后二维障碍点云 |
 | `perception/debug/cloud_rect` | `sensor_msgs/PointCloud2` | FusionNode → Rviz | 矩形巡线区点云（调试） |
 | `perception/debug/cloud_ellipse` | `sensor_msgs/PointCloud2` | FusionNode → Rviz | 椭圆避障区点云（调试） |
 | `debug/viz` | `sensor_msgs/Image` | FusionNode → Rviz | 语义分割可视化图像 |

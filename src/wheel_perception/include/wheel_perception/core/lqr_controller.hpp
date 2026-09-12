@@ -41,8 +41,9 @@ public:
     // vehicle-minus-reference sign; reference_angular_velocity is DWA's
     // feed-forward curvature command in rad/s.
     double computeTracking(double lateral_error, double heading_error,
-                           double reference_angular_velocity) {
-        return reference_angular_velocity + computeRaw(lateral_error, heading_error);
+                           double reference_angular_velocity, double control_dt) {
+        return reference_angular_velocity +
+               computeRaw(lateral_error, heading_error, control_dt);
     }
 
     // The existing wheelchair bridge expects steering protocol units on
@@ -55,7 +56,7 @@ public:
 
     // 计算控制量
     double compute(double dist, double angle) {
-        return toActuatorCommand(computeRaw(dist, angle));
+        return toActuatorCommand(computeRaw(dist, angle, cfg_.dt));
     }
 
 private:
@@ -64,17 +65,18 @@ private:
     double last_angle_;
     double integral_dist_;
 
-    double computeRaw(double dist, double angle) {
+    double computeRaw(double dist, double angle, double control_dt) {
+        const double dt = std::clamp(control_dt, 0.01, 0.25);
         // 1. 预处理 (对齐旧代码 abs判断)
         if (std::abs(dist) < 0.1) dist = 0;
         if (std::abs(angle) < 0.08) angle = 0;
 
         // 2. 状态向量 x (5x1)
         Eigen::VectorXd x(5);
-        double dot_dist = (dist - last_dist_) / cfg_.dt;
-        double dot_angle = (angle - last_angle_) / cfg_.dt;
+        double dot_dist = (dist - last_dist_) / dt;
+        double dot_angle = (angle - last_angle_) / dt;
         double integral_limit = std::max(0.0, cfg_.integral_limit);
-        integral_dist_ += dist * cfg_.dt;
+        integral_dist_ += dist * dt;
         integral_dist_ = std::clamp(integral_dist_, -integral_limit, integral_limit);
         
         x << dist, dot_dist, angle, dot_angle, integral_dist_;
@@ -82,10 +84,10 @@ private:
         // 3. 模型矩阵 A (5x5)
         // [关键] 使用 cfg_.model_v (0.5) 而不是实际车速 (1.0)
         Eigen::MatrixXd A = Eigen::MatrixXd::Identity(5, 5);
-        A(0, 1) = cfg_.dt;
+        A(0, 1) = dt;
         A(1, 2) = cfg_.model_v;     
-        A(2, 3) = cfg_.dt;
-        A(4, 0) = cfg_.dt;
+        A(2, 3) = dt;
+        A(4, 0) = dt;
 
         // 4. 输入矩阵 B (5x1)
         Eigen::MatrixXd B = Eigen::MatrixXd::Zero(5, 1);

@@ -558,7 +558,7 @@ void update_loop() {
         // [BLOCK 6] 发布调试点云 (可选，用于 Rviz)
         // 辅助 Lambda: 发布 float4 向量为 PointCloud2
         auto publish_cloud_helper = [&](auto& publisher, const std::vector<float4>& pts, const std::string& frame_id) {
-            if (publisher->get_subscription_count() == 0 || pts.empty()) return;
+            if (publisher->get_subscription_count() == 0) return;
             
             auto msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
             msg->header.stamp = this->get_clock()->now();

@@ -13,14 +13,17 @@ Visualization Manager:
       Topic:
         Value: /zed/point_cloud
       Size (Pixels): 2
-    - Class: rviz_default_plugins/Path
-      Name: DWA Best Path
+    - Class: rviz_default_plugins/PointCloud2
+      Name: DWA Effective Obstacles
       Enabled: true
       Topic:
-        Value: /dwa/best_path
-      Line Style: Lines
-      Line Width: 0.04
-      Color: 0; 255; 0
+        Value: /dwa/obstacle_cloud
+      Size (Pixels): 4
+    - Class: rviz_default_plugins/Marker
+      Name: Selected Path (Green=Cruise, Blue=DWA)
+      Enabled: true
+      Topic:
+        Value: /dwa/best_path_marker
     - Class: rviz_default_plugins/MarkerArray
       Name: DWA Candidates
       Enabled: true

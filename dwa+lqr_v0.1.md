@@ -522,4 +522,3 @@ ros2 run wheel_perception sub.py
 | `src/wheel_perception/src/core/obstacle_fusion.cu` | CUDA ArgMax/后处理错误检查 |
 | `src/wheel_perception/src/fusion_node.cpp` | 数据集逐帧处理、失败丢帧、mask 诊断、匹配 QoS |
 | `zed_dataset_player.py` | RGB-D 可靠小队列 QoS，降低大图像回放丢帧 |
-

@@ -77,18 +77,57 @@
       prediction_time: 2.5              # 秒
       simulation_time_step: 0.1         # 轨迹积分步长
       velocity_resolution: 0.1          # m/s
-      angular_resolution: 0.1           # rad/s
+      angular_resolution: 0.05          # rad/s，细化转向候选，减少角速度跳档
 
       weight_heading: 2.0
       weight_obstacle: 3.0
-      weight_velocity: 1.0
+      weight_velocity: 2.0              # 提高前进收益，避免长期选择有效的静止轨迹
       weight_road: 3.0
-      weight_smooth: 2.0
+      # 平滑总代价缩放。各子项已按执行器能力归一化，不宜设得过大。
+      weight_smooth: 0.08               # 保留平滑约束，同时减小对正常加速的抑制
+      smooth:
+        weight_delta_v: 1.5              # |v(k)-v(k-1)|
+        weight_delta_w: 2.0              # |w(k)-w(k-1)|，优先抑制左右摆动
+        weight_acceleration: 0.8          # |a(k)|
+        weight_angular_acceleration: 1.0  # |alpha(k)|
+        weight_jerk: 1.2                  # |a(k)-a(k-1)| / dt
+        weight_angular_jerk: 1.5          # |alpha(k)-alpha(k-1)| / dt
+        max_jerk: 1.0                     # m/s^3，仅作归一化；急停不受舒适项阻挡
+        max_angular_jerk: 3.0             # rad/s^3，仅作归一化
+
+      # 当前版本没有原地转向状态。v 低于该值时只允许 w=0（含安全停车）。
+      minimum_turning_velocity: 0.10
+
+      # 无近距离障碍时使用确定性道路巡线轨迹；障碍进入该区域后才激活DWA。
+      cruise_velocity: 0.6               # 无障碍巡线目标速度，仍受加速度限制
+      activation:
+        max_x: 2.5                        # 前方激活距离
+        min_y: -0.9                       # 右侧激活边界
+        max_y: 0.9                        # 左侧激活边界
+        minimum_points: 10                # 区域内达到该点数即激活
+        clear_frames: 5                   # 连续无障碍帧数达到该值才退出DWA
+
+      # 上一条轨迹仍安全、且新轨迹优势不明显时保持原轨迹，避免候选来回切换。
+      trajectory_hold:
+        enabled: true
+        score_switch_margin: 0.01        # 小幅速度收益即可离开旧的静止轨迹
+        relative_switch_margin: 0.01
+        minimum_clearance: 0.30          # 仅在上一轨迹净空充足时保持
+        clearance_switch_margin: 0.15    # 新轨迹净空明显改善时及时切换
 
       obstacle_distance_threshold: 2.5  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
       road_margin: 0.15                  # 道路边界内缩安全裕量
       max_obstacle_points: 2500          # CPU DWA 点云上限，保持实时性
+      # DWA 是二维底盘规划器，只投影该矩形和高度带内的点。
+      # /zed/point_cloud 仍保留完整调试点云；/dwa/obstacle_cloud 显示实际规划输入。
+      obstacle_roi:
+        min_x: 0.3                       # 忽略车体后方及相机近端噪声
+        max_x: 2.5                       # 与局部障碍评价距离一致
+        min_y: -1.5                      # 右侧局部规划范围
+        max_y: 1.5                       # 左侧局部规划范围
+        min_z: -0.2                      # 轮椅碰撞体最低有效高度（相机坐标系）
+        max_z: 1.0                       # 排除树冠等高处点；实车需按相机安装高度标定
       visualization:
         max_candidates: 80
 
@@ -115,6 +154,4 @@
       base_vel: 1.0      # 正常巡线速度 (m/s)
       stop_dist: 1.0     # 紧急停车距离 (m)
       
-      # 避障回正参数
-      pass_clearance: 0.1 # 盲走直行阶段：里程计显示超过障碍物多少米后，才开始回正？
-      recover_time: 1.5   # 强力回正阶段：持续右转多少秒？
+      pass_clearance: 0.1 # 历史兼容参数；当前 DWA 控制链未使用

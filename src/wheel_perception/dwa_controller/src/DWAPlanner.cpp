@@ -16,12 +16,15 @@ DWAPlanner::DWAPlanner(Config config) : config_(std::move(config)) {
   config_.velocity_resolution = std::max(config_.velocity_resolution, 0.01);
   config_.angular_resolution = std::max(config_.angular_resolution, 0.01);
   config_.robot_radius = std::max(config_.robot_radius, 0.0);
+  config_.minimum_turning_velocity = std::max(config_.minimum_turning_velocity, 0.0);
+  config_.max_jerk = std::max(config_.max_jerk, kEpsilon);
+  config_.max_angular_jerk = std::max(config_.max_angular_jerk, kEpsilon);
 }
 
 DWAPlanner::Result DWAPlanner::plan(
     const Pose2D& robot_state, const Velocity& current_velocity,
     const RoadModel& road, const std::vector<ObstaclePoint>& obstacles,
-    double previous_angular_velocity) const {
+    const MotionHistory& history, double control_dt) const {
   Result result;
   // Planning geometry is local to base_link, but odometry state is still a
   // required safety input: invalid localization must never produce a command.
@@ -31,7 +34,10 @@ DWAPlanner::Result DWAPlanner::plan(
     return result;
   }
 
-  const double dt = config_.simulation_time_step;
+  // The reachable velocity window must follow the real controller period.
+  // Clamp long scheduling gaps so that one delayed callback cannot cause a
+  // large command jump.
+  const double dt = std::clamp(control_dt, 0.01, 0.25);
   const double min_v = std::clamp(current_velocity.linear - config_.max_acceleration * dt,
                                   config_.min_velocity, config_.max_velocity);
   const double max_v = std::clamp(current_velocity.linear + config_.max_acceleration * dt,
@@ -43,16 +49,77 @@ DWAPlanner::Result DWAPlanner::plan(
       current_velocity.angular + config_.max_angular_acceleration * dt,
       -config_.max_angular_velocity, config_.max_angular_velocity);
 
-  for (double v : samples(min_v, max_v, config_.velocity_resolution)) {
-    for (double w : samples(min_w, max_w, config_.angular_resolution)) {
+  auto linear_samples = samples(min_v, max_v, config_.velocity_resolution);
+  auto angular_samples = samples(min_w, max_w, config_.angular_resolution);
+  // Sampling from a negative lower bound with a coarse resolution does not
+  // necessarily land exactly on zero. A zero-angular-velocity sample is
+  // mandatory for straight startup now that low-speed turning is disabled.
+  if (min_w <= 0.0 && max_w >= 0.0) {
+    angular_samples.push_back(0.0);
+  }
+  if (history.valid) {
+    linear_samples.push_back(std::clamp(history.previous_command.linear, min_v, max_v));
+    angular_samples.push_back(std::clamp(history.previous_command.angular, min_w, max_w));
+  }
+  const auto sort_and_unique = [](std::vector<double>& values) {
+    std::sort(values.begin(), values.end());
+    values.erase(std::unique(values.begin(), values.end(), [](double lhs, double rhs) {
+      return std::abs(lhs - rhs) <= kEpsilon;
+    }), values.end());
+  };
+  sort_and_unique(linear_samples);
+  sort_and_unique(angular_samples);
+
+  for (double v : linear_samples) {
+    for (double w : angular_samples) {
+      // The current wheelchair mode has no in-place rotation state.  Keep the
+      // zero command for a safe stop, but reject every low-speed turning arc.
+      if (v < config_.minimum_turning_velocity && std::abs(w) > kEpsilon) {
+        continue;
+      }
       Trajectory trajectory = simulate(v, w);
-      evaluate(trajectory, road, obstacles, previous_angular_velocity);
-      if (trajectory.collision_free && trajectory.inside_road &&
+      evaluate(trajectory, road, obstacles, history, dt);
+      if (trajectory.collision_free && trajectory.inside_road && trajectory.dynamic_feasible &&
           (!result.valid || trajectory.score > result.best.score)) {
         result.valid = true;
         result.best = trajectory;
       }
       result.candidates.push_back(std::move(trajectory));
+    }
+  }
+
+  // Candidate hysteresis: keep the previous safe command unless a new path is
+  // meaningfully better or provides materially more obstacle clearance.
+  if (result.valid && history.valid && config_.enable_trajectory_hold) {
+    const Trajectory* incumbent = nullptr;
+    double incumbent_distance = std::numeric_limits<double>::infinity();
+    const double v_scale = std::max(config_.velocity_resolution, 0.01);
+    const double w_scale = std::max(config_.angular_resolution, 0.01);
+    for (const auto& candidate : result.candidates) {
+      if (!candidate.collision_free || !candidate.inside_road ||
+          !candidate.dynamic_feasible) {
+        continue;
+      }
+      const double command_distance = std::hypot(
+          (candidate.command.linear - history.previous_command.linear) / v_scale,
+          (candidate.command.angular - history.previous_command.angular) / w_scale);
+      if (command_distance < incumbent_distance) {
+        incumbent_distance = command_distance;
+        incumbent = &candidate;
+      }
+    }
+
+    if (incumbent != nullptr &&
+        incumbent->minimum_clearance >= config_.hold_minimum_clearance) {
+      const double improvement = result.best.score - incumbent->score;
+      const double required_improvement = config_.score_switch_margin +
+          config_.relative_switch_margin * std::max(1.0, std::abs(incumbent->score));
+      const double clearance_gain =
+          result.best.minimum_clearance - incumbent->minimum_clearance;
+      if (improvement < required_improvement &&
+          clearance_gain < config_.clearance_switch_margin) {
+        result.best = *incumbent;
+      }
     }
   }
   return result;
@@ -76,9 +143,10 @@ Trajectory DWAPlanner::simulate(double linear, double angular) const {
 
 void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
                           const std::vector<ObstaclePoint>& obstacles,
-                          double previous_angular_velocity) const {
+                          const MotionHistory& history, double control_dt) const {
   trajectory.collision_free = true;
   trajectory.inside_road = true;
+  trajectory.dynamic_feasible = true;
   double road_cost = 0.0;
 
   const double road_slope = std::tan(std::clamp(
@@ -130,14 +198,47 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
   const double heading_cost = std::cos(normalizeAngle(endpoint.yaw - road.yaw_error));
   const double obstacle_cost = 1.0 / std::max(trajectory.minimum_clearance, 0.01);
   const double velocity_cost = config_.max_velocity - trajectory.command.linear;
-  const double smooth_cost = std::abs(trajectory.command.angular - previous_angular_velocity);
+  double smooth_cost = 0.0;
+  if (history.valid) {
+    const double dt = std::max(control_dt, 0.01);
+    const double delta_v = trajectory.command.linear - history.previous_command.linear;
+    const double delta_w = trajectory.command.angular - history.previous_command.angular;
+    const double linear_acceleration = delta_v / dt;
+    const double angular_acceleration = delta_w / dt;
+    const double linear_jerk =
+        (linear_acceleration - history.previous_linear_acceleration) / dt;
+    const double angular_jerk =
+        (angular_acceleration - history.previous_angular_acceleration) / dt;
+
+    trajectory.dynamic_feasible =
+        std::abs(linear_acceleration) <= config_.max_acceleration + kEpsilon &&
+        std::abs(angular_acceleration) <= config_.max_angular_acceleration + kEpsilon;
+
+    // Normalize each term so the weights remain meaningful when the callback
+    // rate or actuator limits change. Jerk is intentionally a soft cost: an
+    // emergency stop must never be blocked by a comfort constraint.
+    smooth_cost =
+        config_.weight_delta_velocity *
+            std::abs(delta_v) / std::max(config_.max_acceleration * dt, 0.01) +
+        config_.weight_delta_angular *
+            std::abs(delta_w) / std::max(config_.max_angular_acceleration * dt, 0.01) +
+        config_.weight_acceleration *
+            std::abs(linear_acceleration) / std::max(config_.max_acceleration, 0.01) +
+        config_.weight_angular_acceleration *
+            std::abs(angular_acceleration) /
+                std::max(config_.max_angular_acceleration, 0.01) +
+        config_.weight_jerk * std::abs(linear_jerk) / config_.max_jerk +
+        config_.weight_angular_jerk *
+            std::abs(angular_jerk) / config_.max_angular_jerk;
+  }
 
   trajectory.score = config_.weight_heading * heading_cost -
                      config_.weight_obstacle * obstacle_cost -
                      config_.weight_velocity * velocity_cost -
                      config_.weight_road * road_cost -
                      config_.weight_smooth * smooth_cost;
-  if (!trajectory.collision_free || !trajectory.inside_road) {
+  if (!trajectory.collision_free || !trajectory.inside_road ||
+      !trajectory.dynamic_feasible) {
     trajectory.score = -std::numeric_limits<double>::infinity();
   }
 }
