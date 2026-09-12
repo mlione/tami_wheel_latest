@@ -31,7 +31,13 @@ import cv2
 
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
+from rclpy.qos import (
+    DurabilityPolicy,
+    HistoryPolicy,
+    QoSProfile,
+    ReliabilityPolicy,
+    qos_profile_sensor_data,
+)
 from sensor_msgs.msg import Image, Imu
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Quaternion, Point, Twist
@@ -120,9 +126,17 @@ class DatasetPlayerNode(Node):
             self.img_width = 0
             self.img_height = 0
 
-        # ROS2 发布者 (使用 sensor_data QoS, 与 avoid_controller 一致)
-        self.rgb_pub = self.create_publisher(Image, rgb_topic, qos_profile_sensor_data)
-        self.depth_pub = self.create_publisher(Image, depth_topic, qos_profile_sensor_data)
+        # 离线 RGB-D 单帧较大，BEST_EFFORT 在本机 DDS 压力较高时会大量
+        # 丢帧，造成融合图像长时间不更新。图像改用小队列可靠传输；IMU/
+        # odom 仍保持低延迟 SensorDataQoS。
+        image_qos = QoSProfile(
+            history=HistoryPolicy.KEEP_LAST,
+            depth=2,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.VOLATILE,
+        )
+        self.rgb_pub = self.create_publisher(Image, rgb_topic, image_qos)
+        self.depth_pub = self.create_publisher(Image, depth_topic, image_qos)
         self.imu_pub = self.create_publisher(Imu, '/zed/imu', qos_profile_sensor_data)
         self.odom_pub = self.create_publisher(Odometry, '/zed/odom', qos_profile_sensor_data)
         self.bridge = CvBridge()

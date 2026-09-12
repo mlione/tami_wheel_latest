@@ -65,7 +65,7 @@ public:
         PerceptionParams params);
 
     void retrieveFilteredCloud(std::vector<float4>& host_cloud);
-    void processSegmentation(void* trt_output_ptr);
+    bool processSegmentation(void* trt_output_ptr);
     void extractRightEdge(
         const void* zed_cloud_ptr,
         int width, int height,

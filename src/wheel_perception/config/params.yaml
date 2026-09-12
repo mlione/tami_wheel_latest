@@ -65,6 +65,38 @@
       
       # 目标设定
       aim_dist: 0.8 # 目标离墙距离 (米)，让车不要贴墙太近
+      lookahead_time: 0.6 # LQR 跟踪 DWA 轨迹的前视时间 (秒)
+
+    # === DWA 局部规划参数（与现有 ROS YAML 参数系统共用）===
+    dwa:
+      max_velocity: 1.0                 # m/s
+      min_velocity: 0.0                 # 载人设备默认禁止倒车
+      max_angular_velocity: 1.0         # rad/s，DWA 内部物理角速度
+      max_acceleration: 0.5             # m/s^2
+      max_angular_acceleration: 1.5     # rad/s^2
+      prediction_time: 2.5              # 秒
+      simulation_time_step: 0.1         # 轨迹积分步长
+      velocity_resolution: 0.1          # m/s
+      angular_resolution: 0.1           # rad/s
+
+      weight_heading: 2.0
+      weight_obstacle: 3.0
+      weight_velocity: 1.0
+      weight_road: 3.0
+      weight_smooth: 2.0
+
+      obstacle_distance_threshold: 2.5  # 只评价此前向距离内的障碍点
+      robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
+      road_margin: 0.15                  # 道路边界内缩安全裕量
+      max_obstacle_points: 2500          # CPU DWA 点云上限，保持实时性
+      visualization:
+        max_candidates: 80
+
+    # === 最终安全层：优先级高于 DWA 与 LQR ===
+    safety:
+      emergency_stop_distance: 0.8      # m，进入融合危险区立即置零
+      perception_timeout: 0.5            # s，感知中断时主动发布停车
+      stop_on_no_path: true              # 无安全轨迹时停车而非沿用旧指令
 
     # === 动态右侧目标距离 ===
     dynamic_aim:

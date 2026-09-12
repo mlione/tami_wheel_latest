@@ -368,20 +368,27 @@ void ObstacleFusion::downloadMask(unsigned char* host_mask) {
     }
 }
 
-void ObstacleFusion::processSegmentation(void* trt_output_ptr) {
-    if (!trt_output_ptr || !d_mask_visualization_) return;
-
-    // 假设 Cityscapes 是 19 类 (0-18)
-    const int NUM_CLASSES = 19;
+bool ObstacleFusion::processSegmentation(void* trt_output_ptr) {
+    if (!trt_output_ptr || !d_mask_visualization_) return false;
+    // combined5.engine 使用 Cityscapes 19 类 NCHW logits；保持原有映射不变。
+    const int num_classes = 19;
     // 调用 Kernel: Float Logits (NCHW) -> Uchar Mask (HW)
     // 直接把 AI 算出来的结果写到 d_mask_visualization_ 显存里
+    // 清掉更早的 CUDA 错误，确保下面报告的是当前 ArgMax 启动错误。
+    cudaGetLastError();
     launch_argmax_kernel(
         (float*)trt_output_ptr, 
         d_mask_visualization_, 
         ai_width_, ai_height_, 
-        NUM_CLASSES, 
+        num_classes,
         0 // 使用默认流，因为 update_loop 里是串行的
     );
+    cudaError_t launch_error = cudaPeekAtLastError();
+    if (launch_error != cudaSuccess) {
+        std::fprintf(stderr, "[ObstacleFusion] ArgMax launch failed: %s\n",
+                     cudaGetErrorString(launch_error));
+        return false;
+    }
     
     // dim3 block(32, 32);
     // dim3 grid((ai_width_ + block.x - 1) / block.x, (ai_height_ + block.y - 1) / block.y);
@@ -402,6 +409,13 @@ void ObstacleFusion::processSegmentation(void* trt_output_ptr) {
         0,
         255,
         nullptr);
+    launch_error = cudaPeekAtLastError();
+    if (launch_error != cudaSuccess) {
+        std::fprintf(stderr, "[ObstacleFusion] road-mask postprocess launch failed: %s\n",
+                     cudaGetErrorString(launch_error));
+        return false;
+    }
+    return true;
 }
 
 // =============================================================================

@@ -1,319 +1,407 @@
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_components/register_node_macro.hpp>
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstddef>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <geometry_msgs/msg/point.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <tf2/LinearMath/Quaternion.h>
+#include <nav_msgs/msg/path.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_components/register_node_macro.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <sensor_msgs/point_cloud2_iterator.hpp>
 #include <tf2/LinearMath/Matrix3x3.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <visualization_msgs/msg/marker.hpp>
+#include <visualization_msgs/msg/marker_array.hpp>
+
 #include "wheel_msgs/msg/perception_output.hpp"
 #include "wheel_perception/core/lqr_controller.hpp"
-
-#include "wheel_perception/core/zed_driver.hpp"
-
-
+#include "wheel_perception/dwa_controller/DWAPlanner.hpp"
 
 namespace wheel_control {
+namespace {
 
-enum class State {
-    STOP, CRUISE, AVOID_HARD_LEFT, AVOID_HARD_RIGHT, AVOID_SLOW, CONTINUE_STRAIGHT, RECOVER_TURN, OUT
-};
+geometry_msgs::msg::Quaternion yawToQuaternion(double yaw) {
+  geometry_msgs::msg::Quaternion quaternion;
+  quaternion.z = std::sin(yaw * 0.5);
+  quaternion.w = std::cos(yaw * 0.5);
+  return quaternion;
+}
+
+}  // namespace
 
 class ControllerNode : public rclcpp::Node {
-public:
-    explicit ControllerNode(const rclcpp::NodeOptions & options)
-        : Node("controller_node", options) 
+ public:
+  explicit ControllerNode(const rclcpp::NodeOptions& options)
+      : Node("controller_node", options) {
+    declareParameters();
+    configureControllers();
+
+    sub_perception_ = create_subscription<wheel_msgs::msg::PerceptionOutput>(
+        "perception/output", 10,
+        std::bind(&ControllerNode::perceptionCallback, this, std::placeholders::_1));
+    sub_odom_ = create_subscription<nav_msgs::msg::Odometry>(
+        "/odom", 10, std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1));
+    sub_dataset_odom_ = create_subscription<nav_msgs::msg::Odometry>(
+        "/zed/odom", rclcpp::SensorDataQoS(),
+        std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1));
+    sub_cloud_ = create_subscription<sensor_msgs::msg::PointCloud2>(
+        "zed/point_cloud", rclcpp::SensorDataQoS(),
+        std::bind(&ControllerNode::cloudCallback, this, std::placeholders::_1));
+
+    pub_cmd_ = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+    pub_dwa_cmd_ = create_publisher<geometry_msgs::msg::Twist>("dwa/planner_cmd", 10);
+    pub_local_trajectory_ = create_publisher<nav_msgs::msg::Path>("dwa/local_trajectory", 10);
+    pub_best_path_ = create_publisher<nav_msgs::msg::Path>("dwa/best_path", 10);
+    pub_candidate_paths_ =
+        create_publisher<visualization_msgs::msg::MarkerArray>("dwa/candidate_paths", 10);
+
+    last_perception_time_ = now();
+    watchdog_timer_ = create_wall_timer(
+        std::chrono::milliseconds(100), std::bind(&ControllerNode::watchdogCallback, this));
+
+    RCLCPP_INFO(get_logger(),
+                "Hierarchical controller ready: ObstacleFusion -> DWA -> LQR -> safety -> cmd_vel");
+  }
+
+ private:
+  void declareParameters() {
+    declare_parameter("lqr.gain", 60.0);
+    declare_parameter("lqr.q_pos", 10.0);
+    declare_parameter("lqr.q_ang", 10.0);
+    declare_parameter("lqr.q_integral", 0.0);
+    declare_parameter("lqr.integral_limit", 1.5);
+    declare_parameter("lqr.k_w", 10.0);
+    declare_parameter("lqr.model_v", 0.5);
+    declare_parameter("lqr.aim_dist", 0.65);
+    declare_parameter("lqr.lookahead_time", 0.6);
+    declare_parameter("dynamic_aim.enabled", true);
+    declare_parameter("logic.base_vel", 1.0);
+    declare_parameter("logic.stop_dist", 1.0);
+    declare_parameter("logic.narrow_road_width", 3.0);
+    declare_parameter("logic.pass_clearance", 0.6);
+    declare_parameter("logic.recover_time", 2.0);
+
+    declare_parameter("dwa.max_velocity", 1.0);
+    declare_parameter("dwa.min_velocity", 0.0);
+    declare_parameter("dwa.max_angular_velocity", 1.0);
+    declare_parameter("dwa.max_acceleration", 0.5);
+    declare_parameter("dwa.max_angular_acceleration", 1.5);
+    declare_parameter("dwa.prediction_time", 2.5);
+    declare_parameter("dwa.simulation_time_step", 0.1);
+    declare_parameter("dwa.velocity_resolution", 0.1);
+    declare_parameter("dwa.angular_resolution", 0.1);
+    declare_parameter("dwa.weight_heading", 2.0);
+    declare_parameter("dwa.weight_obstacle", 3.0);
+    declare_parameter("dwa.weight_velocity", 1.0);
+    declare_parameter("dwa.weight_road", 3.0);
+    declare_parameter("dwa.weight_smooth", 2.0);
+    declare_parameter("dwa.obstacle_distance_threshold", 2.5);
+    declare_parameter("dwa.robot_radius", 0.45);
+    declare_parameter("dwa.road_margin", 0.15);
+    declare_parameter("dwa.max_obstacle_points", 2500);
+    declare_parameter("dwa.visualization.max_candidates", 80);
+
+    declare_parameter("safety.emergency_stop_distance", 0.8);
+    declare_parameter("safety.perception_timeout", 0.5);
+    declare_parameter("safety.stop_on_no_path", true);
+  }
+
+  void configureControllers() {
+    LqrController::Config lqr_config;
+    lqr_config.q_pos = get_parameter("lqr.q_pos").as_double();
+    lqr_config.q_ang = get_parameter("lqr.q_ang").as_double();
+    lqr_config.q_integral = get_parameter("lqr.q_integral").as_double();
+    lqr_config.integral_limit = get_parameter("lqr.integral_limit").as_double();
+    lqr_config.lqr_gain = get_parameter("lqr.gain").as_double();
+    lqr_config.k_w = get_parameter("lqr.k_w").as_double();
+    lqr_config.model_v = get_parameter("lqr.model_v").as_double();
+    lqr_config.dt = get_parameter("dwa.simulation_time_step").as_double();
+    lqr_ = std::make_unique<LqrController>(lqr_config);
+
+    dwa::DWAPlanner::Config dwa_config;
+    dwa_config.max_velocity = get_parameter("dwa.max_velocity").as_double();
+    dwa_config.min_velocity = get_parameter("dwa.min_velocity").as_double();
+    dwa_config.max_angular_velocity = get_parameter("dwa.max_angular_velocity").as_double();
+    dwa_config.max_acceleration = get_parameter("dwa.max_acceleration").as_double();
+    dwa_config.max_angular_acceleration =
+        get_parameter("dwa.max_angular_acceleration").as_double();
+    dwa_config.prediction_time = get_parameter("dwa.prediction_time").as_double();
+    dwa_config.simulation_time_step = get_parameter("dwa.simulation_time_step").as_double();
+    dwa_config.velocity_resolution = get_parameter("dwa.velocity_resolution").as_double();
+    dwa_config.angular_resolution = get_parameter("dwa.angular_resolution").as_double();
+    dwa_config.weight_heading = get_parameter("dwa.weight_heading").as_double();
+    dwa_config.weight_obstacle = get_parameter("dwa.weight_obstacle").as_double();
+    dwa_config.weight_velocity = get_parameter("dwa.weight_velocity").as_double();
+    dwa_config.weight_road = get_parameter("dwa.weight_road").as_double();
+    dwa_config.weight_smooth = get_parameter("dwa.weight_smooth").as_double();
+    dwa_config.obstacle_distance_threshold =
+        get_parameter("dwa.obstacle_distance_threshold").as_double();
+    dwa_config.robot_radius = get_parameter("dwa.robot_radius").as_double();
+    dwa_config.road_margin = get_parameter("dwa.road_margin").as_double();
+    max_angular_velocity_ = dwa_config.max_angular_velocity;
+    simulation_dt_ = dwa_config.simulation_time_step;
+    max_angular_acceleration_ = dwa_config.max_angular_acceleration;
+    dwa_ = std::make_unique<dwa::DWAPlanner>(dwa_config);
+  }
+
+  void odomCallback(const nav_msgs::msg::Odometry::SharedPtr message) {
+    dwa::Pose2D next_state;
+    next_state.x = message->pose.pose.position.x;
+    next_state.y = message->pose.pose.position.y;
+    const auto& q = message->pose.pose.orientation;
+    tf2::Quaternion quaternion(q.x, q.y, q.z, q.w);
+    double roll = 0.0;
+    double pitch = 0.0;
+    tf2::Matrix3x3(quaternion).getRPY(roll, pitch, next_state.yaw);
+
+    const double measured_v = message->twist.twist.linear.x;
+    const double measured_w = message->twist.twist.angular.z;
+    if (std::isfinite(measured_v) && std::isfinite(measured_w) &&
+        (std::abs(measured_v) > 1e-3 || std::abs(measured_w) > 1e-3)) {
+      measured_velocity_ = {measured_v, measured_w};
+      has_velocity_feedback_ = true;
+    } else {
+      const rclcpp::Time stamp(message->header.stamp);
+      if (last_odom_stamp_.nanoseconds() > 0 && stamp > last_odom_stamp_) {
+        const double dt = (stamp - last_odom_stamp_).seconds();
+        if (dt > 0.001 && dt < 1.0) {
+          const double dx = next_state.x - robot_state_.x;
+          const double dy = next_state.y - robot_state_.y;
+          const double linear =
+              (dx * std::cos(robot_state_.yaw) + dy * std::sin(robot_state_.yaw)) / dt;
+          const double angular = std::atan2(std::sin(next_state.yaw - robot_state_.yaw),
+                                            std::cos(next_state.yaw - robot_state_.yaw)) /
+                                 dt;
+          measured_velocity_ = {linear, angular};
+          has_velocity_feedback_ = true;
+        }
+      }
+      last_odom_stamp_ = stamp;
+    }
+    robot_state_ = next_state;
+  }
+
+  void cloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr message) {
+    std::vector<dwa::ObstaclePoint> points;
+    if (message->width == 0 || message->height == 0) return;
+
+    const std::size_t maximum = static_cast<std::size_t>(
+        std::max<int64_t>(1, get_parameter("dwa.max_obstacle_points").as_int()));
+    const std::size_t total = static_cast<std::size_t>(message->width) * message->height;
+    const std::size_t stride = std::max<std::size_t>(1, total / maximum);
+    points.reserve(std::min(total, maximum));
+
+    sensor_msgs::PointCloud2ConstIterator<float> x(*message, "x");
+    sensor_msgs::PointCloud2ConstIterator<float> y(*message, "y");
+    for (std::size_t index = 0; index < total; ++index, ++x, ++y) {
+      if (index % stride != 0 || !std::isfinite(*x) || !std::isfinite(*y)) continue;
+      points.push_back({*x, *y});
+      if (points.size() >= maximum) break;
+    }
+    std::lock_guard<std::mutex> lock(obstacle_mutex_);
+    obstacles_ = std::move(points);
+  }
+
+  void perceptionCallback(const wheel_msgs::msg::PerceptionOutput::SharedPtr message) {
+    last_perception_time_ = now();
+    watchdog_stopped_ = false;
+    const double emergency_distance =
+        get_parameter("safety.emergency_stop_distance").as_double();
+    if (message->min_distance > 0.01 && message->min_distance < emergency_distance) {
+      publishStop("emergency obstacle distance");
+      return;
+    }
+
+    std::vector<dwa::ObstaclePoint> obstacles;
     {
-        // === 参数配置 (严格对齐 avoid_lib_s.cpp) ===
-        this->declare_parameter("lqr.gain", 60.0);    // 协议放大倍数
-        this->declare_parameter("lqr.q_pos", 10.0);   // Q(0,0)
-        this->declare_parameter("lqr.q_ang", 10.0);   // Q(2,2)
-        this->declare_parameter("lqr.q_integral", 0.0); // Q(4,4)
-        this->declare_parameter("lqr.integral_limit", 1.5);
-        this->declare_parameter("lqr.k_w", 10.0);     // k_w
-        this->declare_parameter("lqr.model_v", 0.5);  // [关键] 模型内部速度 static v=0.5
-        this->declare_parameter("lqr.aim_dist", 0.65);
-        this->declare_parameter("dynamic_aim.enabled", true);
-
-        this->declare_parameter("logic.base_vel", 1.0); // 实际行驶速度 linear.x=1.0
-        this->declare_parameter("logic.stop_dist", 1.0);
-        this->declare_parameter("logic.narrow_road_width", 3.0);
-        this->declare_parameter("logic.pass_clearance", 0.6);
-        this->declare_parameter("logic.recover_time", 2.0);
-
-        // 初始化 LQR
-        LqrController::Config lqr_cfg;
-        lqr_cfg.q_pos = this->get_parameter("lqr.q_pos").as_double();
-        lqr_cfg.q_ang = this->get_parameter("lqr.q_ang").as_double();
-        lqr_cfg.q_vel = 0.0; // dot_e (旧代码默认0)
-        lqr_cfg.q_ang_vel = 0.0; // dot_th_e (旧代码默认0)
-        lqr_cfg.q_integral = this->get_parameter("lqr.q_integral").as_double();
-        lqr_cfg.lqr_gain = this->get_parameter("lqr.gain").as_double();
-        lqr_cfg.k_w = this->get_parameter("lqr.k_w").as_double();
-        lqr_cfg.model_v = this->get_parameter("lqr.model_v").as_double(); // 0.5
-        lqr_cfg.integral_limit = this->get_parameter("lqr.integral_limit").as_double();
-        lqr_cfg.dt = 0.1;
-        lqr_ = std::make_unique<LqrController>(lqr_cfg);
-
-        // 通信
-        sub_perception_ = this->create_subscription<wheel_msgs::msg::PerceptionOutput>(
-            "perception/output", 10, std::bind(&ControllerNode::perception_callback, this, std::placeholders::_1));
-        sub_odom_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "/odom", 10, std::bind(&ControllerNode::odom_callback, this, std::placeholders::_1));
-        pub_cmd_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
-        
-        RCLCPP_INFO(get_logger(), "Controller Aligned: Model_V=%.1f, Real_V=%.1f", lqr_cfg.model_v, this->get_parameter("logic.base_vel").as_double());
+      std::lock_guard<std::mutex> lock(obstacle_mutex_);
+      obstacles = obstacles_;
     }
 
-private:
-    std::unique_ptr<LqrController> lqr_;
-    rclcpp::Subscription<wheel_msgs::msg::PerceptionOutput>::SharedPtr sub_perception_;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_odom_;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_cmd_;
-    State state_ = State::CRUISE;
-    const char * state_name(State s) const {
-        switch (s) {
-            case State::STOP: return "STOP";
-            case State::CRUISE: return "CRUISE";
-            case State::AVOID_HARD_LEFT: return "AVOID_HARD_LEFT";
-            case State::AVOID_HARD_RIGHT: return "AVOID_HARD_RIGHT";
-            case State::AVOID_SLOW: return "AVOID_SLOW";
-            case State::CONTINUE_STRAIGHT: return "CONTINUE_STRAIGHT";
-            case State::RECOVER_TURN: return "RECOVER_TURN";
-            case State::OUT: return "OUT";
-            default: return "UNKNOWN";
-        }
+    dwa::RoadModel road;
+    road.has_right_edge = message->has_road_edge;
+    road.has_width = message->has_road_width;
+    road.right_distance = message->right_distance;
+    road.width = message->road_width;
+    road.target_right_distance =
+        get_parameter("dynamic_aim.enabled").as_bool() &&
+                message->target_right_distance > 0.01
+            ? message->target_right_distance
+            : get_parameter("lqr.aim_dist").as_double();
+    // FusionNode already publishes this value in radians.
+    road.yaw_error = message->road_yaw_error;
+
+    const dwa::Velocity planning_velocity =
+        has_velocity_feedback_ ? measured_velocity_ : last_planner_velocity_;
+    const auto result = dwa_->plan(robot_state_, planning_velocity, road, obstacles,
+                                   last_planner_velocity_.angular);
+    publishVisualization(result);
+
+    if (!result.valid && get_parameter("safety.stop_on_no_path").as_bool()) {
+      publishStop("DWA found no collision-free road-valid path");
+      return;
+    }
+    if (!result.valid) return;
+
+    geometry_msgs::msg::Twist planner_command;
+    planner_command.linear.x = result.best.command.linear;
+    planner_command.angular.z = result.best.command.angular;
+    pub_dwa_cmd_->publish(planner_command);
+
+    const auto& reference = selectLookahead(result.best);
+    const double lateral_error = -reference.y;
+    const double heading_error = -reference.yaw;
+    double tracked_w = lqr_->computeTracking(lateral_error, heading_error,
+                                             result.best.command.angular);
+    tracked_w = std::clamp(tracked_w, -max_angular_velocity_, max_angular_velocity_);
+    const double max_delta_w = max_angular_acceleration_ * simulation_dt_;
+    tracked_w = std::clamp(tracked_w, last_tracked_angular_ - max_delta_w,
+                           last_tracked_angular_ + max_delta_w);
+
+    geometry_msgs::msg::Twist command;
+    command.linear.x = result.best.command.linear;
+    command.angular.z = lqr_->toActuatorCommand(tracked_w);
+    pub_cmd_->publish(command);
+    last_planner_velocity_ = {result.best.command.linear, tracked_w};
+    last_tracked_angular_ = tracked_w;
+
+    RCLCPP_INFO_THROTTLE(
+        get_logger(), *get_clock(), 500,
+        "DWA+LQR: v=%.2f w_ref=%.2f w_track=%.2f clearance=%.2f score=%.2f obstacles=%zu",
+        command.linear.x, result.best.command.angular, tracked_w,
+        result.best.minimum_clearance, result.best.score, obstacles.size());
+  }
+
+  const dwa::Pose2D& selectLookahead(const dwa::Trajectory& trajectory) const {
+    const double lookahead_time = get_parameter("lqr.lookahead_time").as_double();
+    const auto index = static_cast<std::size_t>(std::clamp(
+        std::lround(lookahead_time / std::max(simulation_dt_, 0.01)), 0L,
+        static_cast<long>(trajectory.poses.size() - 1)));
+    return trajectory.poses[index];
+  }
+
+  void publishStop(const std::string& reason) {
+    geometry_msgs::msg::Twist stop;
+    pub_cmd_->publish(stop);
+    pub_dwa_cmd_->publish(stop);
+    last_planner_velocity_ = {};
+    last_tracked_angular_ = 0.0;
+    lqr_->reset();
+    nav_msgs::msg::Path empty_path;
+    empty_path.header.stamp = now();
+    empty_path.header.frame_id = "base_link";
+    pub_local_trajectory_->publish(empty_path);
+    pub_best_path_->publish(empty_path);
+    visualization_msgs::msg::MarkerArray clear_markers;
+    visualization_msgs::msg::Marker clear;
+    clear.action = visualization_msgs::msg::Marker::DELETEALL;
+    clear_markers.markers.push_back(clear);
+    pub_candidate_paths_->publish(clear_markers);
+    RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 500, "Safety stop: %s", reason.c_str());
+  }
+
+  void watchdogCallback() {
+    const double timeout = get_parameter("safety.perception_timeout").as_double();
+    if (!watchdog_stopped_ && timeout > 0.0 &&
+        (now() - last_perception_time_).seconds() > timeout) {
+      watchdog_stopped_ = true;
+      publishStop("perception timeout");
+    }
+  }
+
+  nav_msgs::msg::Path toPath(const dwa::Trajectory& trajectory) const {
+    nav_msgs::msg::Path path;
+    path.header.stamp = now();
+    path.header.frame_id = "base_link";
+    path.poses.reserve(trajectory.poses.size());
+    for (const auto& pose : trajectory.poses) {
+      geometry_msgs::msg::PoseStamped stamped;
+      stamped.header = path.header;
+      stamped.pose.position.x = pose.x;
+      stamped.pose.position.y = pose.y;
+      stamped.pose.orientation = yawToQuaternion(pose.yaw);
+      path.poses.push_back(std::move(stamped));
+    }
+    return path;
+  }
+
+  void publishVisualization(const dwa::DWAPlanner::Result& result) {
+    if (result.valid) {
+      const auto path = toPath(result.best);
+      pub_local_trajectory_->publish(path);
+      pub_best_path_->publish(path);
     }
 
-    double obs_global_x_ = 0.0;
-    bool has_locked_obs_ = false;
-    bool narrow_road_stop_ = false;
-    rclcpp::Time recover_start_time_;
-    rclcpp::Time straight_start_time_;
-
-    //这个回调是实时模式
-    void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg) {
-        current_x_ = msg->pose.pose.position.x;
-        current_y_ = msg->pose.pose.position.y;  // 往右边走是负数
-        current_z_ = msg->pose.pose.position.z;
-
-        // 四元数 → 欧拉角（RPY）
-        const auto & q = msg->pose.pose.orientation;
-        tf2::Quaternion tf_q(q.x, q.y, q.z, q.w);
-        tf2::Matrix3x3(tf_q).getRPY(current_roll_, current_pitch_, current_yaw_);
-        current_roll_ = current_roll_ * 180.0 / M_PI;
-        current_pitch_ = current_pitch_ * 180.0 / M_PI;
-        current_yaw_ = current_yaw_ * 180.0 / M_PI;
+    visualization_msgs::msg::MarkerArray markers;
+    visualization_msgs::msg::Marker clear;
+    clear.action = visualization_msgs::msg::Marker::DELETEALL;
+    markers.markers.push_back(clear);
+    const auto max_candidates = static_cast<std::size_t>(std::max<int64_t>(
+        1, get_parameter("dwa.visualization.max_candidates").as_int()));
+    const std::size_t count = std::min(max_candidates, result.candidates.size());
+    for (std::size_t index = 0; index < count; ++index) {
+      const auto& candidate = result.candidates[index];
+      visualization_msgs::msg::Marker marker;
+      marker.header.stamp = now();
+      marker.header.frame_id = "base_link";
+      marker.ns = "dwa_candidates";
+      marker.id = static_cast<int>(index);
+      marker.type = visualization_msgs::msg::Marker::LINE_STRIP;
+      marker.action = visualization_msgs::msg::Marker::ADD;
+      marker.scale.x = 0.015;
+      marker.color.a = 0.45F;
+      const bool valid = candidate.collision_free && candidate.inside_road;
+      marker.color.g = valid ? 0.8F : 0.0F;
+      marker.color.r = valid ? 0.1F : 0.8F;
+      for (const auto& pose : candidate.poses) {
+        geometry_msgs::msg::Point point;
+        point.x = pose.x;
+        point.y = pose.y;
+        marker.points.push_back(point);
+      }
+      markers.markers.push_back(std::move(marker));
     }
+    pub_candidate_paths_->publish(markers);
+  }
 
+  std::unique_ptr<LqrController> lqr_;
+  std::unique_ptr<dwa::DWAPlanner> dwa_;
+  rclcpp::Subscription<wheel_msgs::msg::PerceptionOutput>::SharedPtr sub_perception_;
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_odom_;
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_dataset_odom_;
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_cmd_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_dwa_cmd_;
+  rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_local_trajectory_;
+  rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_best_path_;
+  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr pub_candidate_paths_;
 
-
-void perception_callback(const wheel_msgs::msg::PerceptionOutput::SharedPtr msg) {
-        geometry_msgs::msg::Twist cmd;
-        
-        // 动态读取参数
-        double base_vel = this->get_parameter("logic.base_vel").as_double();  //·行驶速度1
-        double aim_dist = this->get_parameter("lqr.aim_dist").as_double();  //保持跟右侧的距离1
-        double stop_dist = this->get_parameter("logic.stop_dist").as_double();  //停车距离1
-        double narrow_road_width = this->get_parameter("logic.narrow_road_width").as_double();
-        if(!use_dataset_mode_){
-            x_min = msg->min_point.x; 
-            y_min = msg->min_point.y; 
-            min_d = msg->min_distance;
-            // RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "MinPoint: (%.2f, %.2f)", current_x_, current_y_);
-        }
-        // if(rclcpp::ok() && (abs(current_x_) >= 20.0 && state_ == State::CRUISE)) flag_odom = false; 
-        // RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "State: %s | MinDist: %.2f | MinPoint: (%.2f, %.2f)", state_name(state_), min_d, x_min, y_min);
-        // 2. 紧急停车
-        const bool obstacle_in_avoid_range = (min_d < 2.0 && min_d > 0.01);
-        const bool narrow_road = msg->has_road_width && msg->road_width > 0.01 && msg->road_width < narrow_road_width;
-        if(rclcpp::ok() && (out_left0 || out_right0 || out_left1 || out_right1)) state_ = State::OUT;
-        if(rclcpp::ok() && obstacle_in_avoid_range && narrow_road) {
-            narrow_road_stop_ = true;
-            state_ = State::STOP;
-        }
-        if(rclcpp::ok() && min_d < stop_dist && min_d > 0.01 && (y_min < 0.65 && y_min > -0.3)) state_ = State::STOP;
-        // RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200,"Current State: %s ", state_name(state_));
-        
-
-        switch (state_) {
-            case State::STOP:
-                {
-                x_last = 0.0; y_last = 0.0;
-                flag_obstacle = true;
-                flag_odom = false; 
-                out_left0 = false; out_right0 = false; out_left1 = false; out_right1 = false;
-                cmd.linear.x = 0.0; cmd.angular.z = 0.0;
-                const bool was_narrow_road_stop = narrow_road_stop_;
-                if ((narrow_road_stop_ && !obstacle_in_avoid_range) ||
-                    (!narrow_road_stop_ && min_d > stop_dist)) {
-                    narrow_road_stop_ = false;
-                    state_ = State::CRUISE; lqr_->reset(); has_locked_obs_ = false; 
-                }
-                if (was_narrow_road_stop) {
-                    RCLCPP_INFO_THROTTLE(
-                        get_logger(), *this->get_clock(), 200,
-                        "STOP! Narrow road width=%.2f, obstacle=%.2f meters!",
-                        msg->road_width, min_d);
-                } else {
-                    RCLCPP_INFO_THROTTLE(
-                        get_logger(), *this->get_clock(), 200,
-                        "STOP! Obstacle at %.2f meters!", min_d);
-                }
-                break;
-                }
-
-            case State::OUT:
-                flag_obstacle = false;
-                cmd.linear.x = 0.5;
-                if(out_left0) {
-                cmd.angular.z = -70.0;
-                RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 200, 
-                        "==> 建议：向左转弯");
-                }
-                else if(out_right0) {
-                cmd.angular.z = 70.0;
-                RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 200, 
-                        "==> 建议：向右转弯");
-                }
-                else if(out_left1) {
-                    cmd.linear.x = 0.0;
-                    cmd.angular.z = -1000.0;
-                } 
-                else if(out_right1) {
-                    cmd.linear.x = 0.0;
-                    cmd.angular.z = 1000.0;
-                }
-                state_ = State::CRUISE;
-                break;
-
-            case State::CRUISE: //巡线+判断避障
-                flag_odom = false; 
-                if (obstacle_in_avoid_range) {
-                    flag_obstacle = true;
-                    out_left0 = false; out_right0 = false; out_left1 = false; out_right1 = false;
-                    if (y_min < 0.5 && y_min > -0.3) { 
-                        state_ = State::AVOID_HARD_LEFT;
-                    } 
-                    else if ((y_min >= 0.5) && (y_min < 0.8)) { 
-                        state_ = State::AVOID_HARD_RIGHT;
-                    }
-                    else if ((y_min >= 0.8) && (y_min < 1.5)) { 
-                        state_ = State::AVOID_SLOW;
-                    }
-                } else {
-                    flag_obstacle = false;
-                    // --- LQR 巡线 ---
-                    if (msg->has_road_edge) {
-                        // 1. 角度单位转换
-                        double yaw_err_rad = msg->road_yaw_error * M_PI / 180.0;
-                        
-                        // 动态目标有效时优先使用；关闭功能或目标无效时回退固定 aim_dist。
-                        bool dynamic_aim_enabled = this->get_parameter("dynamic_aim.enabled").as_bool();
-                        double target_dist = (dynamic_aim_enabled && msg->target_right_distance > 0.01)
-                            ? msg->target_right_distance
-                            : aim_dist;
-                        double dist_err = msg->right_distance - target_dist;
-                        
-                        // 3. 计算 (正输入，LQR内部负反馈)
-                        cmd.angular.z = lqr_->compute(dist_err, yaw_err_rad); 
-                        RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200,
-                         "right=%.2f width=%.2f target=%.2f angular=%.2f",
-                         msg->right_distance, msg->road_width, target_dist, cmd.angular.z);
-                    }
-                    cmd.linear.x = base_vel;
-                }
-                break;
-
-            case State::AVOID_HARD_LEFT:
-                {
-                   double x_limit = std::min(x_min, 2.0);
-                   cmd.angular.z = -70.0 - 20.0 * (2.0 - x_limit);
-                   cmd.linear.x = base_vel;
-                   if(x_min > 0.01 && x_min < 2.0) {
-                        x_last = x_min;
-                        y_last = y_min;
-                   }
-                   RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "TURN LEFT");
-                   if (min_d == 10.0) {
-                        flag_odom = true; 
-                       state_ = State::CONTINUE_STRAIGHT;
-                   }
-                }
-                break;
-
-            case State::AVOID_HARD_RIGHT:
-                {
-                   double x_limit = std::min(x_min, 2.0);
-                   cmd.angular.z = 50.0;
-                   cmd.linear.x = base_vel;
-                   if(x_min > 0.01 && x_min < 2.0) {
-                        x_last = x_min;
-                        y_last = y_min;
-                   }
-                   if (min_d == 10.0) {
-                        flag_odom = true; 
-                       state_ = State::CONTINUE_STRAIGHT;
-                   }
-                   RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "TURN RIGHT");
-                }
-                break;
-            
-            case State::AVOID_SLOW:
-                {
-                    cmd.linear.x = 0.5; 
-                    RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "SLOW DOWN");
-                    if (msg->has_road_edge) {
-                         double yaw_err_rad = msg->road_yaw_error * M_PI / 180.0;
-                         // 避障减速状态下仍复用同一动态右侧目标。
-                         bool dynamic_aim_enabled = this->get_parameter("dynamic_aim.enabled").as_bool();
-                         double target_dist = (dynamic_aim_enabled && msg->target_right_distance > 0.01)
-                            ? msg->target_right_distance
-                            : aim_dist;
-                         double dist_err = msg->right_distance - target_dist;
-                         cmd.angular.z = lqr_->compute(dist_err, yaw_err_rad);
-                    }
-                    if (min_d > 1.5) state_ = State::CRUISE;
-                }
-                break;
-
-            // ... (RECOVER_STRAIGHT 和 RECOVER_TURN 保持不变) ...
-            case State::CONTINUE_STRAIGHT:
-                {
-                    cmd.linear.x = base_vel;
-                    cmd.angular.z = 0.0;
-                    double dist_passed = current_x_ - x_last;
-                    
-                    bool odom_ok = flag_odom && (dist_passed > this->get_parameter("logic.pass_clearance").as_double());
-                    RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "CONTINUE STRAIGHT,cx=%.2f,lx=%.2f,od=%.2f,dist=%.2f"
-                    , current_x_, x_last, dist_passed);
-                    if (odom_ok) {
-                        state_ = State::CRUISE;
-                        flag_odom = false; 
-                        x_last = 0.0; y_last = 0.0;
-                        // recover_start_time_ = this->now();
-                        // RCLCPP_INFO(get_logger(), "Straight Done (%.2fm). Turning...", dist_passed);
-                    }
-                }
-                break;
-
-            case State::RECOVER_TURN:
-                {
-                    RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "RECOVER TURN");
-                    cmd.linear.x = 0.0;
-                    cmd.angular.z = 1000.0; 
-                    double time_elapsed = (this->now() - recover_start_time_).seconds();
-                    if (time_elapsed > this->get_parameter("logic.recover_time").as_double()) {
-                        state_ = State::CRUISE;
-                        lqr_->reset();
-                        RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, "Recover Done.");
-                    }
-                }
-                break;
-        }
-        pub_cmd_->publish(cmd);
-
-    }
+  std::mutex obstacle_mutex_;
+  std::vector<dwa::ObstaclePoint> obstacles_;
+  dwa::Pose2D robot_state_;
+  dwa::Velocity measured_velocity_;
+  dwa::Velocity last_planner_velocity_;
+  bool has_velocity_feedback_{false};
+  double max_angular_velocity_{1.0};
+  double max_angular_acceleration_{1.5};
+  double simulation_dt_{0.1};
+  double last_tracked_angular_{0.0};
+  rclcpp::Time last_odom_stamp_{0, 0, RCL_ROS_TIME};
+  rclcpp::Time last_perception_time_{0, 0, RCL_ROS_TIME};
+  rclcpp::TimerBase::SharedPtr watchdog_timer_;
+  bool watchdog_stopped_{false};
 };
 
-} // namespace wheel_control
+}  // namespace wheel_control
 
 RCLCPP_COMPONENTS_REGISTER_NODE(wheel_control::ControllerNode)

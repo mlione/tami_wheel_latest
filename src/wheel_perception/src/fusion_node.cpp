@@ -213,6 +213,9 @@ private:
     // 缓存最新帧
     sensor_msgs::msg::Image::SharedPtr latest_rgb_;
     sensor_msgs::msg::Image::SharedPtr latest_depth_;   // [修改] 
+    // 数据集播放器低于感知定时器频率。保留上一张已处理消息，避免同一
+    // RGB 帧被重复推理、重复发布几十次并堵塞 rqt/DDS 队列。
+    sensor_msgs::msg::Image::SharedPtr last_processed_rgb_;
     sensor_msgs::msg::Imu::SharedPtr latest_imu_;             // [新增]
     nav_msgs::msg::Odometry::SharedPtr latest_odom_;          // [新增]
     std::mutex frame_mutex_;
@@ -231,6 +234,7 @@ private:
     float last_valid_road_width_ = 0.0f;
     float last_target_right_distance_ = 1.0f;
     int road_width_invalid_frames_ = 0;
+    int mask_diagnostic_frames_ = 0;
     
     // EMA 系数 (0.0~1.0)，越小越平滑，但也越迟钝。0.3 是个不错的折中。
     const float EMA_ALPHA = 0.3f;
@@ -317,8 +321,10 @@ void update_loop() {
             {
                 std::lock_guard<std::mutex> lock(frame_mutex_);
                 if (!latest_rgb_) return; // RGB 未就绪时无法进行模型推理
+                if (latest_rgb_ == last_processed_rgb_) return;
                 rgb_msg   = latest_rgb_;
                 depth_msg = latest_depth_;
+                last_processed_rgb_ = rgb_msg;
             }
             // 1. 将 ROS 话题消息转成 CPU cv::Mat
             auto cv_img = cv_bridge::toCvShare(rgb_msg, "bgra8"); // python 节点发的是 bgra8, 4通道
@@ -459,10 +465,20 @@ void update_loop() {
         ai_engine_->getInputResolution(ai_infer_w, ai_infer_h);
         
         // 现在无论哪种模式，ai_input_dev_ptr 都已经是正确的尺寸了
-        ai_engine_->infer(ai_input_dev_ptr, ai_infer_w, ai_infer_h); 
+        if (!ai_engine_->infer(ai_input_dev_ptr, ai_infer_w, ai_infer_h)) {
+            RCLCPP_ERROR_THROTTLE(
+                get_logger(), *get_clock(), 2000,
+                "TensorRT inference failed; skip this frame instead of consuming a stale all-road mask");
+            return;
+        }
         
         void* ai_output = ai_engine_->getOutputTensor("output"); // 获取显存指针
-        fusion_->processSegmentation(ai_output);         // 执行 ArgMax
+        if (!fusion_->processSegmentation(ai_output)) {
+            RCLCPP_ERROR_THROTTLE(
+                get_logger(), *get_clock(), 2000,
+                "CUDA segmentation postprocess failed; skip invalid mask");
+            return;
+        }
         auto t2 = std::chrono::high_resolution_clock::now();
 
         int valid_count = 0;
@@ -976,6 +992,21 @@ void update_loop() {
 
         // 假设 0 = road
         cv::Mat road_mask = (mask_mat == 0);
+        if (++mask_diagnostic_frames_ % 60 == 0) {
+            const int road_pixels = cv::countNonZero(road_mask);
+            const double road_ratio = static_cast<double>(road_pixels) /
+                                      static_cast<double>(ai_w * ai_h);
+            if (road_ratio > 0.98) {
+                RCLCPP_WARN(
+                    get_logger(),
+                    "Segmentation mask is %.1f%% road (class 0); check preceding TensorRT errors",
+                    road_ratio * 100.0);
+            } else {
+                RCLCPP_INFO(
+                    get_logger(), "Segmentation mask: road=%.1f%% non-road=%.1f%%",
+                    road_ratio * 100.0, (1.0 - road_ratio) * 100.0);
+            }
+        }
 
         // 3. 尺寸对齐到原图
         cv::Mat road_mask_resized;
@@ -1040,11 +1071,12 @@ void update_loop() {
 
     bool init_zed(const core::ZedDriver::Config& cfg) {
         if(use_dataset_mode_){  //新增
+            const auto dataset_image_qos = rclcpp::QoS(rclcpp::KeepLast(2)).reliable();
             sub_rgb_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/rgb_image", rclcpp::SensorDataQoS(),
+            "/rgb_image", dataset_image_qos,
             std::bind(&FusionNode::rgb_callback, this, std::placeholders::_1));
             sub_depth_ = this->create_subscription<sensor_msgs::msg::Image>(
-                "/depth_image", rclcpp::SensorDataQoS(),
+                "/depth_image", dataset_image_qos,
                 std::bind(&FusionNode::depth_callback, this, std::placeholders::_1));
             // [新增]
             sub_imu_ = this->create_subscription<sensor_msgs::msg::Imu>(

@@ -81,7 +81,9 @@ def generate_launch_description():
         name='wheel_container',
         namespace='',
         package='rclcpp_components',
-        executable='component_container',
+        # DWA evaluates candidate trajectories in ControllerNode. Keep it from
+        # starving the RGB/depth callbacks and the TensorRT visualization timer.
+        executable='component_container_mt',
         composable_node_descriptions=[
             fusion_node_plugin,
             controller_node_plugin

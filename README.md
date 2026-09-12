@@ -13,7 +13,11 @@ ZED 双目相机
                                                          │
                                             perception/output 话题
                                                          │
-                                           ControllerNode（控制）
+                                           DWA（局部避障/速度选择）
+                                                         │
+                                           LQR（局部轨迹跟踪）
+                                                         │
+                                           Safety Layer（最终仲裁）
                                                          │
                                                    cmd_vel 话题
                                                          │
@@ -91,25 +95,11 @@ HD720 分辨率下相机内参通过 `getCameraParams()` 在运行时动态获�
 [横向偏差 e,  横向偏差变化率 ė,  航向偏差 θ_e,  航向偏差变化率 θ̇_e]
 控制输出（转向角增量）经协议增益 `lqr.gain = 60.0` 放大后，叠加到底层基准转向指令上发送给轮椅驱动。
 
-### 5. 控制状态机（`ControllerNode`）
-订阅 `perception/output` 话题，实现以下状态切换：
+### 5. DWA + LQR 分层控制（`ControllerNode`）
+控制器订阅 `perception/output`、`zed/point_cloud` 与里程计。DWA 在动态速度窗口内生成局部轨迹，并按道路方向、点云间距、行驶速度、道路边界和角速度连续性评分；LQR 跟踪最优轨迹的前视点。最终 Safety Layer 在融合障碍距离过近、无可行轨迹或感知超时时发布零速度。
 
 ```
-CRUISE（正常巡线）
-    │ 障碍物进入危险区（min_distance < stop_dist）
-    ↓
-AVOID_HARD_LEFT / AVOID_HARD_RIGHT（强烈转向避让）
-    │ 
-    ↓
-CONTINUE_STRAIGHT（继续直行）
-    │ 里程计确认已通过障碍物（pass_clearance）
-    ↓
-RECOVER_TURN（回正恢复，持续 recover_time 秒）
-    ↓
-CRUISE
-    │ 无有效道路边界
-    ↓
-STOP（停车等待）
+ObstacleFusion -> DWA(v,w + local path) -> LQR tracking -> Safety Layer -> cmd_vel
 ```
 
 ## 话题与消息
@@ -119,6 +109,10 @@ STOP（停车等待）
 | `cmd_vel` | `geometry_msgs/Twist` | ControllerNode → 底层 | 速度与转向指令 |
 | `/odom` | `nav_msgs/Odometry` | FusionNode → ControllerNode | ZED 视觉里程计（含 IMU 融合） |
 | `zed/point_cloud` | `sensor_msgs/PointCloud2` | FusionNode → Rviz | 全量滤波点云（调试） |
+| `/dwa/planner_cmd` | `geometry_msgs/Twist` | DWA → 调试/记录 | DWA 物理速度输出（m/s、rad/s） |
+| `/dwa/local_trajectory` | `nav_msgs/Path` | ControllerNode → Rviz | LQR 当前跟踪的局部轨迹 |
+| `/dwa/best_path` | `nav_msgs/Path` | ControllerNode → Rviz | DWA 最优轨迹 |
+| `/dwa/candidate_paths` | `visualization_msgs/MarkerArray` | ControllerNode → Rviz | 候选轨迹（绿=可行，红=碰撞/越界） |
 | `perception/debug/cloud_rect` | `sensor_msgs/PointCloud2` | FusionNode → Rviz | 矩形巡线区点云（调试） |
 | `perception/debug/cloud_ellipse` | `sensor_msgs/PointCloud2` | FusionNode → Rviz | 椭圆避障区点云（调试） |
 | `debug/viz` | `sensor_msgs/Image` | FusionNode → Rviz | 语义分割可视化图像 |
@@ -131,7 +125,7 @@ colcon build
 colcon build --packages-select wheel_msgs wheel_perception \
   --cmake-args -DWHEEL_CUDA_ARCHITECTURES=72
 
-source install/setup.bash
+source install/setup.sh
 
 ### 模型转换（`.pth` → `.engine`）
 
@@ -144,7 +138,7 @@ python3 pth2engine.py
 ### 启动
 
 ```
-source install/setup.bash
+source install/setup.sh
 # 确保 ZED 相机已连接
 ros2 launch wheel_perception run_launch.py
 ```
@@ -161,6 +155,25 @@ ros2 launch wheel_perception run_launch.py
 2. python3 zed_dataset_player.py --dataset /home/smy/alpha_ws/text1 --fps 15 --loop
 （数据集的路径自行修改）
 3. ros2 launch wheel_perception run_launch.py
+
+### DWA 离线验证（不连接轮椅底盘）
+
+`params.yaml` 保持 `zed.use_dataset_mode: true`，然后执行：
+
+```bash
+source install/setup.bash
+ros2 launch wheel_perception dwa_dataset_test.launch.py \
+  dataset_path:=/path/to/zed_dataset fps:=10.0 loop:=false
+```
+
+观察规划输出：
+
+```bash
+ros2 topic echo /dwa/planner_cmd
+rviz2 -d install/wheel_perception/share/wheel_perception/rviz/dwa_navigation.rviz
+```
+
+离线 launch 只启动数据集回放、感知和控制组件，不启动 `sub.py` 蓝牙硬件桥。实车部署仍使用 `run_launch.py`，完成离线验证和低速空载测试后再单独启动硬件桥。
 
 ### 代码修改
 1. 如需添加其它功能，不建议直接对代码的主函数进行修改，建议包装成函数形式，方便调用与禁止

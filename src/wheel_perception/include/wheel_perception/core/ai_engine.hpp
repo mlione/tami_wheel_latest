@@ -25,7 +25,9 @@ public:
      * @param src_width   ZED 图像宽
      * @param src_height  ZED 图像高
      */
-    void infer(void* src_gpu_ptr, int src_width, int src_height);
+    // Returns false when preprocessing or TensorRT enqueue fails. Callers must
+    // not consume the output buffer after a failed inference.
+    bool infer(void* src_gpu_ptr, int src_width, int src_height);
     
     // 获取输出结果的 GPU 指针
     void* getOutputTensor(const std::string& tensor_name);

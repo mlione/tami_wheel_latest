@@ -20,6 +20,7 @@ find_package(OpenCV REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 
 # --- 3. CUDA & TensorRT & ZED 配置 ---
 enable_language(CUDA)
@@ -47,11 +48,42 @@ message(STATUS "wheel_perception CUDA architectures: ${WHEEL_CUDA_ARCHITECTURES}
 find_library(CUDART_LIB NAMES cudart HINTS ${CUDA_LIB_PATH})
 find_library(CUDA_LIB NAMES cuda HINTS ${CUDA_LIB_PATH} /usr/lib/wsl/lib)
 
-# TensorRT
-set(TRT_INCLUDE_DIR "/usr/include/aarch64-linux-gnu")
-set(TRT_LIBRARY_DIR "/usr/lib/aarch64-linux-gnu")
-find_library(NVINFER_LIB nvinfer PATHS ${TRT_LIBRARY_DIR} NO_DEFAULT_PATH)
-find_library(NVINFER_PLUGIN_LIB nvinfer_plugin PATHS ${TRT_LIBRARY_DIR} NO_DEFAULT_PATH)
+# TensorRT：同时支持实车 Jetson(aarch64) 和数据集工作站(x86_64)。
+# 旧配置把路径固定为 aarch64，并依赖 CMake 缓存中残留的 x86_64
+# 查找结果；一旦使用 --cmake-clean-cache 就会找不到 libnvinfer。
+find_path(TRT_INCLUDE_DIR
+  NAMES NvInfer.h
+  HINTS
+    /usr/include/${CMAKE_LIBRARY_ARCHITECTURE}
+    /usr/include/aarch64-linux-gnu
+    /usr/include/x86_64-linux-gnu
+    /usr/local/TensorRT/include
+)
+find_library(NVINFER_LIB
+  NAMES nvinfer
+  HINTS
+    /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
+    /usr/lib/aarch64-linux-gnu
+    /usr/lib/x86_64-linux-gnu
+    /usr/local/TensorRT/lib
+)
+find_library(NVINFER_PLUGIN_LIB
+  NAMES nvinfer_plugin
+  HINTS
+    /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
+    /usr/lib/aarch64-linux-gnu
+    /usr/lib/x86_64-linux-gnu
+    /usr/local/TensorRT/lib
+)
+
+if(NOT TRT_INCLUDE_DIR OR NOT NVINFER_LIB OR NOT NVINFER_PLUGIN_LIB)
+  message(FATAL_ERROR
+    "TensorRT not found (include=${TRT_INCLUDE_DIR}, "
+    "nvinfer=${NVINFER_LIB}, plugin=${NVINFER_PLUGIN_LIB})")
+endif()
+
+message(STATUS "TensorRT include: ${TRT_INCLUDE_DIR}")
+message(STATUS "TensorRT nvinfer: ${NVINFER_LIB}")
 
 # ZED SDK
 set(ZED_INCLUDE_DIRS "/usr/local/zed/include")
@@ -61,6 +93,7 @@ find_library(ZED_LIB NAMES sl_zed HINTS ${ZED_LIBRARY_DIR})
 include_directories(
   include
   ${CUDA_INCLUDE_DIRS}
+  ${TRT_INCLUDE_DIR}
   ${ZED_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
@@ -142,12 +175,22 @@ rclcpp_components_register_nodes(fusion_node "FusionNode")
 # =========================================================
 add_library(controller_node SHARED src/controller_node.cpp)
 
+add_library(dwa_controller SHARED
+  dwa_controller/src/DWAPlanner.cpp
+)
+
+target_include_directories(dwa_controller PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/dwa_controller/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 
 target_include_directories(controller_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/dwa_controller/include>
   $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(controller_node wheel_core)
+target_link_libraries(controller_node wheel_core dwa_controller)
 ament_target_dependencies(controller_node geometry_msgs nav_msgs tf2 tf2_geometry_msgs
   rclcpp
   rclcpp_components
@@ -157,6 +200,7 @@ ament_target_dependencies(controller_node geometry_msgs nav_msgs tf2 tf2_geometr
   nav_msgs
   tf2
   tf2_geometry_msgs
+  visualization_msgs
 )
 
 # [关键] 注册为组件
@@ -168,6 +212,7 @@ rclcpp_components_register_nodes(controller_node "wheel_control::ControllerNode"
 # =========================================================
 install(TARGETS 
   wheel_core 
+  dwa_controller
   fusion_node 
   controller_node
   ARCHIVE DESTINATION lib
@@ -179,15 +224,33 @@ install(DIRECTORY include/
   DESTINATION include
 )
 
+install(DIRECTORY dwa_controller/include/
+  DESTINATION include
+)
+
 # 安装 Launch 文件
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(DIRECTORY rviz
+  DESTINATION share/${PROJECT_NAME}
+)
+
 install(PROGRAMS
   scripts/sub.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../zed_dataset_player.py
   DESTINATION lib/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_dwa_planner test/test_dwa_planner.cpp)
+  target_link_libraries(test_dwa_planner dwa_controller)
+  target_include_directories(test_dwa_planner PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/dwa_controller/include
+  )
+endif()
 
 # Install config directory
 install(DIRECTORY config
