@@ -141,6 +141,8 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     // 两个调试点云发布者
     pub_cloud_rect_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("perception/debug/cloud_rect", 10);
     pub_cloud_ellipse_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("perception/debug/cloud_ellipse", 10);
+    pub_right_road_edge_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
+        "perception/debug/right_road_edge", 10);
 
     RCLCPP_INFO(get_logger(), "Perception Configured: Voxel=%.2f, Ellipse=%.1fx^2 + %.1fy^2 < %.1f, DynamicAim=%s",
         params_.voxel_size, params_.ellipse_x, params_.ellipse_y, params_.ellipse_thres,
@@ -159,6 +161,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_->on_activate();
         pub_cloud_rect_->on_activate();
         pub_cloud_ellipse_->on_activate();
+        pub_right_road_edge_->on_activate();
         pub_odom_->on_activate(); 
         pub_bev_fused_->on_activate();
         timer_ = this->create_wall_timer(std::chrono::milliseconds(15), std::bind(&FusionNode::update_loop, this));
@@ -173,6 +176,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_->on_deactivate();
         pub_cloud_rect_->on_deactivate();
         pub_cloud_ellipse_->on_deactivate();
+        pub_right_road_edge_->on_deactivate();
         pub_odom_->on_deactivate();
         pub_bev_fused_->on_deactivate();
         return LifecycleNode::on_deactivate(state);
@@ -186,6 +190,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_.reset();
         pub_cloud_rect_.reset();
         pub_cloud_ellipse_.reset();
+        pub_right_road_edge_.reset();
         pub_odom_.reset();
         pub_bev_fused_.reset();
         timer_.reset();
@@ -580,6 +585,19 @@ void update_loop() {
         publish_cloud_helper(pub_cloud_, filtered_pts, "zed_left_camera_frame");
         publish_cloud_helper(pub_cloud_rect_, cloud_rect_vec_, "zed_left_camera_frame");
         publish_cloud_helper(pub_cloud_ellipse_, cloud_ellipse_vec_, "zed_left_camera_frame");
+        if (pub_right_road_edge_->get_subscription_count() > 0) {
+            std::vector<float4> right_edge_points;
+            right_edge_points.reserve(edges.size());
+            for (const auto& edge : edges) {
+                if (!edge.valid || !std::isfinite(edge.x) || !std::isfinite(edge.y) ||
+                    !std::isfinite(edge.z)) {
+                    continue;
+                }
+                right_edge_points.push_back({edge.x, edge.y, edge.z, 0.0f});
+            }
+            publish_cloud_helper(
+                pub_right_road_edge_, right_edge_points, "zed_left_camera_frame");
+        }
         auto t4 = std::chrono::high_resolution_clock::now();
 
         // [BLOCK 7] 填充 Metrics (替代 analyze_scene 的部分功能)
@@ -1112,6 +1130,7 @@ void update_loop() {
     // 1. 调试用的点云发布者 (Lifecycle 类型)
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_rect_;
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_ellipse_;
+    rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_right_road_edge_;
 
     // 2. 临时容器 (用于存放拆分后的点云数据)
     std::vector<float4> cloud_rect_vec_;    // 列表1：右侧边界

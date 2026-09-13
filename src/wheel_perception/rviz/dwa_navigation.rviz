@@ -19,6 +19,14 @@ Visualization Manager:
       Topic:
         Value: /dwa/obstacle_cloud
       Size (Pixels): 4
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Right Road Edge
+      Enabled: true
+      Topic:
+        Value: /perception/debug/right_road_edge
+      Color Transformer: FlatColor
+      Color: 255; 255; 0
+      Size (Pixels): 7
     - Class: rviz_default_plugins/Marker
       Name: Selected Path (Green=Cruise, Blue=DWA)
       Enabled: true
