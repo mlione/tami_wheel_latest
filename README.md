@@ -196,9 +196,8 @@ w_track = w_ref + u_lqr(lateral_error, heading_error)
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
 
-# 推荐：只编译本项目相关包，避免无关第三方包的构建问题
-colcon build --symlink-install --packages-select wheel_msgs wheel_perception
-
+# 编译
+colcon build 
 source install/setup.bash
 ```
 
