@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -11,6 +12,7 @@ using wheel_control::dwa::MotionHistory;
 using wheel_control::dwa::ObstaclePoint;
 using wheel_control::dwa::Pose2D;
 using wheel_control::dwa::RoadModel;
+using wheel_control::dwa::Trajectory;
 using wheel_control::dwa::Velocity;
 
 TEST(DWAPlanner, SelectsForwardTrajectoryOnClearRoad) {
@@ -100,7 +102,7 @@ TEST(DWAPlanner, DoesNotGenerateInPlaceTurningCandidates) {
   DWAPlanner::Config config;
   config.max_acceleration = 10.0;
   config.max_angular_acceleration = 10.0;
-  config.minimum_turning_velocity = 0.10;
+  config.minimum_turning_velocity = 0.001;
   DWAPlanner planner(config);
   RoadModel curved_road{true, true, 1.0, 3.0, 1.0, 0.6};
 
@@ -118,7 +120,7 @@ TEST(DWAPlanner, StartsStraightFromRestWithRealisticAccelerationLimit) {
   DWAPlanner::Config config;
   config.max_acceleration = 0.5;
   config.max_angular_acceleration = 1.5;
-  config.minimum_turning_velocity = 0.10;
+  config.minimum_turning_velocity = 0.001;
   DWAPlanner planner(config);
   RoadModel straight_road{true, true, 1.0, 3.0, 1.0, 0.0};
 
@@ -127,8 +129,60 @@ TEST(DWAPlanner, StartsStraightFromRestWithRealisticAccelerationLimit) {
 
   ASSERT_TRUE(result.valid);
   EXPECT_GT(result.best.command.linear, 0.0);
-  EXPECT_LT(result.best.command.linear, config.minimum_turning_velocity);
   EXPECT_NEAR(result.best.command.angular, 0.0, 1e-9);
+
+  // From rest at 20 Hz the reachable speed is only 0.025 m/s. These rolling
+  // turn candidates must still exist so an obstacle cannot trap the planner
+  // in a stop -> no-path -> stop loop.
+  const bool has_low_speed_turn = std::any_of(
+      result.candidates.begin(), result.candidates.end(),
+      [&config](const Trajectory& candidate) {
+        return candidate.command.linear > config.minimum_turning_velocity &&
+               candidate.command.linear < 0.10 &&
+               std::abs(candidate.command.angular) > 1e-6;
+      });
+  EXPECT_TRUE(has_low_speed_turn);
+}
+
+TEST(DWAPlanner, SelectsLowSpeedRollingTurnFromRest) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 0.5;
+  config.max_angular_acceleration = 1.5;
+  config.minimum_turning_velocity = 0.001;
+  config.weight_heading = 10.0;
+  config.weight_obstacle = 0.0;
+  config.weight_velocity = 0.0;
+  config.weight_road = 0.0;
+  config.weight_smooth = 0.0;
+  DWAPlanner planner(config);
+  RoadModel left_turning_road{true, true, 1.0, 3.0, 1.0, 0.6};
+
+  const auto result =
+      planner.plan(Pose2D{}, Velocity{}, left_turning_road, {}, MotionHistory{}, 0.05);
+
+  ASSERT_TRUE(result.valid);
+  EXPECT_GT(result.best.command.linear, config.minimum_turning_velocity);
+  EXPECT_LT(result.best.command.linear, 0.10);
+  EXPECT_GT(result.best.command.angular, 0.0);
+}
+
+TEST(DWAPlanner, RespectsMinimumTurningRadius) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  config.minimum_turning_velocity = 0.001;
+  config.minimum_turning_radius = 0.6;
+  DWAPlanner planner(config);
+
+  const auto result = planner.plan(Pose2D{}, Velocity{}, RoadModel{}, {},
+                                   MotionHistory{}, 0.1);
+
+  ASSERT_TRUE(result.valid);
+  for (const auto& candidate : result.candidates) {
+    if (std::abs(candidate.command.angular) <= 1e-6) continue;
+    EXPECT_GE(std::abs(candidate.command.linear / candidate.command.angular) + 1e-6,
+              config.minimum_turning_radius);
+  }
 }
 
 TEST(DWAPlanner, KeepsSafePreviousTrajectoryWhenScoresAreClose) {

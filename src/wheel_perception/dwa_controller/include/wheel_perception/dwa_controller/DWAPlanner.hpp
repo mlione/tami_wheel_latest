@@ -73,7 +73,12 @@ class DWAPlanner {
     double weight_angular_jerk{1.5};
     double max_jerk{1.0};
     double max_angular_jerk{3.0};
-    double minimum_turning_velocity{0.10};
+    // Numerical rolling threshold: positive low-speed arcs are allowed, while
+    // v ~= 0 with non-zero yaw rate remains forbidden (no in-place turning).
+    double minimum_turning_velocity{0.001};
+    // Hard curvature constraint: every rolling command must satisfy
+    // abs(v / w) >= minimum_turning_radius.
+    double minimum_turning_radius{0.6};
     bool enable_trajectory_hold{true};
     double score_switch_margin{0.10};
     double relative_switch_margin{0.05};

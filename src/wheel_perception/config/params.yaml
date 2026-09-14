@@ -79,24 +79,26 @@
       velocity_resolution: 0.1          # m/s
       angular_resolution: 0.05          # rad/s，细化转向候选，减少角速度跳档
 
-      weight_heading: 2.0
-      weight_obstacle: 3.0
-      weight_velocity: 2.0              # 提高前进收益，避免长期选择有效的静止轨迹
-      weight_road: 3.0
+      weight_heading: 1.0
+      weight_obstacle: 1.5
+      weight_velocity: 6.0             # 提高前进收益，避免长期选择有效的静止轨迹
+      weight_road: 2.5
       # 平滑总代价缩放。各子项已按执行器能力归一化，不宜设得过大。
-      weight_smooth: 0.08               # 保留平滑约束，同时减小对正常加速的抑制
+      weight_smooth: 0.02              # 保留平滑约束，同时减小对正常加速的抑制
       smooth:
         weight_delta_v: 1.5              # |v(k)-v(k-1)|
         weight_delta_w: 2.0              # |w(k)-w(k-1)|，优先抑制左右摆动
         weight_acceleration: 0.8          # |a(k)|
         weight_angular_acceleration: 1.0  # |alpha(k)|
-        weight_jerk: 1.2                  # |a(k)-a(k-1)| / dt
-        weight_angular_jerk: 1.5          # |alpha(k)-alpha(k-1)| / dt
+        weight_jerk: 0.3              # |a(k)-a(k-1)| / dt
+        weight_angular_jerk: 0.5       # |alpha(k)-alpha(k-1)| / dt
         max_jerk: 1.0                     # m/s^3，仅作归一化；急停不受舒适项阻挡
         max_angular_jerk: 3.0             # rad/s^3，仅作归一化
 
-      # 当前版本没有原地转向状态。v 低于该值时只允许 w=0（含安全停车）。
-      minimum_turning_velocity: 0.10
+      # 允许低速滚动转弯；仅在 v 近似为零时强制 w=0，继续禁止原地转向。
+      minimum_turning_velocity: 0.001
+      # 最小转弯半径约束：所有滚动轨迹满足 |v/w| >= 该值，避免低速急转。
+      minimum_turning_radius: 0.2
 
       # 无近距离障碍时使用确定性道路巡线轨迹；障碍进入该区域后才激活DWA。
       cruise_velocity: 0.6               # 无障碍巡线目标速度，仍受加速度限制
@@ -104,16 +106,16 @@
         max_x: 2.5                        # 前方激活距离
         min_y: -0.9                       # 右侧激活边界
         max_y: 0.9                        # 左侧激活边界
-        minimum_points: 10                # 区域内达到该点数即激活
+        minimum_points: 20                 # 区域内达到该点数即激活
         clear_frames: 5                   # 连续无障碍帧数达到该值才退出DWA
 
       # 上一条轨迹仍安全、且新轨迹优势不明显时保持原轨迹，避免候选来回切换。
       trajectory_hold:
         enabled: true
-        score_switch_margin: 0.01        # 小幅速度收益即可离开旧的静止轨迹
-        relative_switch_margin: 0.01
+        score_switch_margin: 0.1       # 小幅速度收益即可离开旧的静止轨迹
+        relative_switch_margin: 0.04 # 新轨迹净空改善超过 5% 才切换
         minimum_clearance: 0.30          # 仅在上一轨迹净空充足时保持
-        clearance_switch_margin: 0.15    # 新轨迹净空明显改善时及时切换
+        clearance_switch_margin: 0.10   # 新轨迹净空明显改善时及时切换
 
       obstacle_distance_threshold: 2.5  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
@@ -129,17 +131,17 @@
         min_z: -0.2                      # 轮椅碰撞体最低有效高度（相机坐标系）
         max_z: 1.0                       # 排除树冠等高处点；实车需按相机安装高度标定
       visualization:
-        max_candidates: 80
+        max_candidates: 100
 
     # === 最终安全层：优先级高于 DWA 与 LQR ===
     safety:
-      emergency_stop_distance: 0.8      # m，进入融合危险区立即置零
+      emergency_stop_distance: 0.3     # m，进入融合危险区立即置零
       perception_timeout: 0.5            # s，感知中断时主动发布停车
       stop_on_no_path: true              # 无安全轨迹时停车而非沿用旧指令
 
     # === 动态右侧目标距离 ===
     dynamic_aim:
-      enabled: true
+      enabled: false          # 是否启用动态右侧目标距离
       ratio: 0.35          # target_right_distance = road_width * ratio
       min_dist: 0.65       # 窄路时最小右侧安全距离
       max_dist: 1.0        # 宽路时仍限制靠右，不继续向道路中心移动
@@ -152,6 +154,6 @@
     # === 逻辑状态机参数 ===
     logic:
       base_vel: 1.0      # 正常巡线速度 (m/s)
-      stop_dist: 1.0     # 紧急停车距离 (m)
+      stop_dist: 0.3     # 紧急停车距离 (m)
       
       pass_clearance: 0.1 # 历史兼容参数；当前 DWA 控制链未使用

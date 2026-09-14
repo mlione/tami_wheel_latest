@@ -35,7 +35,14 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('dataset_path'),
+        # Keep the launch file convenient for the project's standard local
+        # dataset while still allowing a different dataset to be selected
+        # with ``dataset_path:=/absolute/path``.
+        DeclareLaunchArgument(
+            'dataset_path',
+            default_value=os.path.expanduser('~/tami/shengwudao2'),
+            description='Directory containing a captured ZED RGB-D dataset',
+        ),
         DeclareLaunchArgument('fps', default_value='10.0'),
         DeclareLaunchArgument('loop', default_value='false'),
         navigation,

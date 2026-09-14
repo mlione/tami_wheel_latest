@@ -17,6 +17,7 @@ DWAPlanner::DWAPlanner(Config config) : config_(std::move(config)) {
   config_.angular_resolution = std::max(config_.angular_resolution, 0.01);
   config_.robot_radius = std::max(config_.robot_radius, 0.0);
   config_.minimum_turning_velocity = std::max(config_.minimum_turning_velocity, 0.0);
+  config_.minimum_turning_radius = std::max(config_.minimum_turning_radius, 0.0);
   config_.max_jerk = std::max(config_.max_jerk, kEpsilon);
   config_.max_angular_jerk = std::max(config_.max_angular_jerk, kEpsilon);
 }
@@ -52,8 +53,8 @@ DWAPlanner::Result DWAPlanner::plan(
   auto linear_samples = samples(min_v, max_v, config_.velocity_resolution);
   auto angular_samples = samples(min_w, max_w, config_.angular_resolution);
   // Sampling from a negative lower bound with a coarse resolution does not
-  // necessarily land exactly on zero. A zero-angular-velocity sample is
-  // mandatory for straight startup now that low-speed turning is disabled.
+  // necessarily land exactly on zero. Always retain a straight candidate,
+  // including during a low-speed start.
   if (min_w <= 0.0 && max_w >= 0.0) {
     angular_samples.push_back(0.0);
   }
@@ -71,10 +72,30 @@ DWAPlanner::Result DWAPlanner::plan(
   sort_and_unique(angular_samples);
 
   for (double v : linear_samples) {
-    for (double w : angular_samples) {
-      // The current wheelchair mode has no in-place rotation state.  Keep the
-      // zero command for a safe stop, but reject every low-speed turning arc.
+    auto angular_samples_for_velocity = angular_samples;
+    // Add both curvature-limit boundaries explicitly. This keeps low-speed
+    // left/right sampling symmetric even when angular_resolution is coarser
+    // than v / minimum_turning_radius.
+    if (config_.minimum_turning_radius > kEpsilon &&
+        v >= config_.minimum_turning_velocity) {
+      const double radius_limited_w = std::abs(v) / config_.minimum_turning_radius;
+      for (double boundary_w : {-radius_limited_w, radius_limited_w}) {
+        if (boundary_w >= min_w - kEpsilon && boundary_w <= max_w + kEpsilon) {
+          angular_samples_for_velocity.push_back(std::clamp(boundary_w, min_w, max_w));
+        }
+      }
+      sort_and_unique(angular_samples_for_velocity);
+    }
+
+    for (double w : angular_samples_for_velocity) {
+      // Low-speed rolling arcs are valid and are needed to escape a blocked
+      // startup. Only reject effectively stationary turning so this mode still
+      // has no in-place rotation state.
       if (v < config_.minimum_turning_velocity && std::abs(w) > kEpsilon) {
+        continue;
+      }
+      if (config_.minimum_turning_radius > kEpsilon && std::abs(w) > kEpsilon &&
+          std::abs(v / w) + kEpsilon < config_.minimum_turning_radius) {
         continue;
       }
       Trajectory trajectory = simulate(v, w);

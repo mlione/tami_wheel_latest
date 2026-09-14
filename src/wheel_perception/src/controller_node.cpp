@@ -125,7 +125,8 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("dwa.smooth.weight_angular_jerk", 1.5);
     declare_parameter("dwa.smooth.max_jerk", 1.0);
     declare_parameter("dwa.smooth.max_angular_jerk", 3.0);
-    declare_parameter("dwa.minimum_turning_velocity", 0.10);
+    declare_parameter("dwa.minimum_turning_velocity", 0.001);
+    declare_parameter("dwa.minimum_turning_radius", 0.6);
     declare_parameter("dwa.cruise_velocity", 0.6);
     declare_parameter("dwa.activation.max_x", 2.5);
     declare_parameter("dwa.activation.min_y", -0.9);
@@ -203,6 +204,8 @@ class ControllerNode : public rclcpp::Node {
         get_parameter("dwa.smooth.max_angular_jerk").as_double();
     dwa_config.minimum_turning_velocity =
         get_parameter("dwa.minimum_turning_velocity").as_double();
+    dwa_config.minimum_turning_radius =
+        get_parameter("dwa.minimum_turning_radius").as_double();
     dwa_config.enable_trajectory_hold =
         get_parameter("dwa.trajectory_hold.enabled").as_bool();
     dwa_config.score_switch_margin =
@@ -222,6 +225,7 @@ class ControllerNode : public rclcpp::Node {
     max_angular_acceleration_ = dwa_config.max_angular_acceleration;
     max_linear_acceleration_ = dwa_config.max_acceleration;
     minimum_turning_velocity_ = dwa_config.minimum_turning_velocity;
+    minimum_turning_radius_ = dwa_config.minimum_turning_radius;
     prediction_time_ = dwa_config.prediction_time;
     cruise_velocity_ = std::clamp(
         get_parameter("dwa.cruise_velocity").as_double(),
@@ -433,6 +437,10 @@ class ControllerNode : public rclcpp::Node {
                            last_tracked_angular_ + max_delta_w);
     if (result.best.command.linear < minimum_turning_velocity_) {
       tracked_w = 0.0;
+    } else if (minimum_turning_radius_ > 1e-6) {
+      const double curvature_limited_w =
+          std::abs(result.best.command.linear) / minimum_turning_radius_;
+      tracked_w = std::clamp(tracked_w, -curvature_limited_w, curvature_limited_w);
     }
 
     geometry_msgs::msg::Twist command;
@@ -600,10 +608,8 @@ class ControllerNode : public rclcpp::Node {
       selected_path.header = path.header;
       selected_path.ns = "selected_local_path";
       selected_path.id = 0;
-      selected_path.type = visualization_msgs::msg::Marker::LINE_STRIP;
       selected_path.action = visualization_msgs::msg::Marker::ADD;
       selected_path.pose.orientation.w = 1.0;
-      selected_path.scale.x = 0.06;
       selected_path.color.a = 1.0F;
       if (use_dwa) {
         // Blue is reserved for the selected DWA avoidance path. Candidate
@@ -617,13 +623,31 @@ class ControllerNode : public rclcpp::Node {
         selected_path.color.g = 1.00F;
         selected_path.color.b = 0.00F;
       }
-      selected_path.points.reserve(result.best.poses.size());
-      for (const auto& pose : result.best.poses) {
-        geometry_msgs::msg::Point point;
-        point.x = pose.x;
-        point.y = pose.y;
-        point.z = 0.03;
-        selected_path.points.push_back(point);
+
+      const bool selected_stop =
+          use_dwa &&
+          std::abs(result.best.command.linear) < minimum_turning_velocity_ &&
+          std::abs(result.best.command.angular) < 1e-6;
+      if (selected_stop) {
+        // A valid DWA stop trajectory contains repeated poses at the origin,
+        // so a LINE_STRIP is visually indistinguishable from no path. Render
+        // it as a blue disc to make the deliberate stop decision explicit.
+        selected_path.type = visualization_msgs::msg::Marker::SPHERE;
+        selected_path.pose.position.z = 0.04;
+        selected_path.scale.x = 0.18;
+        selected_path.scale.y = 0.18;
+        selected_path.scale.z = 0.08;
+      } else {
+        selected_path.type = visualization_msgs::msg::Marker::LINE_STRIP;
+        selected_path.scale.x = 0.06;
+        selected_path.points.reserve(result.best.poses.size());
+        for (const auto& pose : result.best.poses) {
+          geometry_msgs::msg::Point point;
+          point.x = pose.x;
+          point.y = pose.y;
+          point.z = 0.03;
+          selected_path.points.push_back(point);
+        }
       }
       pub_best_path_marker_->publish(selected_path);
     }
@@ -686,7 +710,8 @@ class ControllerNode : public rclcpp::Node {
   double max_angular_velocity_{1.0};
   double max_linear_acceleration_{0.5};
   double max_angular_acceleration_{1.5};
-  double minimum_turning_velocity_{0.10};
+  double minimum_turning_velocity_{0.001};
+  double minimum_turning_radius_{0.6};
   double simulation_dt_{0.1};
   double prediction_time_{2.5};
   double cruise_velocity_{0.6};

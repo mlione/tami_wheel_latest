@@ -49,7 +49,7 @@ class DatasetPlayerNode(Node):
         super().__init__('zed_dataset_player')
 
         # ROS2 参数
-        self.declare_parameter('dataset_path', dataset_path or os.path.expanduser('~/zed_dataset'))
+        self.declare_parameter('dataset_path', dataset_path or os.path.expanduser('~/tami/shengwudao2'))
         self.declare_parameter('fps', fps or 10.0)
         self.declare_parameter('loop', loop if loop is not None else True)
         self.declare_parameter('rgb_topic', '/rgb_image')
@@ -340,7 +340,7 @@ class DatasetPlayerNode(Node):
 def main(args=None):
     # 支持命令行参数 (非 ROS 方式运行时)
     parser = argparse.ArgumentParser(description='ZED 数据集 ROS2 回放节点')
-    parser.add_argument('--dataset', type=str, default=os.path.expanduser('~/zed_dataset'), help='数据集路径 (默认: ~/zed_dataset)')
+    parser.add_argument('--dataset', type=str, default=os.path.expanduser('~/tami/shengwudao2'), help='数据集路径 (默认: ~/tami/shengwudao2)')
     parser.add_argument('--fps', type=float, default=10.0, help='回放帧率 (默认: 10.0)')
     parser.add_argument('--loop', dest='loop', action='store_true', help='循环回放 (默认: 启用)')
     parser.add_argument('--no-loop', dest='loop', action='store_false', help='禁用循环回放')

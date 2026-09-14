@@ -1,5 +1,8 @@
 # TAMI Wheel Latest：DWA + LQR 轮椅自主导航
 
+> 当前开发文档版本：**DWA + LQR v0.3（2026-09-14）**。详细增量分析见
+> [`dwa+lqr_v0.3.md`](dwa+lqr_v0.3.md)。
+
 本项目是面向载人轮椅的 ROS 2 自主导航系统。在原有“ZED RGB-D + TensorRT BiSeNet 语义分割 + 点云融合 + 道路边界 + LQR 巡线”的基础上，增加了受道路边界约束的 DWA（Dynamic Window Approach）局部规划器。
 
 当前版本不重构原始感知和底盘通信链路，而是在其上增加局部避障、轨迹安全性判断、候选轨迹平滑和可视化能力。
@@ -66,7 +69,7 @@ dwa:
     max_x: 2.5
     min_y: -0.9
     max_y: 0.9
-    minimum_points: 10
+    minimum_points: 20
     clear_frames: 5
 ```
 
@@ -103,7 +106,10 @@ dwa:
 
 ### 6. 当前阶段禁用原地转向
 
-当 `v < minimum_turning_velocity` 时，非零 `w` 候选会被拒绝。当前不包含原地左转或原地右转状态，仅保留 `(v=0, w=0)` 安全停车候选。
+当前 `minimum_turning_velocity` 仅作为近零速度阈值（默认 `0.001 m/s`）：只要轮椅保持正向滚动即可生成低速转弯候选；`v≈0` 时仍拒绝非零 `w`，因此不包含原地左转或原地右转状态，并保留 `(v=0, w=0)` 安全停车候选。
+
+所有滚动候选和 LQR 最终角速度还必须满足 `|v/w| >= minimum_turning_radius`。当前
+YAML 调试值为 `0.2 m`，不代表已验证的轮椅物理转弯半径；实车必须依底盘实测值重新标定。
 
 ### 7. 数据集与实车速度反馈隔离
 
@@ -139,7 +145,7 @@ dwa:
 
 ### 硬约束与评分函数
 
-候选轨迹只有同时满足以下条件才有效：位于动态速度窗口内、加速度不超限、不与点云碰撞、不驶出道路边界、且不产生低速非零转向。
+候选轨迹只有同时满足以下条件才有效：位于动态速度窗口内、加速度不超限、不与点云碰撞、不驶出道路边界、且不产生静止非零转向。正向滚动的低速弧线允许参与评分，以避免起步遇障时陷入无路径循环。
 
 有效轨迹最大化以下评分：
 
@@ -182,7 +188,7 @@ w_track = w_ref + u_lqr(lateral_error, heading_error)
 | `/dwa/planner_cmd` | `geometry_msgs/msg/Twist` | DWA 的物理 `(v, w)` 输出 |
 | `/dwa/local_trajectory` | `nav_msgs/msg/Path` | 当前 LQR 跟踪的局部轨迹 |
 | `/dwa/best_path` | `nav_msgs/msg/Path` | 当前最优局部轨迹 |
-| `/dwa/best_path_marker` | `visualization_msgs/msg/Marker` | 绿色巡线、蓝色 DWA 避障轨迹 |
+| `/dwa/best_path_marker` | `visualization_msgs/msg/Marker` | 绿色巡线、蓝色 DWA 避障轨迹、蓝色 DWA 停车点 |
 | `/dwa/candidate_paths` | `visualization_msgs/msg/MarkerArray` | DWA 候选；绿为有效，红为无效 |
 | `/perception/debug/right_road_edge` | `sensor_msgs/msg/PointCloud2` | 右道路边界点云 |
 | `/debug/viz` | `sensor_msgs/msg/Image` | 语义分割、道路及调试叠加图 |
@@ -198,7 +204,7 @@ source /opt/ros/humble/setup.bash
 
 # 编译
 colcon build 
-source install/setup.bash
+source install/setup.sh
 ```
 
 若目标机 CUDA 架构需要显式指定，可在构建命令末尾增加：
@@ -207,18 +213,24 @@ source install/setup.bash
 --cmake-args -DWHEEL_CUDA_ARCHITECTURES="75;86"
 ```
 
-该架构值必须与目标 GPU 一致；不要把桌面 GPU 架构盲目复制到 Jetson。修改 C++、CMake、launch 或 YAML 后，建议重新构建对应包并重新 `source install/setup.bash`。
+该架构值必须与目标 GPU 一致；不要把桌面 GPU 架构盲目复制到 Jetson。修改 C++、CMake、launch 或 YAML 后，建议重新构建对应包并重新 `source install/setup.sh`。
+
+> 当前工作区的包选择扩展不完整，`colcon build --packages-select ...` 可能报
+> `unrecognized arguments`。全量 `colcon build --symlink-install` 不依赖该扩展；若只需验证已配置的控制目标，
+> 可使用 `cmake --build build/wheel_perception --target controller_node -j2`。
 
 运行 DWA 单元测试：
 
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
-colcon test --packages-select wheel_perception
-colcon test-result --verbose
+cmake --build build/wheel_perception --target test_dwa_planner -j2
+./build/wheel_perception/test_dwa_planner
 ```
+
+当前共 11 项 DWA 测试，包括低速滚动转弯和最小转弯半径约束。
 
 ## 数据集回放
 
@@ -238,7 +250,7 @@ zed:
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
 ros2 launch wheel_perception dwa_dataset_test.launch.py \
   dataset_path:=/home/x/tami/shengwudao2 \
@@ -266,13 +278,19 @@ CRUISE+LQR 或 DWA+LQR
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
 ros2 topic echo /dwa/planner_cmd
 ros2 topic echo /cmd_vel
 ```
 
 分析 DWA 时应优先使用 `/dwa/planner_cmd` 的物理 `v/w`；不要把 `/cmd_vel.angular.z` 误当成 DWA 的物理角速度。
+
+### 4. 双目数据转换
+
+项目提供 `tools/export_zed_calibration.py` 和 `tools/convert_text6_stereo_dataset.py`，用于导出真实 ZED 标定并将
+已校正双目图转成 `left/ + depth_npy/` 回放格式。`tools/assumed_zed_hd720_calibration.json`
+只用于无相机时验证软件管线；由假设标定生成的深度不具备实车测距可信度。
 
 ## RViz 可视化
 
@@ -281,7 +299,7 @@ ros2 topic echo /cmd_vel
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
 rviz2 -d install/wheel_perception/share/wheel_perception/rviz/dwa_navigation.rviz
 ```
@@ -290,7 +308,7 @@ rviz2 -d install/wheel_perception/share/wheel_perception/rviz/dwa_navigation.rvi
 
 - `/dwa/obstacle_cloud`：确认树冠等无关点没有进入 DWA；
 - `/dwa/candidate_paths`：确认候选是否大量碰撞或越界；
-- `/dwa/best_path_marker`：绿色为普通巡线，蓝色为 DWA 避障；
+- `/dwa/best_path_marker`：绿色为普通巡线，蓝色曲线为 DWA 避障，蓝色圆点为 DWA 有效且主动选择 `(v,w)=(0,0)`；
 - `/perception/debug/right_road_edge`：黄色右道路边界；
 - `/debug/viz`：检查语义分割与道路边界是否持续更新。
 
@@ -320,7 +338,7 @@ zed:
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
 ros2 launch wheel_perception run_launch.py
 ```
@@ -330,7 +348,7 @@ ros2 launch wheel_perception run_launch.py
 ```bash
 cd ~/tami/wheel_latest
 source /opt/ros/humble/setup.bash
-source install/setup.bash
+source install/setup.sh
 
 ros2 run wheel_perception sub.py
 ```
@@ -353,9 +371,12 @@ ros2 run wheel_perception sub.py
 | 现象 | 说明 / 排查方向 |
 |---|---|
 | 直路显示绿色轨迹 | 正常，表示 CRUISE + LQR；此时不需要激活 DWA。 |
+| DWA 显示蓝色圆点 | DWA 运行正常，但有效停车轨迹的评分最高。 |
 | 树冠仍在 `/zed/point_cloud` | 正常；检查它是否出现在 `/dwa/obstacle_cloud`。若不在，就不会影响 DWA。 |
 | 候选全红或频繁停车 | 检查 `robot_radius`、`road_margin`、道路宽度/边界和 ROI 内真实障碍。 |
 | DWA 频繁绿蓝切换 | 调大 `activation.minimum_points` 或 `activation.clear_frames`，并检查 ROI 中噪声点。 |
+| 所有 `/dwa/*` 话题消失 | 先用 `ros2 node list` 检查 `/controller_node`；特别检查 YAML 的 `double` 是否误写为整数。 |
+| `w_ref=0` 但 `w_track=±1` | 不是 DWA 转弯，是 LQR 跟踪道路参考饱和；检查 `right_distance` 和 `road_yaw_error`。 |
 | 轮椅左右摆动 | 先检查道路边界稳定性，再检查 `weight_delta_w`、`weight_angular_acceleration`、`weight_angular_jerk` 与轨迹保持阈值；不要先盲目增大 LQR 增益。 |
 | 启动后短暂 `Safety stop: perception timeout` | 感知和 TensorRT 尚未完成初始化时的保护行为；若持续出现，说明 FusionNode 未正常输出感知。 |
 | `RuntimeError: !rclpy.ok()` 出现在 lifecycle 命令 | 通常是 ROS 2 CLI daemon 状态异常；停止当前 launch，执行 `ros2 daemon stop` 后重新 source 环境并启动。 |
@@ -367,6 +388,14 @@ ros2 run wheel_perception sub.py
 - 想更平滑：优先增加平滑子项权重或轨迹保持阈值，避免直接大幅修改 LQR；
 - 想更快：提高 `cruise_velocity` 或 `max_velocity` 前，必须同时验证制动距离、点云有效距离、`prediction_time` 和底盘响应；
 - 修改 ROI 前先在 RViz 查看 `/dwa/obstacle_cloud`，不要仅凭完整点云判断。
+
+### v0.3 当前风险
+
+- `activation.minimum_points=20` 只是总点数阈值。少量近噪声点和较远真障碍点混合后可以激活 DWA，而任一被保留的近点都可能主导整条轨迹的 `minimum_clearance`；
+- 当前尚未实现 DWA 输入点云的空间点簇、离群点过滤和多帧确认；
+- 数据集回放中已观察到 `CRUISE+LQR: w_ref=0, w_track=-1.0`，表示巡线误差或切换历史可使 LQR 持续饱和，在解释前不应直接实车运行；
+- 当前 YAML 中 `minimum_turning_radius=0.2 m` 和 `emergency_stop_distance=0.3 m` 是调试值，对载人轮椅可能偏小，必须用实车几何与制动数据标定；
+- ROS 2 参数类型严格：如 `weight_velocity: 6.0` 是浮点，`weight_velocity: 6` 是整数，后者会让 `ControllerNode` 构造失败。
 
 ## 当前实现边界
 

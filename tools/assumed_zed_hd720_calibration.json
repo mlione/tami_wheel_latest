@@ -1,0 +1,27 @@
+{
+  "camera_model": "ASSUMED_ZED_HD720",
+  "serial_number": 0,
+  "resolution": {
+    "width": 1280,
+    "height": 720
+  },
+  "left_camera": {
+    "fx": 521.9,
+    "fy": 521.9,
+    "cx": 637.5,
+    "cy": 363.4,
+    "disto": []
+  },
+  "right_camera": {
+    "fx": 521.9,
+    "fy": 521.9,
+    "cx": 637.5,
+    "cy": 363.4,
+    "disto": []
+  },
+  "stereo": {
+    "baseline_m": 0.12,
+    "rectified_pairs_required": true
+  },
+  "warning": "Assumed calibration for visual/offline debugging only. It is not valid for real-vehicle safety distance decisions."
+}
