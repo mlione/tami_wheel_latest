@@ -103,6 +103,8 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     // 性能与采样
     params_.step = this->declare_parameter<int>("perception.sample_step", 2);
     params_.voxel_size = this->declare_parameter<float>("perception.voxel_size", 0.05f); // [新增]
+    max_abs_road_yaw_ = this->declare_parameter<float>(
+        "perception.road_fit.max_abs_yaw", 0.7f);
 
     // 几何避障逻辑 (椭圆参数)
     params_.ellipse_x = this->declare_parameter<float>("perception.obstacle.ellipse_x_weight", 6.0f);
@@ -236,6 +238,7 @@ private:
     float ema_dist_ = 0.0f;
     float ema_angle_ = 0.0f;
     bool first_frame_ = true;
+    float max_abs_road_yaw_ = 0.7f;
     float last_valid_road_width_ = 0.0f;
     float last_target_right_distance_ = 1.0f;
     int road_width_invalid_frames_ = 0;
@@ -782,8 +785,13 @@ void update_loop() {
         }
 
         // 2. 双区间算法 (Double Interval)
-        // 由于 edges 是按图像行扫描的 (Top -> Bottom)，对应的物理空间大约是 (Far -> Near)
-        // 所以 valid_pts[0] 是最远的，valid_pts.back() 是最近的。
+        // 不假设图像扫描顺序必然对应 Far -> Near。数据集中已观察到
+        // p_far.x < p_near.x，这会使无向道路直线的方向翻转 pi，并将 LQR 推到饱和。
+        // X 轴朝前，因此按 x 从大到小排列，保证远端区间在前。
+        std::sort(valid_pts.begin(), valid_pts.end(),
+                  [](const cv::Point3f& lhs, const cv::Point3f& rhs) {
+                      return lhs.x > rhs.x;
+                  });
         size_t n = valid_pts.size();
         
         if (n > 10) {
@@ -817,7 +825,16 @@ void update_loop() {
                 float vx = p_far.x - p_near.x;
                 float vy = p_far.y - p_near.y;
 
-                float raw_yaw = std::atan2(vy, vx); 
+                // 道路边界是无向直线，控制使用指向车头 +X 的解。
+                // 排序后仍保留这层检查，防止退化点集再次产生 pi 反向。
+                bool direction_flipped = false;
+                if (vx < 0.0f) {
+                    vx = -vx;
+                    vy = -vy;
+                    direction_flipped = true;
+                }
+
+                float raw_yaw = std::atan2(vy, vx);
 
                 // ====== [新增判断逻辑] ======
                 // 如果是相对于车头坐标系（X前Y左）：
@@ -838,19 +855,43 @@ void update_loop() {
                 if (norm > 1e-4) {
                     raw_dist = std::abs(vx * p_near.y - vy * p_near.x) / norm;
                 }
-                // RCLCPP_INFO_THROTTLE(get_logger(), *this->get_clock(), 200, 
-                // "Road edge detected. Distance: %f, Yaw: %f", raw_dist, raw_yaw);
-                // 5. EMA 平滑 (防止控制抖动)
+                // 5. 过大的航向解视为当帧拟合异常。已有历史时保持上一可信值；
+                // 第一帧就异常时，不声称检测到有效道路边界。
+                const bool yaw_valid = norm > 1e-4f && std::isfinite(raw_yaw) &&
+                    std::abs(raw_yaw) <= std::max(max_abs_road_yaw_, 0.0f);
+                if (!yaw_valid) {
+                    RCLCPP_WARN_THROTTLE(
+                        get_logger(), *get_clock(), 1000,
+                        "Reject road yaw outlier: raw=%.3f rad limit=%.3f rad points=%zu",
+                        raw_yaw, max_abs_road_yaw_, n);
+                    if (first_frame_) {
+                        metrics.has_line = false;
+                        return;
+                    }
+                    raw_dist = ema_dist_;
+                    raw_yaw = ema_angle_;
+                }
+
+                // 6. EMA 平滑。角度使用环形差值，避免 +pi/-pi 附近直接平均。
                 if (first_frame_) {
                     ema_dist_ = raw_dist;
                     ema_angle_ = raw_yaw;
                     first_frame_ = false;
-                } else {
+                } else if (yaw_valid) {
                     ema_dist_ = EMA_ALPHA * raw_dist + (1.0f - EMA_ALPHA) * ema_dist_;
-                    ema_angle_ = EMA_ALPHA * raw_yaw + (1.0f - EMA_ALPHA) * ema_angle_;
+                    const float angle_delta = std::atan2(
+                        std::sin(raw_yaw - ema_angle_), std::cos(raw_yaw - ema_angle_));
+                    ema_angle_ = std::atan2(
+                        std::sin(ema_angle_ + EMA_ALPHA * angle_delta),
+                        std::cos(ema_angle_ + EMA_ALPHA * angle_delta));
                 }
 
-                // 6. 填充结果
+                RCLCPP_INFO_THROTTLE(
+                    get_logger(), *get_clock(), 500,
+                    "RoadFit: points=%zu raw_dist=%.2f raw_yaw=%.3f filtered_yaw=%.3f flipped=%s",
+                    n, raw_dist, raw_yaw, ema_angle_, direction_flipped ? "true" : "false");
+
+                // 7. 填充结果
                 metrics.has_line = true;
                 metrics.road_dist = ema_dist_;
                 metrics.road_yaw_rad = ema_angle_;

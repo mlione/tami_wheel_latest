@@ -393,7 +393,7 @@ ros2 run wheel_perception sub.py
 
 - `activation.minimum_points=20` 只是总点数阈值。少量近噪声点和较远真障碍点混合后可以激活 DWA，而任一被保留的近点都可能主导整条轨迹的 `minimum_clearance`；
 - 当前尚未实现 DWA 输入点云的空间点簇、离群点过滤和多帧确认；
-- 数据集回放中已观察到 `CRUISE+LQR: w_ref=0, w_track=-1.0`，表示巡线误差或切换历史可使 LQR 持续饱和，在解释前不应直接实车运行；
+- 回放中的 `road_yaw_error≈-π` 已定位为道路直线远近顺序导致的 π 反向。v0.3 已增加按 `x` 排序、方向朝 `+X`、环形 EMA 和航向异常值保护；实车前仍需重新回放确认 `w_track` 不再持续饱和；
 - 当前 YAML 中 `minimum_turning_radius=0.2 m` 和 `emergency_stop_distance=0.3 m` 是调试值，对载人轮椅可能偏小，必须用实车几何与制动数据标定；
 - ROS 2 参数类型严格：如 `weight_velocity: 6.0` 是浮点，`weight_velocity: 6` 是整数，后者会让 `ControllerNode` 构造失败。
 

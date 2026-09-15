@@ -15,6 +15,7 @@ v0.3 围绕“起步遇障有可视化、可解释的结果”完成了三项核
 1. 从“低速不能转弯”改为“允许低速滚动转弯，仍禁止原地旋转”；
 2. 增加最小转弯半径硬约束，同时限制 DWA 候选和 LQR 最终角速度；
 3. DWA 主动选择停车时，RViz 用蓝色停车圆点显示，不再把零长度轨迹误认为“没有路径”。
+4. 修复道路边界直线的 π 反向歧义，防止 `road_yaw_error≈±π` 把巡线 LQR 持续推到角速度饱和。
 
 同时完成了数据集默认路径、双目深度转换辅助工具、启动期控制数据记录以及
 参数类型故障诊断。
@@ -203,12 +204,13 @@ score =
 | 评分 | `weight_road` | 2.5 | 保留道路目标线约束 |
 | 平滑 | `weight_smooth` | 0.02 | 降低起步 jerk 对运动候选的过度惩罚 |
 | 平滑 | `weight_jerk / weight_angular_jerk` | 0.3 / 0.5 | 当前起步调试值 |
+| 平滑 | `max_jerk` | 2.0 m/s³ | 归一化标度，不是硬性 jerk 上限 |
 | 几何 | `minimum_turning_velocity` | 0.001 m/s | 只禁止近似原地旋转 |
 | 几何 | `minimum_turning_radius` | 0.2 m | 未经实车标定，可能过小 |
 | 激活 | `minimum_points` | 20 | 按点数而非点簇激活 |
 | 激活 | `clear_frames` | 5 | 障碍消失后延迟退出 DWA |
 | 轨迹保持 | `enabled` | true | 当前已启用 |
-| 轨迹保持 | `score_switch_margin` | 0.1 | 值较大时可能保持旧停车候选 |
+| 轨迹保持 | `score_switch_margin / relative_switch_margin` | 0.0 / 0.0 | 当前允许任何正评分改善触发切换 |
 | 安全 | `robot_radius` | 0.45 m | 应覆盖轮椅、脚踏板和乘员 |
 | 安全 | `emergency_stop_distance` | 0.3 m | 当前调试值偏小，实车必须按制动距离重新标定 |
 | 道路 | `dynamic_aim.enabled` | false | 当前使用 `lqr.aim_dist=0.8 m` |
@@ -262,8 +264,18 @@ target_offset = aim_dist - right_distance
 y(x) = target_offset + tan(road_yaw_error)*x
 ```
 
-因此必须在实车前验证 `has_road_edge`、`right_distance`、`road_yaw_error` 的单位、符号、稳定性和
-DWA/CRUISE 切换时 LQR 历史状态。单纯继续调 DWA 权重不能修复该问题。
+进一步数据确认 `debug_line_pt1.x < debug_line_pt2.x`，与旧代码“点列必然按远到近”的假设相反。
+直线方向因此被翻转 π，使本应约 `+0.2~+0.3 rad` 的道路方向变成 `-2.8~-3.0 rad`。
+
+v0.3 现已：
+
+- 在双区间取样前按前向 `x` 从大到小排序；
+- 对计算向量再次强制 `vx >= 0`；
+- 使用环形角度差进行 EMA；
+- 新增 `perception.road_fit.max_abs_yaw=0.7 rad`，异常帧保持上一可信角度；
+- 发布节流的 `RoadFit` 日志，显示原始/滤波航向和方向翻转状态。
+
+修复后仍必须重新回放验证 `road_yaw_error`、`right_distance` 和 `w_track`；单纯调 DWA 权重不能修复巡线误差。
 
 ### 7.4 实车速度反馈仍未完成系统级验收
 
@@ -283,6 +295,7 @@ DWA/CRUISE 切换时 LQR 历史状态。单纯继续调 DWA 权重不能修复�
 | `src/wheel_perception/dwa_controller/include/.../DWAPlanner.hpp` | 将低速阈值改为近零阈值，新增 `minimum_turning_radius` |
 | `src/wheel_perception/dwa_controller/src/DWAPlanner.cpp` | 生成对称半径边界采样，过滤转弯半径过小的候选 |
 | `src/wheel_perception/src/controller_node.cpp` | 加载半径参数，限制 LQR 最终曲率，发布蓝色停车圆点 |
+| `src/wheel_perception/src/fusion_node.cpp` | 按前向距离重排道路点，消除直线 π 反向，增加环形 EMA、航向异常值保护与调试日志 |
 | `src/wheel_perception/test/test_dwa_planner.cpp` | 新增低速滚动转弯和最小半径测试，共 11 项 |
 | `src/wheel_perception/config/params.yaml` | 当前 DWA 权重、低速阈值、转弯半径、激活点数等调试值 |
 | `src/wheel_perception/launch/dwa_dataset_test.launch.py` | 增加默认数据集路径 |
@@ -426,7 +439,7 @@ ros2 run wheel_perception sub.py
 ## 14. 建议的 v0.4 优先级
 
 1. 在不改变紧急安全层优先级的前提下，为 DWA 规划点云加入体素点簇和多帧确认；
-2. 在日志中增加 `has_road_edge/right_distance/road_yaw_error/lateral_error/heading_error`，定位 LQR 饱和；
+2. 回放验证道路方向修复，并继续补充 `lateral_error/heading_error`日志来确认 LQR 不再饱和；
 3. 使用真实 ZED 标定重建可度量深度数据；
 4. 闭合真实 `/odom.twist` 链路，完成指令速度和实测速度对比；
 5. 用非循环数据集统一记录 DWA 模式、`v_ref/w_ref`、`w_track`、净空和安全停车原因。

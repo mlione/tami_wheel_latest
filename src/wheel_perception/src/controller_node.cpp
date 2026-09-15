@@ -468,9 +468,11 @@ class ControllerNode : public rclcpp::Node {
 
     RCLCPP_INFO_THROTTLE(
         get_logger(), *get_clock(), 500,
-        "%s+LQR: v=%.2f w_ref=%.2f w_track=%.2f clearance=%.2f score=%.2f obstacles=%zu",
+        "%s+LQR: v=%.2f w_ref=%.2f w_track=%.2f lat_err=%.2f heading_err=%.3f "
+        "right=%.2f road_yaw=%.3f edge=%s clearance=%.2f score=%.2f obstacles=%zu",
         use_dwa ? "DWA" : "CRUISE", command.linear.x,
-        result.best.command.angular, tracked_w,
+        result.best.command.angular, tracked_w, lateral_error, heading_error,
+        road.right_distance, road.yaw_error, road.has_right_edge ? "true" : "false",
         result.best.minimum_clearance, result.best.score, obstacles.size());
   }
 
