@@ -76,7 +76,7 @@
       min_velocity: 0.0                 # 载人设备默认禁止倒车
       max_angular_velocity: 1.0         # rad/s，DWA 内部物理角速度
       max_acceleration: 0.5             # m/s^2
-      max_angular_acceleration: 2.5     # rad/s^2
+      max_angular_acceleration: 5.0     # rad/s^2
       prediction_time: 3.0              # 秒；ROS 2 参数声明为 double，必须保留小数点
       simulation_time_step: 0.1         # 轨迹积分步长
       velocity_resolution: 0.1          # m/s
@@ -93,20 +93,20 @@
         weight_delta_w: 2.0              # |w(k)-w(k-1)|，优先抑制左右摆动
         weight_acceleration: 0.8          # |a(k)|
         weight_angular_acceleration: 1.0  # |alpha(k)|
-        weight_jerk: 0.3              # |a(k)-a(k-1)| / dt
-        weight_angular_jerk: 0.5       # |alpha(k)-alpha(k-1)| / dt
+        weight_jerk: 0.0              # |a(k)-a(k-1)| / dt
+        weight_angular_jerk: 0.0       # |alpha(k)-alpha(k-1)| / dt
         max_jerk: 2.0                     # m/s^3，仅作归一化；急停不受舒适项阻挡
         max_angular_jerk: 3.0             # rad/s^3，仅作归一化
 
       # 允许低速滚动转弯；仅在 v 近似为零时强制 w=0，继续禁止原地转向。
       minimum_turning_velocity: 0.001
       # 最小转弯半径约束：所有滚动轨迹满足 |v/w| >= 该值，避免低速急转。
-      minimum_turning_radius: 0.2
+      minimum_turning_radius: 0.1
 
       # 无近距离障碍时使用确定性道路巡线轨迹；障碍进入该区域后才激活DWA。
       cruise_velocity: 0.6               # 无障碍巡线目标速度，仍受加速度限制
       activation:
-        max_x: 4.0                        # 前方激活距离
+        max_x: 5.0                        # 前方激活距离
         min_y: -1.0                       # 右侧激活边界
         max_y: 1.0                        # 左侧激活边界
         minimum_points: 20                 # 区域内达到该点数即激活
@@ -120,7 +120,7 @@
         minimum_clearance: 0.30          # 仅在上一轨迹净空充足时保持
         clearance_switch_margin: 0.10   # 新轨迹净空明显改善时及时切换
 
-      obstacle_distance_threshold: 4.0  # 只评价此前向距离内的障碍点
+      obstacle_distance_threshold: 5.0  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
       road_margin: 0.15                  # 道路边界内缩安全裕量
       max_obstacle_points: 2500          # CPU DWA 点云上限，保持实时性
@@ -128,7 +128,7 @@
       # /zed/point_cloud 仍保留完整调试点云；/dwa/obstacle_cloud 显示实际规划输入。
       obstacle_roi:
         min_x: 0.3                       # 忽略车体后方及相机近端噪声
-        max_x: 4.0                       # 与局部障碍评价距离一致
+        max_x: 5.0                       # 与局部障碍评价距离一致
         min_y: -1.5                      # 右侧局部规划范围
         max_y: 1.5                       # 左侧局部规划范围
         min_z: -0.2                      # 轮椅碰撞体最低有效高度（相机坐标系）
