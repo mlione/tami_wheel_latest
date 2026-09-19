@@ -19,11 +19,22 @@ __pycache__/
 #数据集
 text3/
 
+#本地测试采集与分析结果（不提交到 Git）
+/bags/
+/test_results/
+/*_data*.csv
+/*_plot*.png
+/*_analysis*.png
+/*.db3
+/*.db3-wal
+/*.db3-shm
+
 #其它没用的文件
 *.mp4
 
 #本地生成的版本文档与修改报告
 /dwa+lqr_v*.md
+!/dwa+lqr_v0.4.md
 /*修改报告.md
 
 #understand技能生成的知识图谱
