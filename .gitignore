@@ -21,3 +21,13 @@ text3/
 
 #其它没用的文件
 *.mp4
+
+#本地生成的版本文档与修改报告
+/dwa+lqr_v*.md
+/*修改报告.md
+
+#understand技能生成的知识图谱
+/.ua/
+
+#colcon构建产物
+/symlink_install_manifest.txt
