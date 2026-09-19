@@ -238,7 +238,6 @@ install(DIRECTORY rviz
 )
 
 install(PROGRAMS
-  scripts/sub.py
   ${CMAKE_CURRENT_SOURCE_DIR}/../../zed_dataset_player.py
   DESTINATION lib/${PROJECT_NAME}
 )

@@ -1,0 +1,33 @@
+ble_hardware_bridge_node:
+  ros__parameters:
+    cmd_vel_topic: /cmd_vel
+    send_rate: 20.0
+    # 超时后自动发送停车帧。按0.6 m/s计算，0.3 s约对应0.18 m。
+    command_timeout_sec: 0.3
+    reconnect_delay_sec: 2.0
+    invalid_command_warning_period_sec: 1.0
+
+    wheel_separation: 0.53
+    maximum_wheel_velocity: 1.35
+    maximum_absolute_angular_velocity: 1.0
+    joystick_deadzone: 0.3
+    maximum_absolute_joystick_y: 0.9
+    # ROS angular.z > 0 表示左转。如悬空轮测试方向相反，只将此值改为 -1.0。
+    steering_sign: 1.0
+
+    adapter_path: /org/bluez/hci0
+    device_address: "11:89:88:11:A1:0C"
+    characteristic_uuid: "0000ffe1-0000-1000-8000-00805f9b34fb"
+
+    # 0005 is the reference calibration. Lower gears scale both linear and
+    # angular velocity according to their maximum velocity divided by 1.35.
+    longitudinal_gain: 1.34449935
+    longitudinal_exponent: 0.94981010
+    gear_0001_maximum_linear_velocity: 0.45
+    gear_0003_maximum_linear_velocity: 0.90
+    gear_0005_maximum_linear_velocity: 1.35
+
+    # Gear selection uses the requested physical linear velocity.
+    gear_0001_selection_threshold: 0.35
+    gear_0003_selection_threshold: 0.70
+    zero_command_epsilon: 1.0e-6

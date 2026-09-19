@@ -175,7 +175,7 @@ class ZEDDatasetCollector(Node):
             with open(self.control_csv_path, 'w') as f:
                 f.write(
                     'frame_id,capture_time,roadside_time,right_distance,right_angle,'
-                    'cmd_vel_receive_time,linear_x,angular_z_lqr,cmd_vel_hz,'
+                    'cmd_vel_receive_time,linear_x,angular_z_rad_s,cmd_vel_hz,'
                     'bluetooth_feedback_time,bluetooth_velocity,bluetooth_steering,'
                     'bluetooth_feedback_hz,roadside_hz,road_mask_time,road_mask_hz,'
                     'odom_time,odom_receive_time,odom_source,odom_x,odom_y,odom_z,odom_hz,'
@@ -257,7 +257,7 @@ class ZEDDatasetCollector(Node):
             }
 
     def cmd_vel_callback(self, msg):
-        """cmd_vel 回调，angular.z 作为 avoid_controller 输出的 LQR 角速度记录"""
+        """cmd_vel 回调：linear.x 为 m/s，angular.z 为 rad/s。"""
         with self.lock:
             receive_time = self.get_clock().now().nanoseconds * 1e-9
             self.topic_rates['cmd_vel'].tick(receive_time)
@@ -273,7 +273,7 @@ class ZEDDatasetCollector(Node):
                     float(msg.angular.y),
                     float(msg.angular.z)
                 ],
-                'angular_z_lqr': float(msg.angular.z)
+                'angular_z_rad_s': float(msg.angular.z)
             }
 
     def bluetooth_feedback_callback(self, msg):
@@ -426,11 +426,11 @@ class ZEDDatasetCollector(Node):
 
                 cmd_vel_receive_time = ''
                 linear_x = ''
-                angular_z_lqr = ''
+                angular_z_rad_s = ''
                 if self.latest_cmd_vel is not None:
                     cmd_vel_receive_time = self.latest_cmd_vel['receive_time']
                     linear_x = self.latest_cmd_vel['linear'][0]
-                    angular_z_lqr = self.latest_cmd_vel['angular_z_lqr']
+                    angular_z_rad_s = self.latest_cmd_vel['angular_z_rad_s']
 
                 bluetooth_feedback_time = ''
                 bluetooth_velocity = ''
@@ -470,7 +470,7 @@ class ZEDDatasetCollector(Node):
                 with open(self.control_csv_path, 'a') as f:
                     f.write(
                         f'{self.frame_id},{capture_time},{roadside_time},{right_distance},'
-                        f'{right_angle},{cmd_vel_receive_time},{linear_x},{angular_z_lqr},'
+                        f'{right_angle},{cmd_vel_receive_time},{linear_x},{angular_z_rad_s},'
                         f'{cmd_vel_hz},{bluetooth_feedback_time},{bluetooth_velocity},'
                         f'{bluetooth_steering},{bluetooth_feedback_hz},{roadside_hz},'
                         f'{road_mask_time},{road_mask_hz},'
@@ -489,7 +489,7 @@ class ZEDDatasetCollector(Node):
 
                 if self.latest_cmd_vel:
                     detail += (
-                        f" CmdVel:✓(v:{linear_x:.3f}, w:{angular_z_lqr:.3f}, "
+                        f" CmdVel:✓(v:{linear_x:.3f}, w:{angular_z_rad_s:.3f}rad/s, "
                         f"{self._format_hz(cmd_vel_hz)})")
                 else:
                     detail += " CmdVel:✗"

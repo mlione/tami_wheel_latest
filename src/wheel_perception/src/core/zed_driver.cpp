@@ -35,8 +35,9 @@ struct ZedDriver::Impl {
     sl::Mat mat_rgb_cpu;
     sl::Mat mat_cloud_cpu; 
 
-    // { changed code } 新增：记录上一帧的 flag_odom 状态
-    bool last_flag_odom = false;
+    bool odometry_enabled = false;
+    sl::Transform accumulated_odom_pose;
+    sl::Pose camera_delta_pose;
 
     Impl() {
         // 默认参数初始化
@@ -48,6 +49,72 @@ struct ZedDriver::Impl {
         init_params.sdk_gpu_id = 0;
     }
 };
+
+namespace {
+
+void clearOdometryFrame(ZedGpuFrame& frame) {
+    frame.pose_x = 0.0f;
+    frame.pose_y = 0.0f;
+    frame.pose_z = 0.0f;
+    frame.quat_x = 0.0f;
+    frame.quat_y = 0.0f;
+    frame.quat_z = 0.0f;
+    frame.quat_w = 1.0f;
+    frame.linear_velocity_x = 0.0f;
+    frame.linear_velocity_y = 0.0f;
+    frame.linear_velocity_z = 0.0f;
+    frame.angular_velocity_x = 0.0f;
+    frame.angular_velocity_y = 0.0f;
+    frame.angular_velocity_z = 0.0f;
+    frame.pose_covariance.fill(0.0);
+    frame.twist_covariance.fill(0.0);
+    frame.odometry_valid = false;
+}
+
+template<typename DriverImpl>
+bool populateOdometryFrame(DriverImpl& impl, ZedGpuFrame& frame) {
+    clearOdometryFrame(frame);
+    if (!impl.odometry_enabled) return false;
+
+    const auto tracking_state =
+        impl.zed.getPosition(impl.camera_delta_pose, sl::REFERENCE_FRAME::CAMERA);
+    const auto tracking_status = impl.zed.getPositionalTrackingStatus();
+    if (tracking_state != sl::POSITIONAL_TRACKING_STATE::OK ||
+        tracking_status.odometry_status != sl::ODOMETRY_STATUS::OK ||
+        !impl.camera_delta_pose.valid) {
+        return false;
+    }
+
+    impl.accumulated_odom_pose =
+        impl.accumulated_odom_pose * impl.camera_delta_pose.pose_data;
+    auto orientation = impl.accumulated_odom_pose.getOrientation();
+    orientation.normalise();
+    impl.accumulated_odom_pose.setOrientation(orientation);
+
+    const auto translation = impl.accumulated_odom_pose.getTranslation();
+    frame.pose_x = translation.tx;
+    frame.pose_y = translation.ty;
+    frame.pose_z = translation.tz;
+    frame.quat_x = orientation.ox;
+    frame.quat_y = orientation.oy;
+    frame.quat_z = orientation.oz;
+    frame.quat_w = orientation.ow;
+
+    frame.linear_velocity_x = impl.camera_delta_pose.twist[0];
+    frame.linear_velocity_y = impl.camera_delta_pose.twist[1];
+    frame.linear_velocity_z = impl.camera_delta_pose.twist[2];
+    frame.angular_velocity_x = impl.camera_delta_pose.twist[3];
+    frame.angular_velocity_y = impl.camera_delta_pose.twist[4];
+    frame.angular_velocity_z = impl.camera_delta_pose.twist[5];
+    for (std::size_t index = 0; index < frame.pose_covariance.size(); ++index) {
+        frame.pose_covariance[index] = impl.camera_delta_pose.pose_covariance[index];
+        frame.twist_covariance[index] = impl.camera_delta_pose.twist_covariance[index];
+    }
+    frame.odometry_valid = true;
+    return true;
+}
+
+}  // namespace
 
 // =============================================================================
 // 构造与析构
@@ -75,6 +142,7 @@ bool ZedDriver::open(const Config& config){
     pimpl_->init_params.depth_minimum_distance = config.depth_min;
     pimpl_->init_params.depth_maximum_distance = config.depth_max;
     pimpl_->init_params.camera_image_flip = config.flip_camera;
+    pimpl_->odometry_enabled = config.enable_odometry;
     
     // 强制转换为 SDK 枚举
     // pimpl_->init_params.coordinate_system = static_cast<sl::COORDINATE_SYSTEM>(config.coordinate_system);
@@ -103,6 +171,7 @@ bool ZedDriver::open(const Config& config){
     } else {
         std::cout << "[ZedDriver] Positional Tracking Enabled!" << std::endl;
     }
+    pimpl_->accumulated_odom_pose.setIdentity();
     return true;
 }
 
@@ -138,53 +207,8 @@ bool ZedDriver::grab(ZedGpuFrame& out_frame){
     out_frame.width  = pimpl_->mat_rgb_gpu.getWidth();
     out_frame.height = pimpl_->mat_rgb_gpu.getHeight();
 
-    //4. 获取位姿数据
-    // { changed code } 检测 flag_odom 状态变化
-    if (flag_odom && !pimpl_->last_flag_odom) {
-        // false -> true：重新初始化位姿状态
-        std::cout << "[ZedDriver] flag_odom 变为 true，重置位姿跟踪..." << std::endl;
-        pimpl_->zed.resetPositionalTracking(sl::Transform());
-    } else if (!flag_odom && pimpl_->last_flag_odom) {
-        // true -> false：关闭位姿获取，清空位姿数据
-        std::cout << "[ZedDriver] flag_odom 变为 false，停止位姿获取." << std::endl;
-        out_frame.pose_x = 0.0f;
-        out_frame.pose_y = 0.0f;
-        out_frame.pose_z = 0.0f;
-        out_frame.quat_x = 0.0f;
-        out_frame.quat_y = 0.0f;
-        out_frame.quat_z = 0.0f;
-        out_frame.quat_w = 1.0f;
-    }
-    // 更新上一帧状态
-    pimpl_->last_flag_odom = flag_odom;
-
-    if(flag_odom)
-    {
-        sl::Pose zed_pose;
-        sl::POSITIONAL_TRACKING_STATE state = pimpl_->zed.getPosition(zed_pose, sl::REFERENCE_FRAME::WORLD);
-        if (state == sl::POSITIONAL_TRACKING_STATE::OK) {
-            out_frame.pose_x = zed_pose.pose_data.tx;
-            out_frame.pose_y = zed_pose.pose_data.ty;
-            out_frame.pose_z = zed_pose.pose_data.tz;
-
-            sl::Orientation quat = zed_pose.getOrientation();
-            out_frame.quat_x = quat.ox;
-            out_frame.quat_y = quat.oy;
-            out_frame.quat_z = quat.oz;
-            out_frame.quat_w = quat.ow;
-        } 
-    }
-    else 
-    {
-        // 如果 flag_odom 为 false，确保位姿数据被清零
-        out_frame.pose_x = 0.0f;
-        out_frame.pose_y = 0.0f;
-        out_frame.pose_z = 0.0f;
-        out_frame.quat_x = 0.0f;
-        out_frame.quat_y = 0.0f;
-        out_frame.quat_z = 0.0f;
-        out_frame.quat_w = 1.0f;
-    }
+    // 4. 与当前 RGB-D 帧同时获取位姿、Twist 和协方差。
+    populateOdometryFrame(*pimpl_, out_frame);
 
     // GPU 指针
     out_frame.rgb_ptr_dev   = pimpl_->mat_rgb_gpu.getPtr<sl::uchar4>(sl::MEM::GPU);

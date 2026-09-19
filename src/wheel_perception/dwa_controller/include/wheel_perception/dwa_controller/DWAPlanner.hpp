@@ -87,6 +87,16 @@ class DWAPlanner {
     double obstacle_distance_threshold{2.5};
     double robot_radius{0.45};
     double road_margin{0.15};
+    // Conservative subset of the BLE wheelchair's executable (v, w) space.
+    // Stop remains an explicit command; every non-zero command must be above
+    // the forward joystick deadzone and within the selected gear's yaw limit.
+    bool enable_hardware_constraints{true};
+    double minimum_moving_velocity{0.15};
+    double gear_0001_selection_threshold{0.35};
+    double gear_0003_selection_threshold{0.70};
+    double gear_0001_maximum_angular_velocity{0.30};
+    double gear_0003_maximum_angular_velocity{0.60};
+    double gear_0005_maximum_angular_velocity{0.90};
   };
 
   struct Result {
@@ -103,6 +113,9 @@ class DWAPlanner {
               const std::vector<ObstaclePoint>& obstacles,
               const MotionHistory& history,
               double control_dt) const;
+
+  [[nodiscard]] bool isHardwareFeasible(const Velocity& command) const;
+  [[nodiscard]] double maximumHardwareAngularVelocity(double linear_velocity) const;
 
  private:
   Trajectory simulate(double linear, double angular) const;

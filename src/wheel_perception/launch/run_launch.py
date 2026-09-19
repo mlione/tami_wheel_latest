@@ -46,12 +46,26 @@ def generate_launch_description():
 
     # ========================================================================
 
-    # 2. 定义 TF 静态变换
+    # 2. 定义 TF 静态变换。与 FusionNode 使用同一份外参，
+    # 避免 RViz 点云坐标和 /odom 杆臂修正不一致。
+    odometry_config = param_dict.get('zed', {}).get('odometry', {})
+    extrinsic = odometry_config.get('extrinsic', {})
+    camera_x = float(extrinsic.get('translation_x', 0.0))
+    camera_y = float(extrinsic.get('translation_y', 0.0))
+    camera_z = float(extrinsic.get('translation_z', 0.0))
+    camera_roll = float(extrinsic.get('roll', 0.0))
+    camera_pitch = float(extrinsic.get('pitch', 0.0))
+    camera_yaw = float(extrinsic.get('yaw', 0.0))
     tf_publisher = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         name='base_to_camera_tf',
-        arguments=['0.0', '0', '0.0', '0', '0', '0', 'base_link', 'zed_left_camera_frame']
+        # Positional order: x y z yaw pitch roll parent child.
+        arguments=[
+            str(camera_x), str(camera_y), str(camera_z),
+            str(camera_yaw), str(camera_pitch), str(camera_roll),
+            'base_link', 'zed_left_camera_frame'
+        ]
     )
 
     # 3. 定义感知组件 (FusionNode)

@@ -20,6 +20,17 @@ DWAPlanner::DWAPlanner(Config config) : config_(std::move(config)) {
   config_.minimum_turning_radius = std::max(config_.minimum_turning_radius, 0.0);
   config_.max_jerk = std::max(config_.max_jerk, kEpsilon);
   config_.max_angular_jerk = std::max(config_.max_angular_jerk, kEpsilon);
+  config_.minimum_moving_velocity = std::max(config_.minimum_moving_velocity, 0.0);
+  config_.gear_0001_selection_threshold = std::max(
+      config_.gear_0001_selection_threshold, config_.minimum_moving_velocity);
+  config_.gear_0003_selection_threshold = std::max(
+      config_.gear_0003_selection_threshold, config_.gear_0001_selection_threshold);
+  config_.gear_0001_maximum_angular_velocity = std::max(
+      config_.gear_0001_maximum_angular_velocity, 0.0);
+  config_.gear_0003_maximum_angular_velocity = std::max(
+      config_.gear_0003_maximum_angular_velocity, 0.0);
+  config_.gear_0005_maximum_angular_velocity = std::max(
+      config_.gear_0005_maximum_angular_velocity, 0.0);
 }
 
 DWAPlanner::Result DWAPlanner::plan(
@@ -62,6 +73,18 @@ DWAPlanner::Result DWAPlanner::plan(
     linear_samples.push_back(std::clamp(history.previous_command.linear, min_v, max_v));
     angular_samples.push_back(std::clamp(history.previous_command.angular, min_w, max_w));
   }
+  // The BLE joystick has a non-zero forward deadzone. The physical actuator
+  // jumps from stop to its minimum executable speed, so expose exactly that
+  // boundary as a candidate when acceleration away from rest is requested.
+  if (config_.enable_hardware_constraints &&
+      current_velocity.linear < config_.minimum_moving_velocity &&
+      max_v > kEpsilon && config_.minimum_moving_velocity <= config_.max_velocity) {
+    linear_samples.push_back(config_.minimum_moving_velocity);
+  }
+  if (config_.enable_hardware_constraints &&
+      current_velocity.linear <= config_.minimum_moving_velocity + kEpsilon) {
+    linear_samples.push_back(0.0);
+  }
   const auto sort_and_unique = [](std::vector<double>& values) {
     std::sort(values.begin(), values.end());
     values.erase(std::unique(values.begin(), values.end(), [](double lhs, double rhs) {
@@ -96,6 +119,9 @@ DWAPlanner::Result DWAPlanner::plan(
       }
       if (config_.minimum_turning_radius > kEpsilon && std::abs(w) > kEpsilon &&
           std::abs(v / w) + kEpsilon < config_.minimum_turning_radius) {
+        continue;
+      }
+      if (!isHardwareFeasible({v, w})) {
         continue;
       }
       Trajectory trajectory = simulate(v, w);
@@ -231,8 +257,15 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
     const double angular_jerk =
         (angular_acceleration - history.previous_angular_acceleration) / dt;
 
+    const bool starts_across_actuator_deadzone = config_.enable_hardware_constraints &&
+        std::abs(history.previous_command.linear) <= kEpsilon &&
+        std::abs(trajectory.command.linear - config_.minimum_moving_velocity) <= kEpsilon;
+    const bool stops_across_actuator_deadzone = config_.enable_hardware_constraints &&
+        history.previous_command.linear <= config_.minimum_moving_velocity + kEpsilon &&
+        std::abs(trajectory.command.linear) <= kEpsilon;
     trajectory.dynamic_feasible =
-        std::abs(linear_acceleration) <= config_.max_acceleration + kEpsilon &&
+        (std::abs(linear_acceleration) <= config_.max_acceleration + kEpsilon ||
+         starts_across_actuator_deadzone || stops_across_actuator_deadzone) &&
         std::abs(angular_acceleration) <= config_.max_angular_acceleration + kEpsilon;
 
     // Normalize each term so the weights remain meaningful when the callback
@@ -262,6 +295,30 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
       !trajectory.dynamic_feasible) {
     trajectory.score = -std::numeric_limits<double>::infinity();
   }
+}
+
+bool DWAPlanner::isHardwareFeasible(const Velocity& command) const {
+  if (!config_.enable_hardware_constraints) return true;
+  if (!std::isfinite(command.linear) || !std::isfinite(command.angular)) return false;
+  if (std::abs(command.linear) <= kEpsilon) {
+    return std::abs(command.angular) <= kEpsilon;
+  }
+  if (command.linear < config_.minimum_moving_velocity - kEpsilon) return false;
+  return std::abs(command.angular) <=
+      maximumHardwareAngularVelocity(command.linear) + kEpsilon;
+}
+
+double DWAPlanner::maximumHardwareAngularVelocity(double linear_velocity) const {
+  if (!config_.enable_hardware_constraints || linear_velocity <= kEpsilon) {
+    return config_.enable_hardware_constraints ? 0.0 : config_.max_angular_velocity;
+  }
+  double limit = config_.gear_0005_maximum_angular_velocity;
+  if (linear_velocity < config_.gear_0001_selection_threshold) {
+    limit = config_.gear_0001_maximum_angular_velocity;
+  } else if (linear_velocity < config_.gear_0003_selection_threshold) {
+    limit = config_.gear_0003_maximum_angular_velocity;
+  }
+  return std::min(limit, config_.max_angular_velocity);
 }
 
 std::vector<double> DWAPlanner::samples(double lower, double upper,

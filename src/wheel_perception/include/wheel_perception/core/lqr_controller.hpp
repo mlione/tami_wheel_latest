@@ -18,10 +18,8 @@ public:
         double q_integral = 0.0;  // Q(4,4) - 位置误差积分权重
         double r_weight = 1.0;    // R(0,0)
         
-        double dt = 0.1;          // 采样时间
         double k_w = 10.0;        // B 矩阵参数
         double model_v = 0.5;     // [关键] 模型内部预设速度 (对齐旧代码 static v=0.5)
-        double lqr_gain = 60.0;   // 协议增益
         double integral_limit = 1.5; // 位置误差积分限幅，防止 windup
     };
 
@@ -44,19 +42,6 @@ public:
                            double reference_angular_velocity, double control_dt) {
         return reference_angular_velocity +
                computeRaw(lateral_error, heading_error, control_dt);
-    }
-
-    // The existing wheelchair bridge expects steering protocol units on
-    // Twist.angular.z. Keep that established interface at the final boundary.
-    double toActuatorCommand(double angular_velocity) const {
-        // ROS/DWA: left turn is positive. The established wheelchair protocol
-        // used by sub.py uses a negative steering offset for a left turn.
-        return -angular_velocity * cfg_.lqr_gain;
-    }
-
-    // 计算控制量
-    double compute(double dist, double angle) {
-        return toActuatorCommand(computeRaw(dist, angle, cfg_.dt));
     }
 
 private:
@@ -116,15 +101,6 @@ private:
         last_dist_ = dist;
         last_angle_ = angle;
 
-        // 8. 应用增益
-        // 旧代码: -angular_lqr * lqr_k 
-        // 也就是: -u * gain = -(-Kx) * gain = Kx * gain
-        // 我们的 compute 返回 u (-Kx)。
-        // 外部 ControllerNode 会直接使用 compute 的返回值。
-        // 如果外部也不加负号，那就是 -Kx * gain (负反馈)。
-        // 旧代码 logic: input=-angle -> u_internal=K*angle -> output = -u_internal*k = -K*angle*k (负反馈)
-        // 新代码 logic: input=angle  -> u_internal=-K*angle -> output = u_internal*k  = -K*angle*k (负反馈)
-        // 结论：完全一致。
         return u;
     }
 

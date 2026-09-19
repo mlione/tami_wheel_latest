@@ -32,7 +32,9 @@ ObstacleFusion：道路右边界、道路宽度、道路朝向、最小距离
                                       |
                            LQR 前视点跟踪与角速度限幅
                                       |
-                         cmd_vel → 原有轮椅底盘通信桥
+                    标准 cmd_vel (m/s, rad/s)
+                                      |
+                         ble_hardware_bridge → 轮椅底盘
 ```
 
 `FusionNode` 和 `ControllerNode` 以 ROS 2 composable node 的形式运行在 `wheel_container` 中；`FusionNode` 使用 lifecycle 管理。核心入口为：
@@ -114,9 +116,9 @@ YAML 调试值为 `0.2 m`，不代表已验证的轮椅物理转弯半径；实�
 ### 7. 数据集与实车速度反馈隔离
 
 - 数据集模式：动态窗口使用本次控制器的 `last_output_velocity_`，不使用历史录制速度作为当前反馈。
-- 实车模式：优先使用真实 `/odom.twist`；不可用时才回退到上一控制输出。
+- 实车模式：现有 `ZedDriver` 从同一次 RGB-D grab 取得 ZED CAMERA 增量 pose、twist 和协方差，FusionNode 滤波后发布 `/odom`；ControllerNode 优先使用新鲜的 `/odom.twist`，超时时按参数回退或停车。
 
-这避免历史数据集车速和当前回放控制输出互相污染，同时保持实车使用真实速度反馈。
+这避免历史数据集车速和当前回放控制输出互相污染。ZED twist 是视觉惯性实际运动估计，不是电机编码器轮速。当前 YAML 按相机位于轮椅中心“前 0.2 m、右 0.2 m”配置，FusionNode 对位姿、Twist 和协方差执行刚体外参/杆臂修正。
 
 ## DWA 工作原理
 
@@ -174,9 +176,9 @@ DWA 输出最优局部轨迹和物理参考角速度 `w_ref`。控制器取 `lqr
 w_track = w_ref + u_lqr(lateral_error, heading_error)
 ```
 
-`w_track` 再经过角速度和角加速度限幅，最后转成原有轮椅通信协议所需的转向量。
+`w_track` 再经过角速度、角加速度、最小转弯半径和蓝牙底盘可执行域限幅，直接以 `rad/s` 发布。
 
-> `/dwa/planner_cmd.angular.z` 是物理角速度，单位 `rad/s`；`/cmd_vel.angular.z` 已经过 `lqr.gain` 和符号转换，是底盘桥使用的协议转向值，不能把它直接当成物理 `rad/s`。
+> `/dwa/planner_cmd` 和 `/cmd_vel` 都使用标准 ROS 物理单位：`linear.x` 为 `m/s`，`angular.z` 为 `rad/s`。前者是 DWA 参考，后者是 LQR 跟踪后的最终指令。
 
 ## 主要话题
 
@@ -192,14 +194,14 @@ w_track = w_ref + u_lqr(lateral_error, heading_error)
 | `/dwa/candidate_paths` | `visualization_msgs/msg/MarkerArray` | DWA 候选；绿为有效，红为无效 |
 | `/perception/debug/right_road_edge` | `sensor_msgs/msg/PointCloud2` | 右道路边界点云 |
 | `/debug/viz` | `sensor_msgs/msg/Image` | 语义分割、道路及调试叠加图 |
-| `/cmd_vel` | `geometry_msgs/msg/Twist` | 最终发给原有底盘通信桥的控制指令 |
+| `/cmd_vel` | `geometry_msgs/msg/Twist` | 最终标准物理速度（m/s, rad/s），由 BLE 桥转换为底盘协议 |
 
 ## 编译
 
 在项目根目录执行：
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 
 # 编译
@@ -222,7 +224,7 @@ source install/setup.sh
 运行 DWA 单元测试：
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
@@ -248,7 +250,7 @@ zed:
 ### 2. 启动回放
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
@@ -276,7 +278,7 @@ CRUISE+LQR 或 DWA+LQR
 另开终端：
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
@@ -284,7 +286,7 @@ ros2 topic echo /dwa/planner_cmd
 ros2 topic echo /cmd_vel
 ```
 
-分析 DWA 时应优先使用 `/dwa/planner_cmd` 的物理 `v/w`；不要把 `/cmd_vel.angular.z` 误当成 DWA 的物理角速度。
+`/dwa/planner_cmd` 用于观察 DWA 参考，`/cmd_vel` 用于观察 LQR 跟踪后的最终物理速度。
 
 ### 4. 双目数据转换
 
@@ -297,7 +299,7 @@ ros2 topic echo /cmd_vel
 启动回放或感知系统后，在另一个终端执行：
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
@@ -327,7 +329,7 @@ zed:
 
 1. ZED 已连接，TensorRT engine 能在目标机加载；
 2. `/odom` 是真实定位/底盘反馈，且 `twist.twist.linear.x`、`twist.twist.angular.z` 单位正确；
-3. `base_link -> zed_left_camera_frame` 是实测外参。当前 launch 中为零位姿占位，实车不能默认相机与底盘原点重合；
+3. `zed.odometry.extrinsic` 已按“前 0.2 m、右 0.2 m”设置，实车需测量复核；`run_launch.py` 会用同一参数发布 `base_link -> zed_left_camera_frame`；
 4. `dwa.robot_radius` 覆盖乘员、脚踏板和轮椅外廓；
 5. `dwa.obstacle_roi.min_z/max_z` 已按相机安装高度标定；
 6. 蓝牙地址、特征句柄、转向符号、线速度比例、紧急停止均已单独验证；
@@ -336,24 +338,24 @@ zed:
 ### 2. 启动感知与规划
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
 ros2 launch wheel_perception run_launch.py
 ```
 
-确认感知、道路边界和 `/dwa/planner_cmd` 正常后，再在**独立终端**启动原有底盘通信桥：
+确认感知、道路边界、`/dwa/planner_cmd` 和 `/cmd_vel` 正常后，再在**独立终端**启动 BLE 底盘桥：
 
 ```bash
-cd ~/tami/wheel_latest
+cd ~/tami/tami_wheel_latest
 source /opt/ros/humble/setup.bash
 source install/setup.sh
 
-ros2 run wheel_perception sub.py
+ros2 launch ble_hardware_bridge ble_hardware_bridge.launch.py
 ```
 
-不要在数据集回放期间启动 `sub.py`，避免回放控制指令发送给真实轮椅。
+不要在数据集回放期间启动 BLE 桥，避免回放控制指令发送给真实轮椅。
 
 ## 调试与注意事项
 

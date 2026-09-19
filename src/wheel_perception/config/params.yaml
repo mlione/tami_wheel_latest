@@ -20,6 +20,20 @@
       coordinate_system: 3  # 3=RIGHT_HANDED_Z_UP_X_FWD (ROS标准坐标系: X前, Y左, Z上)
       svo_path: ""          # 如果要回放SVO录像，填路径，否则留空
       use_dataset_mode: true #用数据集模式 (从SVO或ROS话题读取数据，而非直接访问相机)
+      odometry:
+        enabled: true             # 实车模式下从同一次 ZED grab 发布 pose+twist
+        odom_frame: odom
+        base_frame: base_link
+        velocity_filter_alpha: 0.25 # EMA；越小越平滑，但延迟越大
+        # base_link 坐标系：X向前、Y向左、Z向上，角度单位为 rad。
+        # 实际安装为“右0.2m、前0.2m”，所以 Y 必须填 -0.2。
+        extrinsic:
+          translation_x: 0.2
+          translation_y: -0.2
+          translation_z: 0.0
+          roll: 0.0
+          pitch: 0.0
+          yaw: 0.0
 
     # ==========================
     # 3. 感知核心参数
@@ -49,13 +63,8 @@
         ellipse_y: 225.0    # 对应旧代码 225.0 (hpp默认是100，这里强制改为225以复刻旧效果)
         thres: 50.0         # 阈值
 
-    # === LQR 控制参数 (严格对齐旧代码 avoid_lib_s.cpp) ===
+    # === LQR 轨迹跟踪参数 ===
     lqr:
-      # [核心] 协议增益: 60.0
-      # 原因: 你的底层协议直接将输入与 143 相加。
-      # LQR 输出是微小的弧度(如0.1)，必须放大60倍才能驱动电机转向。
-      gain: 80.0   
-      
       # 权重矩阵 Q 的对角线元素
       q_pos: 10.0  # 位置误差权重 (q_dist -> q_pos)
       q_ang: 10.0  # 角度误差权重 (q_yaw -> q_ang)
@@ -123,6 +132,16 @@
       obstacle_distance_threshold: 5.0  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
       road_margin: 0.15                  # 道路边界内缩安全裕量
+      # 与 ble_hardware_bridge 一致的保守可执行域。(0,0) 始终是合法停车指令；
+      # 非零运动必须跨过遥感死区，并满足当前挡位的角速度能力。
+      hardware_constraints:
+        enabled: true
+        minimum_moving_velocity: 0.15
+        gear_0001_threshold: 0.35
+        gear_0003_threshold: 0.70
+        gear_0001_max_angular: 0.30
+        gear_0003_max_angular: 0.60
+        gear_0005_max_angular: 0.90
       max_obstacle_points: 2500          # CPU DWA 点云上限，保持实时性
       # DWA 是二维底盘规划器，只投影该矩形和高度带内的点。
       # /zed/point_cloud 仍保留完整调试点云；/dwa/obstacle_cloud 显示实际规划输入。
@@ -141,6 +160,12 @@
       emergency_stop_distance: 0.5     # m，进入融合危险区立即置零
       perception_timeout: 0.5            # s，感知中断时主动发布停车
       stop_on_no_path: true              # 无安全轨迹时停车而非沿用旧指令
+
+    # 实车优先使用 /odom.twist；数据集模式仍固定使用本轮回放的上一控制输出。
+    velocity_feedback:
+      timeout: 0.3
+      stop_on_timeout: false       # 初期回退到上一输出；实车验证后可改 true
+      accept_zero_twist: true      # 真实停车 v=0,w=0 也是有效反馈
 
     # === 动态右侧目标距离 ===
     dynamic_aim:

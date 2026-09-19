@@ -16,8 +16,12 @@
 #include <nav_msgs/msg/odometry.hpp> // [新增] 里程计消息头文件
 #include <cuda_runtime.h>            // [新增] 必须包含 CUDA API 以便管理显存
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdio>
+#include <utility>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 #include "wheel_perception/core/zed_driver.hpp"
 
@@ -90,6 +94,35 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     zed_cfg.depth_mode = this->declare_parameter<int>("zed.depth_mode", 1); // PERFORMANCE
     zed_cfg.coordinate_system = this->declare_parameter<int>("zed.coordinate_system", 3); // Z_UP_X_FWD
     zed_cfg.svo_path = this->declare_parameter<std::string>("zed.svo_path", "");
+    odometry_enabled_ = this->declare_parameter<bool>("zed.odometry.enabled", false);
+    odometry_filter_alpha_ = std::clamp(
+        this->declare_parameter<double>("zed.odometry.velocity_filter_alpha", 0.25),
+        0.0, 1.0);
+    odom_frame_id_ = this->declare_parameter<std::string>(
+        "zed.odometry.odom_frame", "odom");
+    base_frame_id_ = this->declare_parameter<std::string>(
+        "zed.odometry.base_frame", "base_link");
+    camera_translation_in_base_.x() = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.translation_x", 0.0);
+    camera_translation_in_base_.y() = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.translation_y", 0.0);
+    camera_translation_in_base_.z() = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.translation_z", 0.0);
+    const double camera_roll = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.roll", 0.0);
+    const double camera_pitch = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.pitch", 0.0);
+    const double camera_yaw = this->declare_parameter<double>(
+        "zed.odometry.extrinsic.yaw", 0.0);
+    camera_rotation_in_base_ =
+        (Eigen::AngleAxisd(camera_yaw, Eigen::Vector3d::UnitZ()) *
+         Eigen::AngleAxisd(camera_pitch, Eigen::Vector3d::UnitY()) *
+         Eigen::AngleAxisd(camera_roll, Eigen::Vector3d::UnitX()))
+            .toRotationMatrix();
+    base_T_camera_.setIdentity();
+    base_T_camera_.linear() = camera_rotation_in_base_;
+    base_T_camera_.translation() = camera_translation_in_base_;
+    zed_cfg.enable_odometry = odometry_enabled_;
 
     // ================= 3. 感知算法参数 (PerceptionParams) =================
     // 空间剪裁
@@ -149,6 +182,14 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     RCLCPP_INFO(get_logger(), "Perception Configured: Voxel=%.2f, Ellipse=%.1fx^2 + %.1fy^2 < %.1f, DynamicAim=%s",
         params_.voxel_size, params_.ellipse_x, params_.ellipse_y, params_.ellipse_thres,
         dynamic_aim_enabled_ ? "true" : "false");
+    RCLCPP_INFO(
+        get_logger(),
+        "ZED odometry: %s, frames=%s->%s, velocity EMA alpha=%.2f, "
+        "camera in base xyz=(%.3f, %.3f, %.3f), rpy=(%.3f, %.3f, %.3f)",
+        odometry_enabled_ ? "enabled" : "disabled", odom_frame_id_.c_str(),
+        base_frame_id_.c_str(), odometry_filter_alpha_,
+        camera_translation_in_base_.x(), camera_translation_in_base_.y(),
+        camera_translation_in_base_.z(), camera_roll, camera_pitch, camera_yaw);
     
     // ZED里程计发布者
     pub_odom_ = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
@@ -196,6 +237,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_odom_.reset();
         pub_bev_fused_.reset();
         timer_.reset();
+        has_filtered_odometry_ = false;
         
         // [新增] 释放手动开辟的显存
         if (d_rgb_buffer_) {
@@ -247,26 +289,165 @@ private:
     // EMA 系数 (0.0~1.0)，越小越平滑，但也越迟钝。0.3 是个不错的折中。
     const float EMA_ALPHA = 0.3f;
 
+    using Matrix6d = Eigen::Matrix<double, 6, 6>;
+
+    static Eigen::Matrix3d skewSymmetric(const Eigen::Vector3d& vector) {
+        Eigen::Matrix3d skew;
+        skew << 0.0, -vector.z(), vector.y(),
+                vector.z(), 0.0, -vector.x(),
+                -vector.y(), vector.x(), 0.0;
+        return skew;
+    }
+
+    Matrix6d cameraToBaseMotionJacobian() const {
+        // [v_B; w_B] = J [v_C; w_C], where
+        // v_B = R_BC v_C - w_B x r_BC = R_BC v_C + [r_BC]x R_BC w_C.
+        Matrix6d jacobian = Matrix6d::Zero();
+        jacobian.block<3, 3>(0, 0) = camera_rotation_in_base_;
+        jacobian.block<3, 3>(0, 3) =
+            skewSymmetric(camera_translation_in_base_) * camera_rotation_in_base_;
+        jacobian.block<3, 3>(3, 3) = camera_rotation_in_base_;
+        return jacobian;
+    }
+
+    std::array<double, 36> transformCameraCovarianceToBase(
+        const std::array<double, 36>& camera_covariance) const {
+        Matrix6d covariance;
+        for (std::size_t row = 0; row < 6; ++row) {
+            for (std::size_t column = 0; column < 6; ++column) {
+                covariance(static_cast<Eigen::Index>(row),
+                           static_cast<Eigen::Index>(column)) =
+                    camera_covariance[row * 6 + column];
+            }
+        }
+
+        const Matrix6d jacobian = cameraToBaseMotionJacobian();
+        const Matrix6d transformed = jacobian * covariance * jacobian.transpose();
+        std::array<double, 36> result{};
+        for (std::size_t row = 0; row < 6; ++row) {
+            for (std::size_t column = 0; column < 6; ++column) {
+                result[row * 6 + column] = transformed(
+                    static_cast<Eigen::Index>(row),
+                    static_cast<Eigen::Index>(column));
+            }
+        }
+        return result;
+    }
+
+    Eigen::Isometry3d transformCameraMotionPoseToBase(
+        const core::ZedGpuFrame& frame) const {
+        Eigen::Quaterniond camera_orientation(
+            frame.quat_w, frame.quat_x, frame.quat_y, frame.quat_z);
+        if (camera_orientation.norm() < 1e-9) {
+            camera_orientation = Eigen::Quaterniond::Identity();
+        } else {
+            camera_orientation.normalize();
+        }
+
+        Eigen::Isometry3d camera_initial_T_camera = Eigen::Isometry3d::Identity();
+        camera_initial_T_camera.linear() = camera_orientation.toRotationMatrix();
+        camera_initial_T_camera.translation() =
+            Eigen::Vector3d(frame.pose_x, frame.pose_y, frame.pose_z);
+
+        // ZED odometry starts at the initial camera frame. Conjugating by the
+        // fixed base->camera extrinsic expresses the same relative motion at
+        // the wheelchair rotation center and preserves an identity start pose.
+        return base_T_camera_ * camera_initial_T_camera * base_T_camera_.inverse();
+    }
+
+    void transformCameraTwistToBase(
+        const core::ZedGpuFrame& frame,
+        geometry_msgs::msg::Twist& base_twist) const {
+        const Eigen::Vector3d camera_linear(
+            frame.linear_velocity_x,
+            frame.linear_velocity_y,
+            frame.linear_velocity_z);
+        const Eigen::Vector3d camera_angular(
+            frame.angular_velocity_x,
+            frame.angular_velocity_y,
+            frame.angular_velocity_z);
+        const Eigen::Vector3d base_angular =
+            camera_rotation_in_base_ * camera_angular;
+        const Eigen::Vector3d base_linear =
+            camera_rotation_in_base_ * camera_linear -
+            base_angular.cross(camera_translation_in_base_);
+
+        base_twist.linear.x = base_linear.x();
+        base_twist.linear.y = base_linear.y();
+        base_twist.linear.z = base_linear.z();
+        base_twist.angular.x = base_angular.x();
+        base_twist.angular.y = base_angular.y();
+        base_twist.angular.z = base_angular.z();
+    }
+
+    nav_msgs::msg::Odometry makeBaseOdometryMessage(
+        const core::ZedGpuFrame& frame) const {
+        nav_msgs::msg::Odometry message;
+        message.header.stamp = rclcpp::Time(static_cast<int64_t>(frame.timestamp_ns));
+        message.header.frame_id = odom_frame_id_;
+        message.child_frame_id = base_frame_id_;
+
+        const Eigen::Isometry3d base_motion =
+            transformCameraMotionPoseToBase(frame);
+        const Eigen::Quaterniond base_orientation(base_motion.linear());
+        message.pose.pose.position.x = base_motion.translation().x();
+        message.pose.pose.position.y = base_motion.translation().y();
+        message.pose.pose.position.z = base_motion.translation().z();
+        message.pose.pose.orientation.x = base_orientation.x();
+        message.pose.pose.orientation.y = base_orientation.y();
+        message.pose.pose.orientation.z = base_orientation.z();
+        message.pose.pose.orientation.w = base_orientation.w();
+        transformCameraTwistToBase(frame, message.twist.twist);
+        message.pose.covariance =
+            transformCameraCovarianceToBase(frame.pose_covariance);
+        message.twist.covariance =
+            transformCameraCovarianceToBase(frame.twist_covariance);
+        return message;
+    }
+
+    void filterOdometryTwist(nav_msgs::msg::Odometry& message) {
+        auto& linear = message.twist.twist.linear;
+        auto& angular = message.twist.twist.angular;
+        if (!has_filtered_odometry_) {
+            filtered_linear_velocity_ = {linear.x, linear.y, linear.z};
+            filtered_angular_velocity_ = {angular.x, angular.y, angular.z};
+            has_filtered_odometry_ = true;
+        } else {
+            const double keep = 1.0 - odometry_filter_alpha_;
+            filtered_linear_velocity_[0] =
+                odometry_filter_alpha_ * linear.x + keep * filtered_linear_velocity_[0];
+            filtered_linear_velocity_[1] =
+                odometry_filter_alpha_ * linear.y + keep * filtered_linear_velocity_[1];
+            filtered_linear_velocity_[2] =
+                odometry_filter_alpha_ * linear.z + keep * filtered_linear_velocity_[2];
+            filtered_angular_velocity_[0] =
+                odometry_filter_alpha_ * angular.x + keep * filtered_angular_velocity_[0];
+            filtered_angular_velocity_[1] =
+                odometry_filter_alpha_ * angular.y + keep * filtered_angular_velocity_[1];
+            filtered_angular_velocity_[2] =
+                odometry_filter_alpha_ * angular.z + keep * filtered_angular_velocity_[2];
+        }
+        linear.x = filtered_linear_velocity_[0];
+        linear.y = filtered_linear_velocity_[1];
+        linear.z = filtered_linear_velocity_[2];
+        angular.x = filtered_angular_velocity_[0];
+        angular.y = filtered_angular_velocity_[1];
+        angular.z = filtered_angular_velocity_[2];
+    }
+
     void publish_odometry(const core::ZedGpuFrame& frame) {
-        if (!pub_odom_ || !pub_odom_->is_activated() || !flag_odom) {
-            // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500,"ffff%d",(int)flag_odom);
+        if (!odometry_enabled_ || !pub_odom_ || !pub_odom_->is_activated()) return;
+        if (!frame.odometry_valid) {
+            has_filtered_odometry_ = false;
+            RCLCPP_WARN_THROTTLE(
+                get_logger(), *get_clock(), 2000,
+                "ZED odometry tracking is unavailable; suppressing /odom");
             return;
         }
 
-        nav_msgs::msg::Odometry odom_msg;
-        odom_msg.header.stamp = rclcpp::Time(static_cast<int64_t>(frame.timestamp_ns));
-        odom_msg.header.frame_id = "odom";
-        odom_msg.child_frame_id = "base_link";
-
-        odom_msg.pose.pose.position.x = frame.pose_x;
-        odom_msg.pose.pose.position.y = frame.pose_y;
-        odom_msg.pose.pose.position.z = frame.pose_z;
-        odom_msg.pose.pose.orientation.x = frame.quat_x;
-        odom_msg.pose.pose.orientation.y = frame.quat_y;
-        odom_msg.pose.pose.orientation.z = frame.quat_z;
-        odom_msg.pose.pose.orientation.w = frame.quat_w;
-
-        pub_odom_->publish(std::move(odom_msg));
+        auto message = makeBaseOdometryMessage(frame);
+        filterOdometryTwist(message);
+        pub_odom_->publish(std::move(message));
     }
 
     void rgb_callback(const sensor_msgs::msg::Image::SharedPtr msg) {
@@ -961,6 +1142,33 @@ void update_loop() {
         }
     }
 
+    Eigen::Vector3d transformCameraPointToBase(
+        const geometry_msgs::msg::Point& camera_point) const {
+        return camera_rotation_in_base_ * Eigen::Vector3d(
+            camera_point.x, camera_point.y, camera_point.z) +
+            camera_translation_in_base_;
+    }
+
+    std::pair<double, double> transformCameraRoadLineToBase(
+        double signed_lateral_point, double camera_yaw) const {
+        const Eigen::Vector3d camera_line_point(0.0, signed_lateral_point, 0.0);
+        const Eigen::Vector3d camera_line_direction(
+            std::cos(camera_yaw), std::sin(camera_yaw), 0.0);
+        const Eigen::Vector3d base_line_point =
+            camera_rotation_in_base_ * camera_line_point + camera_translation_in_base_;
+        const Eigen::Vector3d base_line_direction =
+            camera_rotation_in_base_ * camera_line_direction;
+        const double base_yaw =
+            std::atan2(base_line_direction.y(), base_line_direction.x());
+        if (std::abs(base_line_direction.x()) <= 1e-6) {
+            return {base_line_point.y(), base_yaw};
+        }
+        const double parameter = -base_line_point.x() / base_line_direction.x();
+        return {
+            base_line_point.y() + parameter * base_line_direction.y(),
+            base_yaw};
+    }
+
     void publish_perception_msg(const std::vector<core::Obstacle3DStat>& obstacles, const SceneMetrics& metrics) {
         if (!pub_perception_) return;
         
@@ -969,21 +1177,56 @@ void update_loop() {
         msg->header.frame_id = "base_link"; // 我们已经转换到了车体坐标系
 
         // 1. 紧急避障信息
-        msg->min_distance = metrics.min_dist;
-        msg->min_point = metrics.min_point;
+        if (metrics.min_dist < 9.9f) {
+            const Eigen::Vector3d base_min_point =
+                transformCameraPointToBase(metrics.min_point);
+            msg->min_point.x = base_min_point.x();
+            msg->min_point.y = base_min_point.y();
+            msg->min_point.z = base_min_point.z();
+            // The legacy safety metric is forward distance, not Euclidean
+            // range. Express it from the wheelchair center after correction.
+            msg->min_distance = static_cast<float>(base_min_point.x());
+        } else {
+            msg->min_distance = metrics.min_dist;
+            msg->min_point = metrics.min_point;
+        }
 
         // 2. 巡线与 LQR 信息
         msg->has_road_edge = metrics.has_line;
-        msg->right_distance = metrics.road_dist;     // 对应 .msg 中的 right_distance
-        msg->road_yaw_error = metrics.road_yaw_rad;  // 对应 .msg 中的 road_yaw_error (弧度)
+        if (metrics.has_line) {
+            const auto [right_boundary_y, base_yaw] =
+                transformCameraRoadLineToBase(-metrics.road_dist,
+                                              metrics.road_yaw_rad);
+            msg->right_distance = static_cast<float>(-right_boundary_y);
+            msg->road_yaw_error = static_cast<float>(base_yaw);
+        } else {
+            msg->right_distance = metrics.road_dist;
+            msg->road_yaw_error = metrics.road_yaw_rad;
+        }
         msg->has_road_width = metrics.has_road_width;
-        msg->left_distance = metrics.left_distance;
+        if (metrics.has_road_width) {
+            const auto [left_boundary_y, unused_yaw] =
+                transformCameraRoadLineToBase(metrics.left_distance,
+                                              metrics.road_yaw_rad);
+            (void)unused_yaw;
+            msg->left_distance = static_cast<float>(left_boundary_y);
+        } else {
+            msg->left_distance = metrics.left_distance;
+        }
         msg->road_width = metrics.road_width;
         msg->target_right_distance = metrics.target_right_distance;
 
         // 3. 调试信息
-        msg->debug_line_pt1 = metrics.debug_pt1;
-        msg->debug_line_pt2 = metrics.debug_pt2;
+        const Eigen::Vector3d debug_point_1 =
+            transformCameraPointToBase(metrics.debug_pt1);
+        const Eigen::Vector3d debug_point_2 =
+            transformCameraPointToBase(metrics.debug_pt2);
+        msg->debug_line_pt1.x = debug_point_1.x();
+        msg->debug_line_pt1.y = debug_point_1.y();
+        msg->debug_line_pt1.z = debug_point_1.z();
+        msg->debug_line_pt2.x = debug_point_2.x();
+        msg->debug_line_pt2.y = debug_point_2.y();
+        msg->debug_line_pt2.z = debug_point_2.z();
 
         // 4. 完整的障碍物列表
         for (const auto& obs : obstacles) {
@@ -1172,6 +1415,17 @@ void update_loop() {
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_rect_;
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_ellipse_;
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_right_road_edge_;
+
+    bool odometry_enabled_{false};
+    double odometry_filter_alpha_{0.25};
+    std::string odom_frame_id_{"odom"};
+    std::string base_frame_id_{"base_link"};
+    Eigen::Vector3d camera_translation_in_base_{Eigen::Vector3d::Zero()};
+    Eigen::Matrix3d camera_rotation_in_base_{Eigen::Matrix3d::Identity()};
+    Eigen::Isometry3d base_T_camera_{Eigen::Isometry3d::Identity()};
+    bool has_filtered_odometry_{false};
+    std::array<double, 3> filtered_linear_velocity_{};
+    std::array<double, 3> filtered_angular_velocity_{};
 
     // 2. 临时容器 (用于存放拆分后的点云数据)
     std::vector<float4> cloud_rect_vec_;    // 列表1：右侧边界

@@ -1,7 +1,5 @@
 #include "wheel_perception/core/zed_driver.hpp"
 
-bool flag_odom = false,flag_obstacle = false;
-
 // struct MaskRecord {
 //     uint8_t mask[ai_w * ai_h];  // BiSeNet argmax 结果（每像素 1 字节类别 ID）
 //     float   pose_x, pose_y;     // 记录时刻 ZED 里程计世界坐标 (m)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,7 +9,6 @@
 #include <opencv2/opencv.hpp> // 引用 OpenCV
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-extern bool flag_odom,flag_obstacle;      // 控制里程计采集
 extern double current_x_,current_y_,current_z_,
        current_roll_,  // 横滚角 (rad)
        current_pitch_,  // 俯仰角 (rad)
@@ -44,6 +44,19 @@ struct ZedGpuFrame {
     float quat_z = 0.0f;
     float quat_w = 1.0f;
 
+    // ZED positional tracking output. Twist is expressed in the SDK camera
+    // frame (X forward, Y left, Z up). FusionNode owns the parameterized
+    // camera-to-base pose, twist and covariance conversion.
+    float linear_velocity_x = 0.0f;
+    float linear_velocity_y = 0.0f;
+    float linear_velocity_z = 0.0f;
+    float angular_velocity_x = 0.0f;
+    float angular_velocity_y = 0.0f;
+    float angular_velocity_z = 0.0f;
+    std::array<double, 36> pose_covariance{};
+    std::array<double, 36> twist_covariance{};
+    bool odometry_valid = false;
+
 
 };
 
@@ -62,6 +75,7 @@ public:
         int depth_mode = 1; // 对应 sl::DEPTH_MODE::PERFORMANCE
         int coordinate_system = 3;
         std::string svo_path = ""; // SVO 文件路径，空表示实时相机
+        bool enable_odometry = false;
     };
 
     ZedDriver();
@@ -115,5 +129,3 @@ private:
 
 }
 }
-
-

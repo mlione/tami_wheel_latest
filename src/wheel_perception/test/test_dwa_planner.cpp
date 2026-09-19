@@ -131,17 +131,18 @@ TEST(DWAPlanner, StartsStraightFromRestWithRealisticAccelerationLimit) {
   EXPECT_GT(result.best.command.linear, 0.0);
   EXPECT_NEAR(result.best.command.angular, 0.0, 1e-9);
 
-  // From rest at 20 Hz the reachable speed is only 0.025 m/s. These rolling
-  // turn candidates must still exist so an obstacle cannot trap the planner
-  // in a stop -> no-path -> stop loop.
-  const bool has_low_speed_turn = std::any_of(
+  // The BLE actuator cannot execute the raw 0.025 m/s dynamic-window sample.
+  // The planner crosses that deadzone at the first executable speed instead.
+  const bool has_executable_start = std::any_of(
       result.candidates.begin(), result.candidates.end(),
       [&config](const Trajectory& candidate) {
-        return candidate.command.linear > config.minimum_turning_velocity &&
-               candidate.command.linear < 0.10 &&
-               std::abs(candidate.command.angular) > 1e-6;
+        return std::abs(candidate.command.linear - config.minimum_moving_velocity) < 1e-6;
       });
-  EXPECT_TRUE(has_low_speed_turn);
+  EXPECT_TRUE(has_executable_start);
+  for (const auto& candidate : result.candidates) {
+    EXPECT_FALSE(candidate.command.linear > 1e-6 &&
+                 candidate.command.linear < config.minimum_moving_velocity - 1e-6);
+  }
 }
 
 TEST(DWAPlanner, SelectsLowSpeedRollingTurnFromRest) {
@@ -161,9 +162,43 @@ TEST(DWAPlanner, SelectsLowSpeedRollingTurnFromRest) {
       planner.plan(Pose2D{}, Velocity{}, left_turning_road, {}, MotionHistory{}, 0.05);
 
   ASSERT_TRUE(result.valid);
-  EXPECT_GT(result.best.command.linear, config.minimum_turning_velocity);
-  EXPECT_LT(result.best.command.linear, 0.10);
+  EXPECT_GE(result.best.command.linear, config.minimum_moving_velocity);
   EXPECT_GT(result.best.command.angular, 0.0);
+}
+
+TEST(DWAPlanner, RejectsCommandsOutsideBleGearEnvelope) {
+  DWAPlanner::Config config;
+  DWAPlanner planner(config);
+
+  EXPECT_TRUE(planner.isHardwareFeasible({0.0, 0.0}));
+  EXPECT_FALSE(planner.isHardwareFeasible({0.0, 0.1}));
+  EXPECT_FALSE(planner.isHardwareFeasible({0.10, 0.0}));
+  EXPECT_TRUE(planner.isHardwareFeasible({0.20, 0.30}));
+  EXPECT_FALSE(planner.isHardwareFeasible({0.20, 0.31}));
+  EXPECT_TRUE(planner.isHardwareFeasible({0.50, 0.60}));
+  EXPECT_FALSE(planner.isHardwareFeasible({0.50, 0.61}));
+  EXPECT_TRUE(planner.isHardwareFeasible({0.80, 0.90}));
+  EXPECT_FALSE(planner.isHardwareFeasible({0.80, 0.91}));
+}
+
+TEST(DWAPlanner, KeepsStopCandidateAtMinimumExecutableSpeed) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 0.5;
+  DWAPlanner planner(config);
+  MotionHistory history;
+  history.previous_command = {config.minimum_moving_velocity, 0.0};
+  history.valid = true;
+
+  const auto result = planner.plan(Pose2D{}, history.previous_command, RoadModel{}, {},
+                                   history, 0.1);
+
+  const auto stop = std::find_if(
+      result.candidates.begin(), result.candidates.end(), [](const Trajectory& candidate) {
+        return std::abs(candidate.command.linear) <= 1e-6 &&
+               std::abs(candidate.command.angular) <= 1e-6;
+      });
+  ASSERT_NE(stop, result.candidates.end());
+  EXPECT_TRUE(stop->dynamic_feasible);
 }
 
 TEST(DWAPlanner, RespectsMinimumTurningRadius) {

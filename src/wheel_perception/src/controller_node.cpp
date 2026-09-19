@@ -24,6 +24,8 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 #include "wheel_msgs/msg/perception_output.hpp"
 #include "wheel_perception/core/lqr_controller.hpp"
@@ -88,7 +90,13 @@ class ControllerNode : public rclcpp::Node {
     // Shared with FusionNode. It selects only the source of velocity feedback;
     // all DWA/LQR/safety parameters remain common to both operating modes.
     declare_parameter("zed.use_dataset_mode", true);
-    declare_parameter("lqr.gain", 60.0);
+    declare_parameter("zed.odometry.base_frame", "base_link");
+    declare_parameter("zed.odometry.extrinsic.translation_x", 0.0);
+    declare_parameter("zed.odometry.extrinsic.translation_y", 0.0);
+    declare_parameter("zed.odometry.extrinsic.translation_z", 0.0);
+    declare_parameter("zed.odometry.extrinsic.roll", 0.0);
+    declare_parameter("zed.odometry.extrinsic.pitch", 0.0);
+    declare_parameter("zed.odometry.extrinsic.yaw", 0.0);
     declare_parameter("lqr.q_pos", 10.0);
     declare_parameter("lqr.q_ang", 10.0);
     declare_parameter("lqr.q_integral", 0.0);
@@ -141,6 +149,13 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("dwa.obstacle_distance_threshold", 2.5);
     declare_parameter("dwa.robot_radius", 0.45);
     declare_parameter("dwa.road_margin", 0.15);
+    declare_parameter("dwa.hardware_constraints.enabled", true);
+    declare_parameter("dwa.hardware_constraints.minimum_moving_velocity", 0.15);
+    declare_parameter("dwa.hardware_constraints.gear_0001_threshold", 0.35);
+    declare_parameter("dwa.hardware_constraints.gear_0003_threshold", 0.70);
+    declare_parameter("dwa.hardware_constraints.gear_0001_max_angular", 0.30);
+    declare_parameter("dwa.hardware_constraints.gear_0003_max_angular", 0.60);
+    declare_parameter("dwa.hardware_constraints.gear_0005_max_angular", 0.90);
     declare_parameter("dwa.max_obstacle_points", 2500);
     // DWA is a 2-D base planner. Only project points inside the wheelchair's
     // collision-height band and local planning rectangle; canopy/high points
@@ -156,20 +171,37 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("safety.emergency_stop_distance", 0.8);
     declare_parameter("safety.perception_timeout", 0.5);
     declare_parameter("safety.stop_on_no_path", true);
+    declare_parameter("velocity_feedback.timeout", 0.3);
+    declare_parameter("velocity_feedback.stop_on_timeout", false);
+    declare_parameter("velocity_feedback.accept_zero_twist", true);
   }
 
   void configureControllers() {
     dataset_mode_ = get_parameter("zed.use_dataset_mode").as_bool();
+    base_frame_id_ = get_parameter("zed.odometry.base_frame").as_string();
+    camera_translation_in_base_ = Eigen::Vector3d(
+        get_parameter("zed.odometry.extrinsic.translation_x").as_double(),
+        get_parameter("zed.odometry.extrinsic.translation_y").as_double(),
+        get_parameter("zed.odometry.extrinsic.translation_z").as_double());
+    const double camera_roll =
+        get_parameter("zed.odometry.extrinsic.roll").as_double();
+    const double camera_pitch =
+        get_parameter("zed.odometry.extrinsic.pitch").as_double();
+    const double camera_yaw =
+        get_parameter("zed.odometry.extrinsic.yaw").as_double();
+    camera_rotation_in_base_ =
+        (Eigen::AngleAxisd(camera_yaw, Eigen::Vector3d::UnitZ()) *
+         Eigen::AngleAxisd(camera_pitch, Eigen::Vector3d::UnitY()) *
+         Eigen::AngleAxisd(camera_roll, Eigen::Vector3d::UnitX()))
+            .toRotationMatrix();
 
     LqrController::Config lqr_config;
     lqr_config.q_pos = get_parameter("lqr.q_pos").as_double();
     lqr_config.q_ang = get_parameter("lqr.q_ang").as_double();
     lqr_config.q_integral = get_parameter("lqr.q_integral").as_double();
     lqr_config.integral_limit = get_parameter("lqr.integral_limit").as_double();
-    lqr_config.lqr_gain = get_parameter("lqr.gain").as_double();
     lqr_config.k_w = get_parameter("lqr.k_w").as_double();
     lqr_config.model_v = get_parameter("lqr.model_v").as_double();
-    lqr_config.dt = get_parameter("dwa.simulation_time_step").as_double();
     lqr_ = std::make_unique<LqrController>(lqr_config);
 
     dwa::DWAPlanner::Config dwa_config;
@@ -220,12 +252,28 @@ class ControllerNode : public rclcpp::Node {
         get_parameter("dwa.obstacle_distance_threshold").as_double();
     dwa_config.robot_radius = get_parameter("dwa.robot_radius").as_double();
     dwa_config.road_margin = get_parameter("dwa.road_margin").as_double();
+    dwa_config.enable_hardware_constraints =
+        get_parameter("dwa.hardware_constraints.enabled").as_bool();
+    dwa_config.minimum_moving_velocity =
+        get_parameter("dwa.hardware_constraints.minimum_moving_velocity").as_double();
+    dwa_config.gear_0001_selection_threshold =
+        get_parameter("dwa.hardware_constraints.gear_0001_threshold").as_double();
+    dwa_config.gear_0003_selection_threshold =
+        get_parameter("dwa.hardware_constraints.gear_0003_threshold").as_double();
+    dwa_config.gear_0001_maximum_angular_velocity =
+        get_parameter("dwa.hardware_constraints.gear_0001_max_angular").as_double();
+    dwa_config.gear_0003_maximum_angular_velocity =
+        get_parameter("dwa.hardware_constraints.gear_0003_max_angular").as_double();
+    dwa_config.gear_0005_maximum_angular_velocity =
+        get_parameter("dwa.hardware_constraints.gear_0005_max_angular").as_double();
     max_angular_velocity_ = dwa_config.max_angular_velocity;
     simulation_dt_ = dwa_config.simulation_time_step;
     max_angular_acceleration_ = dwa_config.max_angular_acceleration;
     max_linear_acceleration_ = dwa_config.max_acceleration;
     minimum_turning_velocity_ = dwa_config.minimum_turning_velocity;
     minimum_turning_radius_ = dwa_config.minimum_turning_radius;
+    minimum_moving_velocity_ = dwa_config.enable_hardware_constraints
+        ? dwa_config.minimum_moving_velocity : 0.0;
     prediction_time_ = dwa_config.prediction_time;
     cruise_velocity_ = std::clamp(
         get_parameter("dwa.cruise_velocity").as_double(),
@@ -245,6 +293,11 @@ class ControllerNode : public rclcpp::Node {
     RCLCPP_INFO(get_logger(), "DWA velocity source: %s",
                 dataset_mode_ ? "last controller output (dataset mode)"
                               : "odometry twist (real-wheelchair mode)");
+    RCLCPP_INFO(
+        get_logger(),
+        "DWA camera-to-base extrinsic xyz=(%.3f, %.3f, %.3f), rpy=(%.3f, %.3f, %.3f)",
+        camera_translation_in_base_.x(), camera_translation_in_base_.y(),
+        camera_translation_in_base_.z(), camera_roll, camera_pitch, camera_yaw);
   }
 
   void odomCallback(const nav_msgs::msg::Odometry::SharedPtr message) {
@@ -262,18 +315,26 @@ class ControllerNode : public rclcpp::Node {
     // but never feed its velocity (or a velocity reconstructed at replay FPS)
     // into the new controller's dynamic window.
     if (dataset_mode_) {
+      std::lock_guard<std::mutex> lock(velocity_mutex_);
       robot_state_ = next_state;
       return;
     }
 
     const double measured_v = message->twist.twist.linear.x;
     const double measured_w = message->twist.twist.angular.z;
-    if (std::isfinite(measured_v) && std::isfinite(measured_w) &&
-        (std::abs(measured_v) > 1e-3 || std::abs(measured_w) > 1e-3)) {
+    const bool accept_zero_twist =
+        get_parameter("velocity_feedback.accept_zero_twist").as_bool();
+    const bool direct_twist_valid = std::isfinite(measured_v) &&
+        std::isfinite(measured_w) &&
+        (accept_zero_twist || std::abs(measured_v) > 1e-3 ||
+         std::abs(measured_w) > 1e-3);
+    const rclcpp::Time stamp(message->header.stamp);
+    std::lock_guard<std::mutex> lock(velocity_mutex_);
+    if (direct_twist_valid) {
       measured_velocity_ = {measured_v, measured_w};
       has_velocity_feedback_ = true;
+      last_velocity_feedback_time_ = now();
     } else {
-      const rclcpp::Time stamp(message->header.stamp);
       if (last_odom_stamp_.nanoseconds() > 0 && stamp > last_odom_stamp_) {
         const double dt = (stamp - last_odom_stamp_).seconds();
         if (dt > 0.001 && dt < 1.0) {
@@ -286,11 +347,63 @@ class ControllerNode : public rclcpp::Node {
                                  dt;
           measured_velocity_ = {linear, angular};
           has_velocity_feedback_ = true;
+          last_velocity_feedback_time_ = now();
         }
       }
-      last_odom_stamp_ = stamp;
     }
+    last_odom_stamp_ = stamp;
     robot_state_ = next_state;
+  }
+
+  bool velocityFeedbackFreshLocked(const rclcpp::Time& reference_time) const {
+    if (!has_velocity_feedback_ || last_velocity_feedback_time_.nanoseconds() == 0) {
+      return false;
+    }
+    const double timeout = get_parameter("velocity_feedback.timeout").as_double();
+    return timeout > 0.0 && reference_time >= last_velocity_feedback_time_ &&
+           (reference_time - last_velocity_feedback_time_).seconds() <= timeout;
+  }
+
+  struct PlanningMotionSnapshot {
+    dwa::Pose2D pose;
+    dwa::Velocity velocity;
+    bool feedback_fresh{false};
+  };
+
+  PlanningMotionSnapshot planningMotionSnapshot(
+      const rclcpp::Time& reference_time) {
+    std::lock_guard<std::mutex> lock(velocity_mutex_);
+    PlanningMotionSnapshot snapshot;
+    snapshot.pose = robot_state_;
+    snapshot.feedback_fresh = !dataset_mode_ &&
+        velocityFeedbackFreshLocked(reference_time);
+    snapshot.velocity = dataset_mode_ || !snapshot.feedback_fresh
+        ? last_output_velocity_ : measured_velocity_;
+    return snapshot;
+  }
+
+  Eigen::Vector3d transformCameraPointToBase(
+      double x, double y, double z) const {
+    return camera_rotation_in_base_ * Eigen::Vector3d(x, y, z) +
+           camera_translation_in_base_;
+  }
+
+  dwa::RoadModel makeBaseRoadModel(
+      const wheel_msgs::msg::PerceptionOutput& message) const {
+    dwa::RoadModel road;
+    road.has_right_edge = message.has_road_edge;
+    road.has_width = message.has_road_width;
+    road.right_distance = message.right_distance;
+    road.width = message.road_width;
+    road.target_right_distance =
+        get_parameter("dynamic_aim.enabled").as_bool() &&
+                message.target_right_distance > 0.01
+            ? message.target_right_distance
+            : get_parameter("lqr.aim_dist").as_double();
+    // FusionNode publishes road geometry in base_link after applying the same
+    // camera extrinsic used by odometry and obstacle points.
+    road.yaw_error = message.road_yaw_error;
+    return road;
   }
 
   void cloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr message) {
@@ -317,11 +430,15 @@ class ControllerNode : public rclcpp::Node {
     sensor_msgs::PointCloud2ConstIterator<float> z(*message, "z");
     for (std::size_t index = 0; index < total; ++index, ++x, ++y, ++z) {
       if (!std::isfinite(*x) || !std::isfinite(*y) || !std::isfinite(*z)) continue;
-      if (*x < min_x || *x > max_x || *y < min_y || *y > max_y ||
-          *z < min_z || *z > max_z) {
+      const Eigen::Vector3d base_point = transformCameraPointToBase(*x, *y, *z);
+      if (base_point.x() < min_x || base_point.x() > max_x ||
+          base_point.y() < min_y || base_point.y() > max_y ||
+          base_point.z() < min_z || base_point.z() > max_z) {
         continue;
       }
-      eligible.push_back({*x, *y, *z});
+      eligible.push_back({static_cast<float>(base_point.x()),
+                          static_cast<float>(base_point.y()),
+                          static_cast<float>(base_point.z())});
     }
 
     std::vector<dwa::ObstaclePoint> points;
@@ -340,6 +457,7 @@ class ControllerNode : public rclcpp::Node {
     if (pub_dwa_obstacle_cloud_->get_subscription_count() > 0) {
       sensor_msgs::msg::PointCloud2 cloud;
       cloud.header = message->header;
+      cloud.header.frame_id = base_frame_id_;
       cloud.height = 1;
       cloud.width = static_cast<std::uint32_t>(points.size());
       cloud.is_dense = true;
@@ -387,26 +505,23 @@ class ControllerNode : public rclcpp::Node {
       obstacles = obstacles_;
     }
 
-    dwa::RoadModel road;
-    road.has_right_edge = message->has_road_edge;
-    road.has_width = message->has_road_width;
-    road.right_distance = message->right_distance;
-    road.width = message->road_width;
-    road.target_right_distance =
-        get_parameter("dynamic_aim.enabled").as_bool() &&
-                message->target_right_distance > 0.01
-            ? message->target_right_distance
-            : get_parameter("lqr.aim_dist").as_double();
-    // FusionNode already publishes this value in radians.
-    road.yaw_error = message->road_yaw_error;
+    const dwa::RoadModel road = makeBaseRoadModel(*message);
 
-    const dwa::Velocity planning_velocity = dataset_mode_
-        ? last_output_velocity_
-        : (has_velocity_feedback_ ? measured_velocity_ : last_output_velocity_);
+    const auto motion = planningMotionSnapshot(callback_time);
+    if (!dataset_mode_ && !motion.feedback_fresh) {
+      RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Velocity feedback unavailable or stale; using last controller output");
+      if (get_parameter("velocity_feedback.stop_on_timeout").as_bool()) {
+        publishStop("velocity feedback timeout");
+        return;
+      }
+    }
+    const dwa::Velocity planning_velocity = motion.velocity;
     const bool use_dwa = updateDwaActivation(obstacles);
     dwa::DWAPlanner::Result result;
     if (use_dwa) {
-      result = dwa_->plan(robot_state_, planning_velocity, road, obstacles,
+      result = dwa_->plan(motion.pose, planning_velocity, road, obstacles,
                           motion_history_, control_dt);
     } else {
       result.valid = true;
@@ -442,10 +557,15 @@ class ControllerNode : public rclcpp::Node {
           std::abs(result.best.command.linear) / minimum_turning_radius_;
       tracked_w = std::clamp(tracked_w, -curvature_limited_w, curvature_limited_w);
     }
+    // LQR is downstream of DWA and can otherwise push a valid planner command
+    // outside the BLE wheelchair's executable envelope.
+    const double hardware_limited_w =
+        dwa_->maximumHardwareAngularVelocity(result.best.command.linear);
+    tracked_w = std::clamp(tracked_w, -hardware_limited_w, hardware_limited_w);
 
     geometry_msgs::msg::Twist command;
     command.linear.x = result.best.command.linear;
-    command.angular.z = lqr_->toActuatorCommand(tracked_w);
+    command.angular.z = tracked_w;
     pub_cmd_->publish(command);
 
     if (use_dwa) {
@@ -463,15 +583,22 @@ class ControllerNode : public rclcpp::Node {
       // not from stale DWA state left over from a previous obstacle.
       motion_history_ = {};
     }
-    last_output_velocity_ = {result.best.command.linear, tracked_w};
+    {
+      std::lock_guard<std::mutex> lock(velocity_mutex_);
+      last_output_velocity_ = {result.best.command.linear, tracked_w};
+    }
     last_tracked_angular_ = tracked_w;
 
     RCLCPP_INFO_THROTTLE(
         get_logger(), *get_clock(), 500,
-        "%s+LQR: v=%.2f w_ref=%.2f w_track=%.2f lat_err=%.2f heading_err=%.3f "
-        "right=%.2f road_yaw=%.3f edge=%s clearance=%.2f score=%.2f obstacles=%zu",
+        "%s+LQR: v=%.2f w_ref=%.2f w_track=%.2f velocity_source=%s "
+        "lat_err=%.2f heading_err=%.3f right=%.2f road_yaw=%.3f edge=%s "
+        "clearance=%.2f score=%.2f obstacles=%zu",
         use_dwa ? "DWA" : "CRUISE", command.linear.x,
-        result.best.command.angular, tracked_w, lateral_error, heading_error,
+        result.best.command.angular, tracked_w,
+        dataset_mode_ ? "controller_output(dataset)"
+                      : (motion.feedback_fresh ? "zed_odom" : "controller_output(fallback)"),
+        lateral_error, heading_error,
         road.right_distance, road.yaw_error, road.has_right_edge ? "true" : "false",
         result.best.minimum_clearance, result.best.score, obstacles.size());
   }
@@ -517,6 +644,12 @@ class ControllerNode : public rclcpp::Node {
         minimum_velocity, current_velocity.linear + max_linear_acceleration_ * dt);
     trajectory.command.linear =
         std::clamp(cruise_velocity_, minimum_velocity, maximum_velocity);
+    if (trajectory.command.linear > 0.0 &&
+        trajectory.command.linear < minimum_moving_velocity_) {
+      // Cross the BLE forward deadzone atomically. Values below this boundary
+      // are rejected by the bridge and would leave the wheelchair stationary.
+      trajectory.command.linear = minimum_moving_velocity_;
+    }
     trajectory.command.angular = 0.0;
     trajectory.collision_free = true;
     trajectory.inside_road = true;
@@ -552,7 +685,10 @@ class ControllerNode : public rclcpp::Node {
     pub_cmd_->publish(stop);
     pub_dwa_cmd_->publish(stop);
     motion_history_ = {};
-    last_output_velocity_ = {};
+    {
+      std::lock_guard<std::mutex> lock(velocity_mutex_);
+      last_output_velocity_ = {};
+    }
     last_tracked_angular_ = 0.0;
     lqr_->reset();
     nav_msgs::msg::Path empty_path;
@@ -702,6 +838,7 @@ class ControllerNode : public rclcpp::Node {
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_dwa_obstacle_cloud_;
 
   std::mutex obstacle_mutex_;
+  std::mutex velocity_mutex_;
   std::vector<dwa::ObstaclePoint> obstacles_;
   dwa::Pose2D robot_state_;
   dwa::Velocity measured_velocity_;
@@ -709,11 +846,15 @@ class ControllerNode : public rclcpp::Node {
   dwa::Velocity last_output_velocity_;
   bool has_velocity_feedback_{false};
   bool dataset_mode_{true};
+  std::string base_frame_id_{"base_link"};
+  Eigen::Vector3d camera_translation_in_base_{Eigen::Vector3d::Zero()};
+  Eigen::Matrix3d camera_rotation_in_base_{Eigen::Matrix3d::Identity()};
   double max_angular_velocity_{1.0};
   double max_linear_acceleration_{0.5};
   double max_angular_acceleration_{1.5};
   double minimum_turning_velocity_{0.001};
   double minimum_turning_radius_{0.6};
+  double minimum_moving_velocity_{0.15};
   double simulation_dt_{0.1};
   double prediction_time_{2.5};
   double cruise_velocity_{0.6};
@@ -726,6 +867,7 @@ class ControllerNode : public rclcpp::Node {
   bool dwa_active_{false};
   double last_tracked_angular_{0.0};
   rclcpp::Time last_odom_stamp_{0, 0, RCL_ROS_TIME};
+  rclcpp::Time last_velocity_feedback_time_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_perception_time_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_control_time_{0, 0, RCL_ROS_TIME};
   rclcpp::TimerBase::SharedPtr watchdog_timer_;
