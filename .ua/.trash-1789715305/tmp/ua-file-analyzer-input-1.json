@@ -1,0 +1,50 @@
+{
+  "projectRoot": "/home/x/tami/wheel_latest",
+  "batchFiles": [
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module.cpp",
+      "language": "cpp",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module.hpp",
+      "language": "cpp",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module_opencv2.cpp",
+      "language": "cpp",
+      "sizeLines": 263,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module_opencv3.cpp",
+      "language": "cpp",
+      "sizeLines": 372,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/pycompat.hpp",
+      "language": "cpp",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "src/vision_opencv/cv_bridge/src/module.cpp": [
+      "src/vision_opencv/cv_bridge/src/module.hpp"
+    ],
+    "src/vision_opencv/cv_bridge/src/module.hpp": [],
+    "src/vision_opencv/cv_bridge/src/module_opencv2.cpp": [
+      "src/vision_opencv/cv_bridge/src/module.hpp"
+    ],
+    "src/vision_opencv/cv_bridge/src/module_opencv3.cpp": [
+      "src/vision_opencv/cv_bridge/src/module.hpp",
+      "src/vision_opencv/cv_bridge/src/pycompat.hpp"
+    ],
+    "src/vision_opencv/cv_bridge/src/pycompat.hpp": []
+  },
+  "neighborMap": {}
+}

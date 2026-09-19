@@ -1,0 +1,1559 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "src/wheel_phone_gateway/test/test_protocol.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 104,
+      "nonEmptyLines": 80,
+      "functions": [
+        {
+          "name": "test_encode_short_text_frame",
+          "startLine": 23,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "test_encode_large_text_frame",
+          "startLine": 28,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "test_resize_for_stream",
+          "startLine": 36,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "test_send_binary_uses_binary_opcode",
+          "startLine": 43,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "test_validate_launch_request_only_accepts_perception",
+          "startLine": 51,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "test_launch_manager_start_is_idempotent",
+          "startLine": 64,
+          "endLine": 73,
+          "params": [
+            "popen"
+          ]
+        },
+        {
+          "name": "test_launch_manager_reports_unexpected_exit",
+          "startLine": 77,
+          "endLine": 87,
+          "params": [
+            "popen"
+          ]
+        },
+        {
+          "name": "test_launch_manager_stops_process_group",
+          "startLine": 92,
+          "endLine": 104,
+          "params": [
+            "popen",
+            "killpg"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RecordingConnection",
+          "startLine": 13,
+          "endLine": 20,
+          "methods": [
+            "__init__",
+            "sendall"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RecordingConnection",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "test_encode_short_text_frame",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "test_encode_large_text_frame",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "test_resize_for_stream",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "test_send_binary_uses_binary_opcode",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "test_validate_launch_request_only_accepts_perception",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "test_launch_manager_start_is_idempotent",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "test_launch_manager_reports_unexpected_exit",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "test_launch_manager_stops_process_group",
+          "line": 90,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_encode_short_text_frame",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_encode_large_text_frame",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 31
+        },
+        {
+          "caller": "test_resize_for_stream",
+          "callee": "np.zeros",
+          "lineNumber": 38
+        },
+        {
+          "caller": "test_resize_for_stream",
+          "callee": "resize_for_stream",
+          "lineNumber": 39
+        },
+        {
+          "caller": "test_send_binary_uses_binary_opcode",
+          "callee": "RecordingConnection",
+          "lineNumber": 45
+        },
+        {
+          "caller": "test_send_binary_uses_binary_opcode",
+          "callee": "WebSocketClient",
+          "lineNumber": 46
+        },
+        {
+          "caller": "test_send_binary_uses_binary_opcode",
+          "callee": "client.send_binary",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_validate_launch_request_only_accepts_perception",
+          "callee": "validate_launch_request",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_validate_launch_request_only_accepts_perception",
+          "callee": "pytest.raises",
+          "lineNumber": 54
+        },
+        {
+          "caller": "test_validate_launch_request_only_accepts_perception",
+          "callee": "validate_launch_request",
+          "lineNumber": 55
+        },
+        {
+          "caller": "test_validate_launch_request_only_accepts_perception",
+          "callee": "pytest.raises",
+          "lineNumber": 56
+        },
+        {
+          "caller": "test_validate_launch_request_only_accepts_perception",
+          "callee": "validate_launch_request",
+          "lineNumber": 57
+        },
+        {
+          "caller": "test_launch_manager_start_is_idempotent",
+          "callee": "Mock",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_launch_manager_start_is_idempotent",
+          "callee": "LaunchProcessManager",
+          "lineNumber": 69
+        },
+        {
+          "caller": "test_launch_manager_start_is_idempotent",
+          "callee": "manager.start",
+          "lineNumber": 71
+        },
+        {
+          "caller": "test_launch_manager_start_is_idempotent",
+          "callee": "manager.start",
+          "lineNumber": 72
+        },
+        {
+          "caller": "test_launch_manager_start_is_idempotent",
+          "callee": "popen.assert_called_once",
+          "lineNumber": 73
+        },
+        {
+          "caller": "test_launch_manager_reports_unexpected_exit",
+          "callee": "Mock",
+          "lineNumber": 79
+        },
+        {
+          "caller": "test_launch_manager_reports_unexpected_exit",
+          "callee": "LaunchProcessManager",
+          "lineNumber": 82
+        },
+        {
+          "caller": "test_launch_manager_reports_unexpected_exit",
+          "callee": "manager.start",
+          "lineNumber": 83
+        },
+        {
+          "caller": "test_launch_manager_reports_unexpected_exit",
+          "callee": "manager.status",
+          "lineNumber": 85
+        },
+        {
+          "caller": "test_launch_manager_stops_process_group",
+          "callee": "Mock",
+          "lineNumber": 97
+        },
+        {
+          "caller": "test_launch_manager_stops_process_group",
+          "callee": "LaunchProcessManager",
+          "lineNumber": 100
+        },
+        {
+          "caller": "test_launch_manager_stops_process_group",
+          "callee": "manager.start",
+          "lineNumber": 101
+        },
+        {
+          "caller": "test_launch_manager_stops_process_group",
+          "callee": "manager.stop",
+          "lineNumber": 103
+        },
+        {
+          "caller": "test_launch_manager_stops_process_group",
+          "callee": "killpg.assert_called_once_with",
+          "lineNumber": 104
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 9,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 505,
+      "nonEmptyLines": 454,
+      "functions": [
+        {
+          "name": "encode_websocket_frame",
+          "startLine": 35,
+          "endLine": 44,
+          "params": [
+            "payload",
+            "opcode"
+          ]
+        },
+        {
+          "name": "read_exact",
+          "startLine": 47,
+          "endLine": 55,
+          "params": [
+            "connection",
+            "size"
+          ]
+        },
+        {
+          "name": "resize_for_stream",
+          "startLine": 58,
+          "endLine": 66,
+          "params": [
+            "image",
+            "width",
+            "height"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 484,
+          "endLine": 501,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WebSocketClient",
+          "startLine": 69,
+          "endLine": 101,
+          "methods": [
+            "__init__",
+            "send_json",
+            "send_control",
+            "send_binary",
+            "send_image"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DebugVizGateway",
+          "startLine": 104,
+          "endLine": 481,
+          "methods": [
+            "__init__",
+            "_image_callback",
+            "_broadcast_loop",
+            "_broadcast_image",
+            "_broadcast",
+            "_health_payload",
+            "_publish_launch_status",
+            "_launch_monitor_loop",
+            "_create_handler",
+            "destroy_node"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "encode_websocket_frame",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "read_exact",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "resize_for_stream",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "WebSocketClient",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "DebugVizGateway",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 484,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "encode_websocket_frame",
+          "callee": "len",
+          "lineNumber": 37
+        },
+        {
+          "caller": "encode_websocket_frame",
+          "callee": "struct.pack",
+          "lineNumber": 39
+        },
+        {
+          "caller": "encode_websocket_frame",
+          "callee": "struct.pack",
+          "lineNumber": 41
+        },
+        {
+          "caller": "encode_websocket_frame",
+          "callee": "struct.pack",
+          "lineNumber": 43
+        },
+        {
+          "caller": "read_exact",
+          "callee": "bytearray",
+          "lineNumber": 49
+        },
+        {
+          "caller": "read_exact",
+          "callee": "len",
+          "lineNumber": 50
+        },
+        {
+          "caller": "read_exact",
+          "callee": "connection.recv",
+          "lineNumber": 51
+        },
+        {
+          "caller": "read_exact",
+          "callee": "len",
+          "lineNumber": 51
+        },
+        {
+          "caller": "read_exact",
+          "callee": "ConnectionError",
+          "lineNumber": 53
+        },
+        {
+          "caller": "read_exact",
+          "callee": "chunks.extend",
+          "lineNumber": 54
+        },
+        {
+          "caller": "read_exact",
+          "callee": "bytes",
+          "lineNumber": 55
+        },
+        {
+          "caller": "resize_for_stream",
+          "callee": "cv2.resize",
+          "lineNumber": 66
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 74
+        },
+        {
+          "caller": "send_json",
+          "callee": "json.dumps(payload, ensure_ascii=False).encode",
+          "lineNumber": 77
+        },
+        {
+          "caller": "send_json",
+          "callee": "json.dumps",
+          "lineNumber": 77
+        },
+        {
+          "caller": "send_json",
+          "callee": "self.connection.sendall",
+          "lineNumber": 79
+        },
+        {
+          "caller": "send_json",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 79
+        },
+        {
+          "caller": "send_control",
+          "callee": "self.connection.sendall",
+          "lineNumber": 83
+        },
+        {
+          "caller": "send_control",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 83
+        },
+        {
+          "caller": "send_binary",
+          "callee": "self.connection.sendall",
+          "lineNumber": 88
+        },
+        {
+          "caller": "send_binary",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 88
+        },
+        {
+          "caller": "send_image",
+          "callee": "json.dumps({\n            'type': 'frame',\n            'fps': fps,\n        }).encode",
+          "lineNumber": 92
+        },
+        {
+          "caller": "send_image",
+          "callee": "json.dumps",
+          "lineNumber": 92
+        },
+        {
+          "caller": "send_image",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 97
+        },
+        {
+          "caller": "send_image",
+          "callee": "encode_websocket_frame",
+          "lineNumber": 98
+        },
+        {
+          "caller": "send_image",
+          "callee": "self.connection.sendall",
+          "lineNumber": 101
+        },
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 108
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 108
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 109
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 110
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 111
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 112
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 113
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 114
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 115
+        },
+        {
+          "caller": "__init__",
+          "callee": "str",
+          "lineNumber": 117
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 117
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 118
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 118
+        },
+        {
+          "caller": "__init__",
+          "callee": "str",
+          "lineNumber": 119
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 119
+        },
+        {
+          "caller": "__init__",
+          "callee": "max",
+          "lineNumber": 120
+        },
+        {
+          "caller": "__init__",
+          "callee": "float",
+          "lineNumber": 121
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 121
+        },
+        {
+          "caller": "__init__",
+          "callee": "min",
+          "lineNumber": 124
+        },
+        {
+          "caller": "__init__",
+          "callee": "max",
+          "lineNumber": 125
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 125
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 125
+        },
+        {
+          "caller": "__init__",
+          "callee": "max",
+          "lineNumber": 128
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 129
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 129
+        },
+        {
+          "caller": "__init__",
+          "callee": "max",
+          "lineNumber": 132
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 133
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 133
+        },
+        {
+          "caller": "__init__",
+          "callee": "CvBridge",
+          "lineNumber": 137
+        },
+        {
+          "caller": "__init__",
+          "callee": "set",
+          "lineNumber": 138
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 139
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 140
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Event",
+          "lineNumber": 148
+        },
+        {
+          "caller": "__init__",
+          "callee": "LaunchProcessManager",
+          "lineNumber": 149
+        },
+        {
+          "caller": "__init__",
+          "callee": "QoSProfile",
+          "lineNumber": 153
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 159
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._create_handler",
+          "lineNumber": 166
+        },
+        {
+          "caller": "__init__",
+          "callee": "ThreadingHTTPServer",
+          "lineNumber": 167
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Thread",
+          "lineNumber": 172
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Thread",
+          "lineNumber": 176
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Thread",
+          "lineNumber": 180
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.http_thread.start",
+          "lineNumber": 184
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.broadcast_thread.start",
+          "lineNumber": 185
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.launch_monitor_thread.start",
+          "lineNumber": 186
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 187
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 187
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "time.monotonic",
+          "lineNumber": 196
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.bridge.imgmsg_to_cv2",
+          "lineNumber": 203
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "resize_for_stream",
+          "lineNumber": 207
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "cv2.imencode",
+          "lineNumber": 212
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.get_logger().warning",
+          "lineNumber": 218
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 218
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.get_logger().warning",
+          "lineNumber": 221
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 221
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "encoded.tobytes",
+          "lineNumber": 226
+        },
+        {
+          "caller": "_image_callback",
+          "callee": "self.frame_times.append",
+          "lineNumber": 229
+        },
+        {
+          "caller": "_broadcast_loop",
+          "callee": "self.stop_event.wait",
+          "lineNumber": 239
+        },
+        {
+          "caller": "_broadcast_loop",
+          "callee": "float",
+          "lineNumber": 249
+        },
+        {
+          "caller": "_broadcast_loop",
+          "callee": "len",
+          "lineNumber": 249
+        },
+        {
+          "caller": "_broadcast_loop",
+          "callee": "self._broadcast_image",
+          "lineNumber": 252
+        },
+        {
+          "caller": "_broadcast_image",
+          "callee": "list",
+          "lineNumber": 257
+        },
+        {
+          "caller": "_broadcast_image",
+          "callee": "client.send_image",
+          "lineNumber": 261
+        },
+        {
+          "caller": "_broadcast_image",
+          "callee": "stale_clients.append",
+          "lineNumber": 263
+        },
+        {
+          "caller": "_broadcast_image",
+          "callee": "self.ws_clients.difference_update",
+          "lineNumber": 266
+        },
+        {
+          "caller": "_broadcast",
+          "callee": "list",
+          "lineNumber": 270
+        },
+        {
+          "caller": "_broadcast",
+          "callee": "client.send_json",
+          "lineNumber": 274
+        },
+        {
+          "caller": "_broadcast",
+          "callee": "stale_clients.append",
+          "lineNumber": 276
+        },
+        {
+          "caller": "_broadcast",
+          "callee": "self.ws_clients.difference_update",
+          "lineNumber": 279
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "time.monotonic",
+          "lineNumber": 282
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "float",
+          "lineNumber": 284
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "len",
+          "lineNumber": 284
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "round",
+          "lineNumber": 288
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "len",
+          "lineNumber": 291
+        },
+        {
+          "caller": "_health_payload",
+          "callee": "self.launch_manager.status",
+          "lineNumber": 302
+        },
+        {
+          "caller": "_publish_launch_status",
+          "callee": "str",
+          "lineNumber": 307
+        },
+        {
+          "caller": "_publish_launch_status",
+          "callee": "self._broadcast",
+          "lineNumber": 308
+        },
+        {
+          "caller": "_launch_monitor_loop",
+          "callee": "self.stop_event.wait",
+          "lineNumber": 316
+        },
+        {
+          "caller": "_launch_monitor_loop",
+          "callee": "self.launch_manager.status",
+          "lineNumber": 317
+        },
+        {
+          "caller": "_launch_monitor_loop",
+          "callee": "str",
+          "lineNumber": 318
+        },
+        {
+          "caller": "_launch_monitor_loop",
+          "callee": "self._publish_launch_status",
+          "lineNumber": 328
+        },
+        {
+          "caller": "log_message",
+          "callee": "gateway.get_logger().info",
+          "lineNumber": 337
+        },
+        {
+          "caller": "log_message",
+          "callee": "gateway.get_logger",
+          "lineNumber": 337
+        },
+        {
+          "caller": "_send_json",
+          "callee": "json.dumps(payload, ensure_ascii=False).encode",
+          "lineNumber": 344
+        },
+        {
+          "caller": "_send_json",
+          "callee": "json.dumps",
+          "lineNumber": 344
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.send_response",
+          "lineNumber": 345
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.send_header",
+          "lineNumber": 346
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.send_header",
+          "lineNumber": 350
+        },
+        {
+          "caller": "_send_json",
+          "callee": "str",
+          "lineNumber": 350
+        },
+        {
+          "caller": "_send_json",
+          "callee": "len",
+          "lineNumber": 350
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.send_header",
+          "lineNumber": 351
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.end_headers",
+          "lineNumber": 352
+        },
+        {
+          "caller": "_send_json",
+          "callee": "self.wfile.write",
+          "lineNumber": 353
+        },
+        {
+          "caller": "do_GET",
+          "callee": "self._send_json",
+          "lineNumber": 357
+        },
+        {
+          "caller": "do_GET",
+          "callee": "gateway._health_payload",
+          "lineNumber": 357
+        },
+        {
+          "caller": "do_GET",
+          "callee": "self._send_json",
+          "lineNumber": 360
+        },
+        {
+          "caller": "do_GET",
+          "callee": "gateway.launch_manager.status",
+          "lineNumber": 360
+        },
+        {
+          "caller": "do_GET",
+          "callee": "self._send_json",
+          "lineNumber": 363
+        },
+        {
+          "caller": "do_GET",
+          "callee": "self._serve_websocket",
+          "lineNumber": 365
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self._send_json",
+          "lineNumber": 370
+        },
+        {
+          "caller": "do_POST",
+          "callee": "int",
+          "lineNumber": 373
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self.headers.get",
+          "lineNumber": 373
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self._send_json",
+          "lineNumber": 375
+        },
+        {
+          "caller": "do_POST",
+          "callee": "json.loads",
+          "lineNumber": 377
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self.rfile.read",
+          "lineNumber": 377
+        },
+        {
+          "caller": "do_POST",
+          "callee": "validate_launch_request",
+          "lineNumber": 378
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self._send_json",
+          "lineNumber": 380
+        },
+        {
+          "caller": "do_POST",
+          "callee": "str",
+          "lineNumber": 380
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self.path.endswith",
+          "lineNumber": 383
+        },
+        {
+          "caller": "do_POST",
+          "callee": "gateway.launch_manager.start",
+          "lineNumber": 385
+        },
+        {
+          "caller": "do_POST",
+          "callee": "gateway.launch_manager.stop",
+          "lineNumber": 387
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self._send_json",
+          "lineNumber": 389
+        },
+        {
+          "caller": "do_POST",
+          "callee": "str",
+          "lineNumber": 389
+        },
+        {
+          "caller": "do_POST",
+          "callee": "gateway._publish_launch_status",
+          "lineNumber": 391
+        },
+        {
+          "caller": "do_POST",
+          "callee": "self._send_json",
+          "lineNumber": 392
+        },
+        {
+          "caller": "do_OPTIONS",
+          "callee": "self.send_response",
+          "lineNumber": 395
+        },
+        {
+          "caller": "do_OPTIONS",
+          "callee": "self.send_header",
+          "lineNumber": 396
+        },
+        {
+          "caller": "do_OPTIONS",
+          "callee": "self.send_header",
+          "lineNumber": 397
+        },
+        {
+          "caller": "do_OPTIONS",
+          "callee": "self.send_header",
+          "lineNumber": 401
+        },
+        {
+          "caller": "do_OPTIONS",
+          "callee": "self.end_headers",
+          "lineNumber": 405
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.headers.get",
+          "lineNumber": 408
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.headers.get('Upgrade', '').lower",
+          "lineNumber": 410
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.headers.get",
+          "lineNumber": 410
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self._send_json",
+          "lineNumber": 413
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "(key + WEBSOCKET_MAGIC).encode",
+          "lineNumber": 415
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "hashlib.sha1(accept_source).digest",
+          "lineNumber": 416
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "hashlib.sha1",
+          "lineNumber": 416
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "base64.b64encode(accept_digest).decode",
+          "lineNumber": 417
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "base64.b64encode",
+          "lineNumber": 417
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.send_response",
+          "lineNumber": 418
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.send_header",
+          "lineNumber": 419
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.send_header",
+          "lineNumber": 420
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.send_header",
+          "lineNumber": 421
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self.end_headers",
+          "lineNumber": 422
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "WebSocketClient",
+          "lineNumber": 424
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.ws_clients.add",
+          "lineNumber": 426
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.get_logger().info",
+          "lineNumber": 427
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.get_logger",
+          "lineNumber": 427
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.launch_manager.status",
+          "lineNumber": 429
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "client.send_json",
+          "lineNumber": 430
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "self._receive_websocket",
+          "lineNumber": 435
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.ws_clients.discard",
+          "lineNumber": 440
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.get_logger().info",
+          "lineNumber": 441
+        },
+        {
+          "caller": "_serve_websocket",
+          "callee": "gateway.get_logger",
+          "lineNumber": 441
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "gateway.stop_event.is_set",
+          "lineNumber": 445
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "read_exact",
+          "lineNumber": 446
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "bool",
+          "lineNumber": 448
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "struct.unpack",
+          "lineNumber": 451
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "read_exact",
+          "lineNumber": 452
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "struct.unpack",
+          "lineNumber": 455
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "read_exact",
+          "lineNumber": 456
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "read_exact",
+          "lineNumber": 458
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "read_exact",
+          "lineNumber": 459
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "bytes",
+          "lineNumber": 461
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "enumerate",
+          "lineNumber": 463
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "client.send_control",
+          "lineNumber": 466
+        },
+        {
+          "caller": "_receive_websocket",
+          "callee": "client.send_control",
+          "lineNumber": 469
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.stop_event.set",
+          "lineNumber": 474
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.launch_manager.stop",
+          "lineNumber": 475
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.http_server.shutdown",
+          "lineNumber": 476
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.http_server.server_close",
+          "lineNumber": 477
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.http_thread.join",
+          "lineNumber": 478
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.broadcast_thread.join",
+          "lineNumber": 479
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "self.launch_monitor_thread.join",
+          "lineNumber": 480
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "super().destroy_node",
+          "lineNumber": 481
+        },
+        {
+          "caller": "destroy_node",
+          "callee": "super",
+          "lineNumber": 481
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 485
+        },
+        {
+          "caller": "main",
+          "callee": "DebugVizGateway",
+          "lineNumber": 488
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.spin",
+          "lineNumber": 489
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger().error",
+          "lineNumber": 494
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 494
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 494
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 496
+        },
+        {
+          "caller": "main",
+          "callee": "node.destroy_node",
+          "lineNumber": 499
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.ok",
+          "lineNumber": 500
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 501
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 125,
+      "nonEmptyLines": 107,
+      "functions": [
+        {
+          "name": "validate_launch_request",
+          "startLine": 19,
+          "endLine": 29,
+          "params": [
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LaunchProcessManager",
+          "startLine": 32,
+          "endLine": 125,
+          "methods": [
+            "__init__",
+            "_status_locked",
+            "status",
+            "start",
+            "stop"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "validate_launch_request",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "LaunchProcessManager",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "validate_launch_request",
+          "callee": "isinstance",
+          "lineNumber": 21
+        },
+        {
+          "caller": "validate_launch_request",
+          "callee": "ValueError",
+          "lineNumber": 22
+        },
+        {
+          "caller": "validate_launch_request",
+          "callee": "payload.get",
+          "lineNumber": 23
+        },
+        {
+          "caller": "validate_launch_request",
+          "callee": "ValueError",
+          "lineNumber": 25
+        },
+        {
+          "caller": "validate_launch_request",
+          "callee": "payload.get",
+          "lineNumber": 26
+        },
+        {
+          "caller": "validate_launch_request",
+          "callee": "ValueError",
+          "lineNumber": 28
+        },
+        {
+          "caller": "__init__",
+          "callee": "tuple",
+          "lineNumber": 36
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 37
+        },
+        {
+          "caller": "_status_locked",
+          "callee": "process.poll",
+          "lineNumber": 52
+        },
+        {
+          "caller": "status",
+          "callee": "self._status_locked",
+          "lineNumber": 64
+        },
+        {
+          "caller": "start",
+          "callee": "self._status_locked",
+          "lineNumber": 69
+        },
+        {
+          "caller": "start",
+          "callee": "subprocess.Popen",
+          "lineNumber": 76
+        },
+        {
+          "caller": "start",
+          "callee": "RuntimeError",
+          "lineNumber": 83
+        },
+        {
+          "caller": "stop",
+          "callee": "self._status_locked",
+          "lineNumber": 99
+        },
+        {
+          "caller": "stop",
+          "callee": "os.killpg",
+          "lineNumber": 106
+        },
+        {
+          "caller": "stop",
+          "callee": "process.wait",
+          "lineNumber": 107
+        },
+        {
+          "caller": "stop",
+          "callee": "os.killpg",
+          "lineNumber": 111
+        },
+        {
+          "caller": "stop",
+          "callee": "process.wait",
+          "lineNumber": 113
+        },
+        {
+          "caller": "stop",
+          "callee": "os.killpg",
+          "lineNumber": 115
+        },
+        {
+          "caller": "stop",
+          "callee": "process.wait",
+          "lineNumber": 116
+        },
+        {
+          "caller": "stop",
+          "callee": "process.poll",
+          "lineNumber": 118
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

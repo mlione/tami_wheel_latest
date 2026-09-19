@@ -1,0 +1,509 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 373,
+      "nonEmptyLines": 321,
+      "functions": [
+        {
+          "name": "mkmat",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "rows",
+            "cols",
+            "L"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeCameraModel",
+          "startLine": 14,
+          "endLine": 255,
+          "methods": [
+            "__init__",
+            "fromCameraInfo",
+            "rectifyImage",
+            "rectifyPoint",
+            "project3dToPixel",
+            "projectPixelTo3dRay",
+            "getDeltaU",
+            "getDeltaV",
+            "getDeltaX",
+            "getDeltaY",
+            "fullResolution",
+            "intrinsicMatrix",
+            "distortionCoeffs",
+            "rotationMatrix",
+            "projectionMatrix",
+            "fullIntrinsicMatrix",
+            "fullProjectionMatrix",
+            "cx",
+            "cy",
+            "fx",
+            "fy",
+            "Tx",
+            "Ty",
+            "tfFrame"
+          ],
+          "properties": []
+        },
+        {
+          "name": "StereoCameraModel",
+          "startLine": 257,
+          "endLine": 373,
+          "methods": [
+            "__init__",
+            "fromCameraInfo",
+            "tfFrame",
+            "project3dToPixel",
+            "projectPixelTo3d",
+            "getZ",
+            "getDisparity"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "mkmat",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "PinholeCameraModel",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "StereoCameraModel",
+          "line": 257,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "mkmat",
+          "callee": "numpy.matrix",
+          "lineNumber": 10
+        },
+        {
+          "caller": "mkmat",
+          "callee": "mat.resize",
+          "lineNumber": 11
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 42
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 44
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "len",
+          "lineNumber": 44
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 48
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 49
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "mkmat",
+          "lineNumber": 50
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "max",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "max",
+          "lineNumber": 54
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "copy.copy",
+          "lineNumber": 57
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "numpy.ndarray",
+          "lineNumber": 86
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "numpy.ndarray",
+          "lineNumber": 88
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "cv2.initUndistortRectifyMap",
+          "lineNumber": 90
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "cv2.remap",
+          "lineNumber": 92
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "mkmat",
+          "lineNumber": 104
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "list",
+          "lineNumber": 104
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "src.resize",
+          "lineNumber": 105
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "cv2.undistortPoints",
+          "lineNumber": 106
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "mkmat",
+          "lineNumber": 118
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "float",
+          "lineNumber": 126
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "float",
+          "lineNumber": 126
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "self.cx",
+          "lineNumber": 137
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "self.fx",
+          "lineNumber": 137
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "self.cy",
+          "lineNumber": 138
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "self.fy",
+          "lineNumber": 138
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "math.sqrt",
+          "lineNumber": 139
+        },
+        {
+          "caller": "getDeltaU",
+          "callee": "float",
+          "lineNumber": 158
+        },
+        {
+          "caller": "getDeltaV",
+          "callee": "float",
+          "lineNumber": 175
+        },
+        {
+          "caller": "__init__",
+          "callee": "PinholeCameraModel",
+          "lineNumber": 262
+        },
+        {
+          "caller": "__init__",
+          "callee": "PinholeCameraModel",
+          "lineNumber": 263
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "self.left.fromCameraInfo",
+          "lineNumber": 274
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "self.right.fromCameraInfo",
+          "lineNumber": 275
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "numpy.zeros",
+          "lineNumber": 293
+        },
+        {
+          "caller": "tfFrame",
+          "callee": "self.left.tfFrame",
+          "lineNumber": 308
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "self.left.project3dToPixel",
+          "lineNumber": 319
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "self.right.project3dToPixel",
+          "lineNumber": 320
+        },
+        {
+          "caller": "projectPixelTo3d",
+          "callee": "mkmat",
+          "lineNumber": 336
+        },
+        {
+          "caller": "getZ",
+          "callee": "float",
+          "lineNumber": 358
+        },
+        {
+          "caller": "getDisparity",
+          "callee": "float",
+          "lineNumber": 371
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/directed.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 59,
+      "classes": [
+        {
+          "name": "TestDirected",
+          "startLine": 8,
+          "endLine": 67,
+          "methods": [
+            "setUp",
+            "test_monocular",
+            "test_stereo"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TestDirected",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "test_monocular",
+          "callee": "sensor_msgs.msg.CameraInfo",
+          "lineNumber": 14
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "print",
+          "lineNumber": 17
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "PinholeCameraModel",
+          "lineNumber": 18
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "cam.fromCameraInfo",
+          "lineNumber": 19
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "print",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "cam.rectifyPoint",
+          "lineNumber": 20
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "print",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_monocular",
+          "callee": "cam.project3dToPixel",
+          "lineNumber": 22
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "sensor_msgs.msg.CameraInfo",
+          "lineNumber": 25
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "sensor_msgs.msg.CameraInfo",
+          "lineNumber": 26
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "StereoCameraModel",
+          "lineNumber": 42
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.fromCameraInfo",
+          "lineNumber": 43
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "range",
+          "lineNumber": 47
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.projectPixelTo3d",
+          "lineNumber": 48
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.project3dToPixel",
+          "lineNumber": 49
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 50
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 51
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 52
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 53
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.projectPixelTo3dRay",
+          "lineNumber": 60
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.projectPixelTo3dRay",
+          "lineNumber": 62
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.getDeltaU",
+          "lineNumber": 64
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.getDeltaV",
+          "lineNumber": 65
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.getDeltaX",
+          "lineNumber": 66
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "self.assertAlmostEqual",
+          "lineNumber": 67
+        },
+        {
+          "caller": "test_stereo",
+          "callee": "cam.left.getDeltaY",
+          "lineNumber": 67
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

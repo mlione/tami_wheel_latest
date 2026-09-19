@@ -1,0 +1,11 @@
+{
+  "nodes": [
+    {"id":"document:src/vision_opencv/image_geometry/CHANGELOG.rst","type":"document","name":"CHANGELOG.rst","filePath":"src/vision_opencv/image_geometry/CHANGELOG.rst","summary":"记录 image_geometry 的版本演进，重点涵盖相机模型、图像校正、畸变模型、Python 安装和 Windows 构建修复。","tags":["文档","变更日志","版本历史","相机几何"],"complexity":"complex"},
+    {"id":"document:src/vision_opencv/image_geometry/CMakeLists.txt","type":"document","name":"CMakeLists.txt","filePath":"src/vision_opencv/image_geometry/CMakeLists.txt","summary":"定义 image_geometry 的 C++ 与 Python 混合构建，编译针孔和双目相机模型库并导出 OpenCV、sensor_msgs 依赖及公共头文件。","tags":["构建系统","cmake","ament","相机模型"],"complexity":"moderate","languageNotes":"同时使用 ament_cmake_python 与 ament_cmake_ros，并为 Windows 动态库设置导出宏。"},
+    {"id":"config:src/vision_opencv/image_geometry/package.xml","type":"config","name":"package.xml","filePath":"src/vision_opencv/image_geometry/package.xml","summary":"声明 image_geometry ROS 2 包的元数据以及 OpenCV、sensor_msgs、ament 和测试框架依赖。","tags":["配置","ros2-包","依赖管理","ament"],"complexity":"simple"}
+  ],
+  "edges": [
+    {"source":"document:src/vision_opencv/image_geometry/CHANGELOG.rst","target":"config:src/vision_opencv/image_geometry/package.xml","type":"related","direction":"forward","weight":0.5},
+    {"source":"config:src/vision_opencv/image_geometry/package.xml","target":"document:src/vision_opencv/image_geometry/CMakeLists.txt","type":"configures","direction":"forward","weight":0.6}
+  ]
+}

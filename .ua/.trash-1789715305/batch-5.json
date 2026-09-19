@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/vision_opencv/.travis.sh",
+      "type": "file",
+      "name": ".travis.sh",
+      "filePath": "src/vision_opencv/.travis.sh",
+      "summary": "在 Travis 容器内安装 ROS 依赖、建立 catkin 工作区，并依次执行构建、测试、安装模式重建及计时折叠。",
+      "tags": [
+        "ci-cd",
+        "构建脚本",
+        "ros",
+        "catkin"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Bash 函数封装 Travis 日志折叠和纳秒级阶段计时，主流程采用 set -e 快速失败。"
+    },
+    {
+      "id": "function:src/vision_opencv/.travis.sh:travis_time_end",
+      "type": "function",
+      "name": "travis_time_end",
+      "filePath": "src/vision_opencv/.travis.sh",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "结束 Travis 日志折叠，计算并打印阶段耗时。",
+      "tags": [
+        "ci-cd",
+        "计时",
+        "日志"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:src/vision_opencv/.travis.yml",
+      "type": "config",
+      "name": ".travis.yml",
+      "filePath": "src/vision_opencv/.travis.yml",
+      "summary": "配置 Ubuntu Trusty 与 ROS Kinetic 的 Travis 任务，在 Xenial 容器中执行仓库自带的构建测试脚本并采集失败日志。",
+      "tags": [
+        "配置",
+        "ci-cd",
+        "travis",
+        "容器化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:src/vision_opencv/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "src/vision_opencv/README.md",
+      "summary": "概述 vision_opencv 元仓库及 cv_bridge、image_geometry、opencv_tests 等 ROS 2 与 OpenCV 集成包。",
+      "tags": [
+        "文档",
+        "项目概览",
+        "ros2",
+        "opencv"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:src/vision_opencv/pytest.ini",
+      "type": "config",
+      "name": "pytest.ini",
+      "filePath": "src/vision_opencv/pytest.ini",
+      "summary": "将 pytest 的 JUnit 报告格式固定为 xunit2，供测试报告工具兼容读取。",
+      "tags": [
+        "配置",
+        "测试",
+        "pytest",
+        "junit"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/vision_opencv/.travis.sh",
+      "target": "function:src/vision_opencv/.travis.sh:travis_time_end",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "config:src/vision_opencv/.travis.yml",
+      "target": "file:src/vision_opencv/.travis.sh",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

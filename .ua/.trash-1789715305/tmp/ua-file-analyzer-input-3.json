@@ -1,0 +1,34 @@
+{
+  "projectRoot": "/home/x/tami/wheel_latest",
+  "batchFiles": [
+    {
+      "path": "src/wheel_phone_gateway/test/test_protocol.py",
+      "language": "python",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "language": "python",
+      "sizeLines": 505,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "language": "python",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "src/wheel_phone_gateway/test/test_protocol.py": [
+      "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py"
+    ],
+    "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py": [
+      "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py"
+    ],
+    "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py": []
+  },
+  "neighborMap": {}
+}

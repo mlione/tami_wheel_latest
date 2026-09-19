@@ -1,0 +1,64 @@
+{
+  "projectRoot": "/home/x/tami/wheel_latest",
+  "batchFiles": [
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 410,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.1.md",
+      "language": "markdown",
+      "sizeLines": 524,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.2.md",
+      "language": "markdown",
+      "sizeLines": 668,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.3.2.md",
+      "language": "markdown",
+      "sizeLines": 458,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.3.md",
+      "language": "markdown",
+      "sizeLines": 445,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "symlink_install_manifest.txt",
+      "language": "txt",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "wheel_cuda_road_width_handoff.md",
+      "language": "markdown",
+      "sizeLines": 279,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "实车测试指令.md",
+      "language": "markdown",
+      "sizeLines": 760,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    "README.md": [],
+    "dwa+lqr_v0.1.md": [],
+    "dwa+lqr_v0.2.md": [],
+    "dwa+lqr_v0.3.2.md": [],
+    "dwa+lqr_v0.3.md": [],
+    "symlink_install_manifest.txt": [],
+    "wheel_cuda_road_width_handoff.md": [],
+    "实车测试指令.md": []
+  },
+  "neighborMap": {}
+}

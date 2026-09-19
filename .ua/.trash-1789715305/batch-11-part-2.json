@@ -1,0 +1,348 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "type": "file",
+      "name": "rosfacedetect.py",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 rosfacedetect.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:detect_and_draw",
+      "type": "function",
+      "name": "detect_and_draw",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "lineRange": [
+        34,
+        58
+      ],
+      "summary": "函数 detect_and_draw 实现 rosfacedetect.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:compressed_detect_and_draw",
+      "type": "function",
+      "name": "compressed_detect_and_draw",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "lineRange": [
+        60,
+        84
+      ],
+      "summary": "函数 compressed_detect_and_draw 实现 rosfacedetect.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "lineRange": [
+        86,
+        118
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "type": "file",
+      "name": "source.py",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 source.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/opencv_tests/source.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "lineRange": [
+        48,
+        90
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/resource/opencv_tests",
+      "type": "file",
+      "name": "opencv_tests",
+      "filePath": "src/vision_opencv/opencv_tests/resource/opencv_tests",
+      "summary": "ROS 2 OpenCV 集成测试组件 opencv_tests，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/setup.py",
+      "type": "file",
+      "name": "setup.py",
+      "filePath": "src/vision_opencv/opencv_tests/setup.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 setup.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:src/wheel_msgs/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "src/wheel_msgs/CMakeLists.txt",
+      "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。",
+      "tags": [
+        "documentation",
+        "build-system",
+        "ros2"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/wheel_msgs/msg/ObstacleInfo.msg",
+      "type": "file",
+      "name": "ObstacleInfo.msg",
+      "filePath": "src/wheel_msgs/msg/ObstacleInfo.msg",
+      "summary": "定义单个三维障碍物的位置、距离和尺寸消息。",
+      "tags": [
+        "type-definition",
+        "ros2",
+        "message"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/wheel_msgs/msg/PerceptionOutput.msg",
+      "type": "file",
+      "name": "PerceptionOutput.msg",
+      "filePath": "src/wheel_msgs/msg/PerceptionOutput.msg",
+      "summary": "定义感知到控制层的聚合消息，包含最近障碍物、道路边界、道路航向和障碍物列表。",
+      "tags": [
+        "type-definition",
+        "ros2",
+        "message"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:src/wheel_msgs/package.xml",
+      "type": "config",
+      "name": "package.xml",
+      "filePath": "src/wheel_msgs/package.xml",
+      "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。",
+      "tags": [
+        "configuration",
+        "ros2",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:src/wheel_perception/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "src/wheel_perception/CMakeLists.txt",
+      "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。",
+      "tags": [
+        "documentation",
+        "build-system",
+        "ros2"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/wheel_perception/config/check_onnx.py",
+      "type": "file",
+      "name": "check_onnx.py",
+      "filePath": "src/wheel_perception/config/check_onnx.py",
+      "summary": "检查 ONNX 模型结构、输入输出及 ONNX Runtime 推理结果。",
+      "tags": [
+        "tensorrt",
+        "inference",
+        "model-conversion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:src/wheel_perception/config/params.yaml",
+      "type": "config",
+      "name": "params.yaml",
+      "filePath": "src/wheel_perception/config/params.yaml",
+      "summary": "集中配置 ZED、感知、道路边界、DWA、LQR、安全层及数据集模式参数。",
+      "tags": [
+        "configuration",
+        "ros2",
+        "runtime"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/wheel_perception/config/pth2engine.py",
+      "type": "file",
+      "name": "pth2engine.py",
+      "filePath": "src/wheel_perception/config/pth2engine.py",
+      "summary": "将 BiSeNetV2 PyTorch 权重包装并导出 ONNX/TensorRT 引擎。",
+      "tags": [
+        "tensorrt",
+        "inference",
+        "model-conversion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/config/pth2engine.py:pth_to_engine",
+      "type": "function",
+      "name": "pth_to_engine",
+      "filePath": "src/wheel_perception/config/pth2engine.py",
+      "lineRange": [
+        60,
+        142
+      ],
+      "summary": "函数 pth_to_engine 实现 pth2engine.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/wheel_perception/config/pth2engine.py:BiSeNetV2Inference",
+      "type": "class",
+      "name": "BiSeNetV2Inference",
+      "filePath": "src/wheel_perception/config/pth2engine.py",
+      "lineRange": [
+        23,
+        58
+      ],
+      "summary": "类 BiSeNetV2Inference 实现 pth2engine.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:detect_and_draw",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:detect_and_draw",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:compressed_detect_and_draw",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:compressed_detect_and_draw",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/source.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/source.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/config/pth2engine.py",
+      "target": "function:src/wheel_perception/config/pth2engine.py:pth_to_engine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/config/pth2engine.py",
+      "target": "function:src/wheel_perception/config/pth2engine.py:pth_to_engine",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/config/pth2engine.py",
+      "target": "class:src/wheel_perception/config/pth2engine.py:BiSeNetV2Inference",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/config/pth2engine.py",
+      "target": "class:src/wheel_perception/config/pth2engine.py:BiSeNetV2Inference",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

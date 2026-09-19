@@ -1,0 +1,181 @@
+[
+  {
+    "id": "layer:perception",
+    "name": "感知与传感器层",
+    "description": "负责 ZED RGB-D 取流、TensorRT 语义分割、CUDA 掩膜后处理、点云融合和道路边界提取，并向导航链路提供环境观测。",
+    "nodeIds": [
+      "file:src/wheel_perception/include/wheel_perception/core/ai_engine.hpp",
+      "file:src/wheel_perception/include/wheel_perception/core/mask_postprocess.hpp",
+      "file:src/wheel_perception/include/wheel_perception/core/obstacle_fusion.hpp",
+      "file:src/wheel_perception/include/wheel_perception/core/zed_driver.hpp",
+      "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "file:src/wheel_perception/src/core/global_flags.cpp",
+      "file:src/wheel_perception/src/core/mask_postprocess.cu",
+      "file:src/wheel_perception/src/core/obstacle_fusion.cu",
+      "file:src/wheel_perception/src/core/preprocess.cu",
+      "file:src/wheel_perception/src/core/zed_driver.cpp",
+      "file:src/wheel_perception/src/fusion_node.cpp"
+    ]
+  },
+  {
+    "id": "layer:planning-control",
+    "name": "规划与控制层",
+    "description": "实现道路巡航与 DWA 局部避障决策，以 LQR 跟踪局部轨迹并发布候选路径、最佳路径和速度控制结果。",
+    "nodeIds": [
+      "file:src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "file:src/wheel_perception/dwa_controller/src/DWAPlanner.cpp",
+      "file:src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp",
+      "file:src/wheel_perception/rviz/dwa_navigation.rviz",
+      "file:src/wheel_perception/src/controller_node.cpp"
+    ]
+  },
+  {
+    "id": "layer:vision-foundation",
+    "name": "视觉基础库层",
+    "description": "提供 cv_bridge 图像互操作、Python/OpenCV 绑定以及单目和双目相机几何投影能力，为轮椅视觉感知提供底层支撑。",
+    "nodeIds": [
+      "file:src/vision_opencv/cv_bridge/src/module.cpp",
+      "file:src/vision_opencv/cv_bridge/src/module.hpp",
+      "file:src/vision_opencv/cv_bridge/src/module_opencv2.cpp",
+      "file:src/vision_opencv/cv_bridge/src/module_opencv3.cpp",
+      "file:src/vision_opencv/cv_bridge/src/pycompat.hpp",
+      "file:src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "file:src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h",
+      "file:src/vision_opencv/cv_bridge/include/cv_bridge/rgb_colors.h",
+      "file:src/vision_opencv/cv_bridge/python/cv_bridge/__init__.py",
+      "file:src/vision_opencv/cv_bridge/python/cv_bridge/core.py",
+      "file:src/vision_opencv/cv_bridge/src/cv_bridge.cpp",
+      "file:src/vision_opencv/cv_bridge/src/rgb_colors.cpp",
+      "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "file:src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp"
+    ]
+  },
+  {
+    "id": "layer:ros-integration",
+    "name": "ROS 2 接口与集成层",
+    "description": "定义轮椅感知消息，组织 ROS 2 launch、蓝牙底盘桥接和手机调试网关，连接感知、规划、可视化与执行端。",
+    "nodeIds": [
+      "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "file:src/wheel_msgs/msg/ObstacleInfo.msg",
+      "file:src/wheel_msgs/msg/PerceptionOutput.msg",
+      "file:src/wheel_perception/launch/run_launch.py",
+      "file:src/wheel_perception/scripts/sub.py",
+      "file:src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py",
+      "file:src/wheel_phone_gateway/wheel_phone_gateway/__init__.py"
+    ]
+  },
+  {
+    "id": "layer:offline-tooling",
+    "name": "离线数据与模型工具层",
+    "description": "承担 ZED 数据采集回放、双目标定与数据集转换，以及 BiSeNet/ONNX/TensorRT 模型检查、转换和离线推理。",
+    "nodeIds": [
+      "file:src/wheel_perception/config/check_onnx.py",
+      "file:src/wheel_perception/config/pth2engine.py",
+      "file:src/wheel_perception/config/seg_trt.py",
+      "file:src/wheel_perception/config/xtx_trt.py",
+      "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "file:tools/convert_text6_stereo_dataset.py",
+      "file:tools/export_zed_calibration.py",
+      "file:video_pub.py",
+      "file:zed_capture_dataset.py",
+      "file:zed_dataset_player.py"
+    ]
+  },
+  {
+    "id": "layer:test",
+    "name": "测试与验证层",
+    "description": "覆盖 cv_bridge、相机几何、OpenCV ROS 集成、手机网关和 DWA 规划器的单元测试及数据集验证入口。",
+    "nodeIds": [
+      "file:src/vision_opencv/image_geometry/test/directed.py",
+      "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "file:src/vision_opencv/cv_bridge/test/conversions.py",
+      "file:src/vision_opencv/cv_bridge/test/enumerants.py",
+      "file:src/vision_opencv/cv_bridge/test/python_bindings.py",
+      "file:src/vision_opencv/cv_bridge/test/test_compression.cpp",
+      "file:src/vision_opencv/cv_bridge/test/test_endian.cpp",
+      "file:src/vision_opencv/cv_bridge/test/test_rgb_colors.cpp",
+      "file:src/vision_opencv/cv_bridge/test/utest.cpp",
+      "file:src/vision_opencv/cv_bridge/test/utest2.cpp",
+      "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "file:src/vision_opencv/opencv_tests/launch/view_img.py",
+      "file:src/vision_opencv/opencv_tests/mainpage.dox",
+      "file:src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "file:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "file:src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "file:src/vision_opencv/opencv_tests/resource/opencv_tests",
+      "file:src/vision_opencv/opencv_tests/setup.py",
+      "file:src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "file:src/wheel_perception/test/test_dwa_planner.cpp"
+    ]
+  },
+  {
+    "id": "layer:config",
+    "name": "配置与构建层",
+    "description": "集中管理 ROS 2 包元数据、运行参数、Python/CMake 构建设置、CI 脚本、RViz 依赖资源和分析工具配置。",
+    "nodeIds": [
+      "file:src/vision_opencv/.travis.sh",
+      "config:src/vision_opencv/.travis.yml",
+      "config:src/vision_opencv/pytest.ini",
+      "config:src/vision_opencv/cv_bridge/package.xml",
+      "config:src/vision_opencv/image_geometry/package.xml",
+      "config:src/vision_opencv/opencv_tests/package.xml",
+      "config:src/vision_opencv/opencv_tests/setup.cfg",
+      "config:src/vision_opencv/vision_opencv/package.xml",
+      "config:.ua/config.json",
+      "file:src/vision_opencv/cv_bridge/cmake/cv_bridge-extras.cmake.in",
+      "config:src/wheel_msgs/package.xml",
+      "config:src/wheel_perception/config/params.yaml",
+      "config:src/wheel_perception/package.xml",
+      "config:src/wheel_phone_gateway/config/gateway.yaml",
+      "config:src/wheel_phone_gateway/package.xml",
+      "file:src/wheel_phone_gateway/resource/wheel_phone_gateway",
+      "config:src/wheel_phone_gateway/setup.cfg",
+      "file:src/wheel_phone_gateway/setup.py",
+      "config:tools/assumed_zed_hd720_calibration.json"
+    ]
+  },
+  {
+    "id": "layer:documentation",
+    "name": "文档与工程记录层",
+    "description": "汇总系统说明、版本演进、实车测试手册、API 文档、构建清单、许可证和上游组件变更记录。",
+    "nodeIds": [
+      "document:README.md",
+      "document:dwa+lqr_v0.1.md",
+      "document:dwa+lqr_v0.2.md",
+      "document:dwa+lqr_v0.3.2.md",
+      "document:dwa+lqr_v0.3.md",
+      "document:symlink_install_manifest.txt",
+      "document:wheel_cuda_road_width_handoff.md",
+      "document:实车测试指令.md",
+      "document:src/vision_opencv/README.md",
+      "document:src/vision_opencv/cv_bridge/CHANGELOG.rst",
+      "document:src/vision_opencv/cv_bridge/CMakeLists.txt",
+      "document:src/vision_opencv/cv_bridge/README.md",
+      "document:src/vision_opencv/image_geometry/CHANGELOG.rst",
+      "document:src/vision_opencv/image_geometry/CMakeLists.txt",
+      "document:src/vision_opencv/opencv_tests/CHANGELOG.rst",
+      "document:src/vision_opencv/vision_opencv/CHANGELOG.rst",
+      "document:src/vision_opencv/vision_opencv/CMakeLists.txt",
+      "file:src/vision_opencv/LICENSE-Apache",
+      "file:src/vision_opencv/LICENSE-BSD",
+      "file:src/vision_opencv/cv_bridge/doc/conf.py",
+      "document:src/vision_opencv/cv_bridge/doc/index.rst",
+      "file:src/vision_opencv/cv_bridge/doc/mainpage.dox",
+      "document:src/vision_opencv/cv_bridge/src/CMakeLists.txt",
+      "document:src/vision_opencv/cv_bridge/test/CMakeLists.txt",
+      "file:src/vision_opencv/image_geometry/doc/conf.py",
+      "document:src/vision_opencv/image_geometry/doc/index.rst",
+      "file:src/vision_opencv/image_geometry/doc/mainpage.dox",
+      "document:src/vision_opencv/image_geometry/test/CMakeLists.txt",
+      "document:src/wheel_msgs/CMakeLists.txt",
+      "document:src/wheel_perception/CMakeLists.txt"
+    ]
+  }
+]

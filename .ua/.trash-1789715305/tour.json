@@ -1,0 +1,107 @@
+[
+  {
+    "order": 1,
+    "title": "项目全景",
+    "description": "先从 README 建立完整心智模型：这是一个把 ZED RGB-D 感知、道路约束 DWA、LQR 跟踪与安全层串联起来的 ROS 2 载人轮椅系统。文档同时给出构建、运行、可视化和安全边界，是理解后续代码入口与数据流的地图。",
+    "nodeIds": [
+      "document:README.md"
+    ]
+  },
+  {
+    "order": 2,
+    "title": "启动与配置",
+    "description": "在项目目标明确后，从主 launch 文件观察感知节点、控制节点、静态坐标变换和统一参数如何被装载。params.yaml 将相机、感知、DWA、LQR、安全层与数据集模式集中在同一套 ROS 2 参数体系中，调整行为时应先从这里追溯到消费参数的模块。",
+    "nodeIds": [
+      "file:src/wheel_perception/launch/run_launch.py",
+      "config:src/wheel_perception/config/params.yaml"
+    ],
+    "languageLesson": "ROS 2 launch 描述负责组装运行时节点与参数；YAML 只声明配置，参数类型必须与节点中的声明类型严格一致。"
+  },
+  {
+    "order": 3,
+    "title": "视觉感知基础",
+    "description": "启动链路首先依赖 ZED 驱动取得图像和深度，再由 TensorRT 引擎完成语义分割。CUDA 掩膜后处理保留主要道路区域，而障碍物融合模块把深度、语义结果和道路边缘转成规划可使用的环境观测。",
+    "nodeIds": [
+      "file:src/wheel_perception/src/core/zed_driver.cpp",
+      "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "file:src/wheel_perception/src/core/mask_postprocess.cu",
+      "file:src/wheel_perception/src/core/obstacle_fusion.cu"
+    ],
+    "languageLesson": "该层把 C++ 资源管理、TensorRT/CUDA 异步计算与 GPU 点云处理组合起来；理解主机与设备内存的边界有助于定位性能和数据一致性问题。"
+  },
+  {
+    "order": 4,
+    "title": "感知数据契约",
+    "description": "FusionNode 是感知主节点，编排前一步的取流、推理、点云融合和道路分析，并发布统一感知结果。PerceptionOutput 把最近障碍、道路边界、道路航向和障碍物列表交给控制层，ObstacleInfo 则定义每个三维障碍物的基本几何信息。",
+    "nodeIds": [
+      "file:src/wheel_perception/src/fusion_node.cpp",
+      "file:src/wheel_msgs/msg/PerceptionOutput.msg",
+      "file:src/wheel_msgs/msg/ObstacleInfo.msg"
+    ],
+    "languageLesson": "ROS 2 自定义 msg 是节点间的稳定数据契约；修改字段后需要重新构建消息包及所有依赖它的包。"
+  },
+  {
+    "order": 5,
+    "title": "道路约束规划",
+    "description": "控制层拿到感知契约后，由 DWAPlanner 的接口模型描述机器人状态、道路约束、障碍物与候选轨迹。实现文件在动态窗口内采样速度，使用差速运动学向前预测，并综合航向、道路、净空、速度和平滑性评分选出局部路径。",
+    "nodeIds": [
+      "file:src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "file:src/wheel_perception/dwa_controller/src/DWAPlanner.cpp"
+    ],
+    "languageLesson": "头文件定义规划器的公开数据模型和契约，源文件封装采样与评分细节；这种分离便于独立测试算法而不绑定 ROS 2 节点生命周期。"
+  },
+  {
+    "order": 6,
+    "title": "分层跟踪控制",
+    "description": "ControllerNode 在无近障时采用道路巡航参考，在障碍触发时采用 DWA 最优轨迹，并统一进入 LQR 跟踪和速度发布链路。LQR 根据局部轨迹构造横向与航向误差，负责把规划层的离散选择转成更平滑的角速度控制。",
+    "nodeIds": [
+      "file:src/wheel_perception/src/controller_node.cpp",
+      "file:src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp"
+    ]
+  },
+  {
+    "order": 7,
+    "title": "规划结果可视化",
+    "description": "完成控制链路后，用预配置的 RViz 场景同时检查障碍物点云、道路边界、候选轨迹、最佳路径和巡航路径。它把前几步的数据契约与决策结果放到同一坐标系中，是排查轨迹缺失、方向异常和触发模式错误的直接入口。",
+    "nodeIds": [
+      "file:src/wheel_perception/rviz/dwa_navigation.rviz"
+    ]
+  },
+  {
+    "order": 8,
+    "title": "离线回放验证",
+    "description": "数据集播放器按设定帧率重放历史 RGB-D、IMU 和里程计消息，使完整感知控制链路无需真实轮椅即可复现。专用 launch 把播放器与感知、DWA、LQR 组合起来，适合在 RViz 中观察参数变化对候选轨迹和控制输出的影响。",
+    "nodeIds": [
+      "file:zed_dataset_player.py",
+      "file:src/wheel_perception/launch/dwa_dataset_test.launch.py"
+    ],
+    "languageLesson": "离线回放的时间戳、发布频率和循环边界都会影响状态估计与动态窗口，因此比较实验时应固定数据集和回放配置。"
+  },
+  {
+    "order": 9,
+    "title": "规划器单元验证",
+    "description": "在整链路观察之外，DWA 单元测试隔离验证动态窗口、碰撞判断、道路约束、平滑代价和停车选择。它把安全关键算法从相机、推理和底盘依赖中剥离，便于快速确认参数或评分修改是否破坏核心不变量。",
+    "nodeIds": [
+      "file:src/wheel_perception/test/test_dwa_planner.cpp"
+    ]
+  },
+  {
+    "order": 10,
+    "title": "构建依赖边界",
+    "description": "wheel_perception 的 CMakeLists 定义 C++/CUDA 目标、测试和安装规则，package.xml 声明 ROS 2 构建及运行依赖。回看前面的各层时，这两个文件解释了节点、规划器、消息和外部库为何能被 colcon 正确发现并链接。",
+    "nodeIds": [
+      "document:src/wheel_perception/CMakeLists.txt",
+      "config:src/wheel_perception/package.xml"
+    ],
+    "languageLesson": "ament_cmake 项目需要同时维护 CMake 目标依赖和 package.xml 包依赖；只改其中一处可能导致本机可编译、干净环境失败。"
+  },
+  {
+    "order": 11,
+    "title": "版本与实车安全",
+    "description": "最后用 v0.3.2 记录回顾 DWA+LQR 的参数、代码差异、数据集结论与已知风险，再按实车测试指令分阶段验证硬件、感知、规划、蓝牙底盘和急停。这个收尾步骤把代码理解转化为可追溯、可回退且以安全为先的部署流程。",
+    "nodeIds": [
+      "document:dwa+lqr_v0.3.2.md",
+      "document:实车测试指令.md"
+    ]
+  }
+]

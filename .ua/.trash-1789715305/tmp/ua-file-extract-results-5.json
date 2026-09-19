@@ -1,0 +1,112 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [
+    "src/vision_opencv/pytest.ini"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": "src/vision_opencv/.travis.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 77,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "travis_time_start",
+          "startLine": 5,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "travis_time_end",
+          "startLine": 14,
+          "endLine": 23,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/.travis.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 17,
+      "nonEmptyLines": 17,
+      "sections": [
+        {
+          "heading": "sudo",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "dist",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "language",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "env",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "before_install",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "script",
+          "level": 1,
+          "line": 12
+        },
+        {
+          "heading": "after_failure",
+          "level": 1,
+          "line": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "src/vision_opencv/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "projectRoot": "/home/x/tami/wheel_latest",
+  "batchFiles": [
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "language": "python",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "language": "python",
+      "sizeLines": 373,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/directed.py",
+      "language": "python",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "src/vision_opencv/image_geometry/image_geometry/__init__.py": [
+      "src/vision_opencv/image_geometry/image_geometry/cameramodels.py"
+    ],
+    "src/vision_opencv/image_geometry/image_geometry/cameramodels.py": [],
+    "src/vision_opencv/image_geometry/test/directed.py": [
+      "src/vision_opencv/image_geometry/image_geometry/__init__.py"
+    ]
+  },
+  "neighborMap": {}
+}

@@ -1,0 +1,743 @@
+{
+  "projectRoot": "/home/x/tami/wheel_latest",
+  "files": [
+    {
+      "path": ".ua/config.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 410,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.1.md",
+      "language": "markdown",
+      "sizeLines": 524,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.2.md",
+      "language": "markdown",
+      "sizeLines": 668,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.3.2.md",
+      "language": "markdown",
+      "sizeLines": 458,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "dwa+lqr_v0.3.md",
+      "language": "markdown",
+      "sizeLines": 445,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/.travis.sh",
+      "language": "shell",
+      "sizeLines": 77,
+      "fileCategory": "script"
+    },
+    {
+      "path": "src/vision_opencv/.travis.yml",
+      "language": "yaml",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/LICENSE-Apache",
+      "language": "unknown",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/LICENSE-BSD",
+      "language": "unknown",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/README.md",
+      "language": "markdown",
+      "sizeLines": 9,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/CHANGELOG.rst",
+      "language": "markdown",
+      "sizeLines": 545,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/README.md",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/cmake/cv_bridge-extras.cmake.in",
+      "language": "in",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/doc/conf.py",
+      "language": "python",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/doc/index.rst",
+      "language": "markdown",
+      "sizeLines": 18,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/doc/mainpage.dox",
+      "language": "dox",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h",
+      "language": "c",
+      "sizeLines": 333,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/include/cv_bridge/rgb_colors.h",
+      "language": "c",
+      "sizeLines": 213,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/package.xml",
+      "language": "xml",
+      "sizeLines": 43,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/python/cv_bridge/__init__.py",
+      "language": "python",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/python/cv_bridge/core.py",
+      "language": "python",
+      "sizeLines": 284,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 75,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/cv_bridge.cpp",
+      "language": "cpp",
+      "sizeLines": 738,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module.cpp",
+      "language": "cpp",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module.hpp",
+      "language": "cpp",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module_opencv2.cpp",
+      "language": "cpp",
+      "sizeLines": 263,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/module_opencv3.cpp",
+      "language": "cpp",
+      "sizeLines": 372,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/pycompat.hpp",
+      "language": "cpp",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/src/rgb_colors.cpp",
+      "language": "cpp",
+      "sizeLines": 202,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 31,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/conversions.py",
+      "language": "python",
+      "sizeLines": 88,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/enumerants.py",
+      "language": "python",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/python_bindings.py",
+      "language": "python",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/test_compression.cpp",
+      "language": "cpp",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/test_endian.cpp",
+      "language": "cpp",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/test_rgb_colors.cpp",
+      "language": "cpp",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/utest.cpp",
+      "language": "cpp",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/cv_bridge/test/utest2.cpp",
+      "language": "cpp",
+      "sizeLines": 172,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/CHANGELOG.rst",
+      "language": "markdown",
+      "sizeLines": 456,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 64,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/doc/conf.py",
+      "language": "python",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/doc/index.rst",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/doc/mainpage.dox",
+      "language": "dox",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "language": "python",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "language": "python",
+      "sizeLines": 373,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "language": "c",
+      "sizeLines": 409,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "language": "c",
+      "sizeLines": 154,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "language": "cpp",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/package.xml",
+      "language": "xml",
+      "sizeLines": 32,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "language": "cpp",
+      "sizeLines": 665,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "language": "cpp",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/directed.py",
+      "language": "python",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "language": "cpp",
+      "sizeLines": 461,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "language": "cpp",
+      "sizeLines": 257,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/CHANGELOG.rst",
+      "language": "markdown",
+      "sizeLines": 345,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/launch/view_img.py",
+      "language": "python",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/mainpage.dox",
+      "language": "dox",
+      "sizeLines": 118,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "language": "python",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "language": "python",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "language": "python",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "language": "python",
+      "sizeLines": 93,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/package.xml",
+      "language": "xml",
+      "sizeLines": 26,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/resource/opencv_tests",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/setup.cfg",
+      "language": "config",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/setup.py",
+      "language": "python",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/vision_opencv/pytest.ini",
+      "language": "config",
+      "sizeLines": 2,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/vision_opencv/vision_opencv/CHANGELOG.rst",
+      "language": "markdown",
+      "sizeLines": 246,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/vision_opencv/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 7,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/vision_opencv/vision_opencv/package.xml",
+      "language": "xml",
+      "sizeLines": 29,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_msgs/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 19,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/wheel_msgs/msg/ObstacleInfo.msg",
+      "language": "msg",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_msgs/msg/PerceptionOutput.msg",
+      "language": "msg",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_msgs/package.xml",
+      "language": "xml",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_perception/CMakeLists.txt",
+      "language": "txt",
+      "sizeLines": 266,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/wheel_perception/config/check_onnx.py",
+      "language": "python",
+      "sizeLines": 88,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/config/params.yaml",
+      "language": "yaml",
+      "sizeLines": 162,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_perception/config/pth2engine.py",
+      "language": "python",
+      "sizeLines": 170,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/config/seg_trt.py",
+      "language": "python",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/config/xtx_trt.py",
+      "language": "python",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "language": "cpp",
+      "sizeLines": 120,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/dwa_controller/src/DWAPlanner.cpp",
+      "language": "cpp",
+      "sizeLines": 282,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/include/wheel_perception/core/ai_engine.hpp",
+      "language": "cpp",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp",
+      "language": "cpp",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/include/wheel_perception/core/mask_postprocess.hpp",
+      "language": "cpp",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/include/wheel_perception/core/obstacle_fusion.hpp",
+      "language": "cpp",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/include/wheel_perception/core/zed_driver.hpp",
+      "language": "cpp",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "language": "python",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/launch/run_launch.py",
+      "language": "python",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/package.xml",
+      "language": "xml",
+      "sizeLines": 35,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_perception/rviz/dwa_navigation.rviz",
+      "language": "rviz",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/scripts/sub.py",
+      "language": "python",
+      "sizeLines": 144,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/scripts/video_infer_trt.py",
+      "language": "python",
+      "sizeLines": 381,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/controller_node.cpp",
+      "language": "cpp",
+      "sizeLines": 737,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/ai_engine.cpp",
+      "language": "cpp",
+      "sizeLines": 162,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/global_flags.cpp",
+      "language": "cpp",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/mask_postprocess.cu",
+      "language": "cu",
+      "sizeLines": 193,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/obstacle_fusion.cu",
+      "language": "cu",
+      "sizeLines": 687,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/preprocess.cu",
+      "language": "cu",
+      "sizeLines": 150,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/core/zed_driver.cpp",
+      "language": "cpp",
+      "sizeLines": 355,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/src/fusion_node.cpp",
+      "language": "cpp",
+      "sizeLines": 1182,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_perception/test/test_dwa_planner.cpp",
+      "language": "cpp",
+      "sizeLines": 229,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/config/gateway.yaml",
+      "language": "yaml",
+      "sizeLines": 9,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py",
+      "language": "python",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/package.xml",
+      "language": "xml",
+      "sizeLines": 27,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_phone_gateway/resource/wheel_phone_gateway",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/setup.cfg",
+      "language": "config",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/wheel_phone_gateway/setup.py",
+      "language": "python",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/test/test_protocol.py",
+      "language": "python",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "language": "python",
+      "sizeLines": 505,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "language": "python",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "symlink_install_manifest.txt",
+      "language": "txt",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "tools/assumed_zed_hd720_calibration.json",
+      "language": "json",
+      "sizeLines": 27,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tools/convert_text6_stereo_dataset.py",
+      "language": "python",
+      "sizeLines": 136,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tools/export_zed_calibration.py",
+      "language": "python",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "video_pub.py",
+      "language": "python",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "wheel_cuda_road_width_handoff.md",
+      "language": "markdown",
+      "sizeLines": 279,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "zed_capture_dataset.py",
+      "language": "python",
+      "sizeLines": 611,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zed_dataset_player.py",
+      "language": "python",
+      "sizeLines": 368,
+      "fileCategory": "code"
+    },
+    {
+      "path": "实车测试指令.md",
+      "language": "markdown",
+      "sizeLines": 760,
+      "fileCategory": "docs"
+    }
+  ]
+}

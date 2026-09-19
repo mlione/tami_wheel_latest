@@ -1,0 +1,192 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "summary": "作为 image_geometry Python 包入口，重新导出单目和双目相机模型。",
+      "tags": [
+        "入口点",
+        "包导出",
+        "相机几何"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "type": "file",
+      "name": "cameramodels.py",
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "summary": "实现 ROS CameraInfo 驱动的单目与双目相机几何模型，支持校正、像素与三维投影、视差和深度换算。",
+      "tags": [
+        "相机模型",
+        "几何投影",
+        "图像校正",
+        "ros2"
+      ],
+      "complexity": "complex",
+      "languageNotes": "使用 NumPy 矩阵保存 K、D、R、P、Q，并调用 OpenCV 完成去畸变与重映射。"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:mkmat",
+      "type": "function",
+      "name": "mkmat",
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "将扁平数值序列构造成指定行列的 float64 NumPy 矩阵。",
+      "tags": [
+        "工具函数",
+        "矩阵构造",
+        "numpy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:PinholeCameraModel",
+      "type": "class",
+      "name": "PinholeCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "lineRange": [
+        14,
+        255
+      ],
+      "summary": "封装单目相机内外参、ROI 与 binning 修正，并提供图像校正和像素/三维射线投影。",
+      "tags": [
+        "相机模型",
+        "几何投影",
+        "图像校正"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:StereoCameraModel",
+      "type": "class",
+      "name": "StereoCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "lineRange": [
+        257,
+        373
+      ],
+      "summary": "组合左右单目模型并构造重投影矩阵，提供双目像素、三维点、视差与深度换算。",
+      "tags": [
+        "双目视觉",
+        "深度估计",
+        "几何投影"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/test/directed.py",
+      "type": "file",
+      "name": "directed.py",
+      "filePath": "src/vision_opencv/image_geometry/test/directed.py",
+      "summary": "以固定相机标定数据验证单目校正、双目投影互逆关系以及像素位移与空间位移换算。",
+      "tags": [
+        "测试",
+        "相机标定",
+        "双目几何"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/test/directed.py:TestDirected",
+      "type": "class",
+      "name": "TestDirected",
+      "filePath": "src/vision_opencv/image_geometry/test/directed.py",
+      "lineRange": [
+        8,
+        67
+      ],
+      "summary": "使用已知标定矩阵验证单目与双目相机模型的投影一致性和位移换算。",
+      "tags": [
+        "测试",
+        "双目几何",
+        "相机标定"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "function:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:mkmat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "function:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:mkmat",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:PinholeCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:PinholeCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:StereoCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "class:src/vision_opencv/image_geometry/image_geometry/cameramodels.py:StereoCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/directed.py",
+      "target": "class:src/vision_opencv/image_geometry/test/directed.py:TestDirected",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/directed.py",
+      "target": "class:src/vision_opencv/image_geometry/test/directed.py:TestDirected",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "target": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/directed.py",
+      "target": "file:src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "target": "file:src/vision_opencv/image_geometry/test/directed.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

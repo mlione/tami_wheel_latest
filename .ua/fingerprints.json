@@ -1,0 +1,6566 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "cdfa8d21e2e2a07aa99b7bb83d371fb26dc1df51",
+  "generatedAt": "2026-09-18T07:08:12.713Z",
+  "files": {
+    ".ua/config.json": {
+      "filePath": ".ua/config.json",
+      "contentHash": "5d2ff006cff22c68edd4776249d562ea8c73915a61c6214eb85933865a9402e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": false
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "9eefa415e03e15906b8b6fad821990496e1e7d472690f07d4dd17703bb5a68cc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 411,
+      "hasStructuralAnalysis": false
+    },
+    "dwa+lqr_v0.1.md": {
+      "filePath": "dwa+lqr_v0.1.md",
+      "contentHash": "f7fca139e7b0f97e2a6a6f9994d88be55c0d50cf9d4be45d56bea7e6668ebf9b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 525,
+      "hasStructuralAnalysis": false
+    },
+    "dwa+lqr_v0.2.md": {
+      "filePath": "dwa+lqr_v0.2.md",
+      "contentHash": "43be901f8d90e1b3fb8a023d82850dde8703241adc91e36b71922de2960653d2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 669,
+      "hasStructuralAnalysis": false
+    },
+    "dwa+lqr_v0.3.2.md": {
+      "filePath": "dwa+lqr_v0.3.2.md",
+      "contentHash": "e69fd80fddeb94b4d3d90ed34083391983ba80e3a66597247f25a27e95a8c264",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 459,
+      "hasStructuralAnalysis": false
+    },
+    "dwa+lqr_v0.3.md": {
+      "filePath": "dwa+lqr_v0.3.md",
+      "contentHash": "240e40032f2f6bf8c5d938f7e0ca9e4d8404c5463cf570c6f7c59b6fe8b86f99",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 446,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/.travis.sh": {
+      "filePath": "src/vision_opencv/.travis.sh",
+      "contentHash": "466cb72e27f015dabf135c8e4045b5ee327f9c3f98999c3bd753720b0a28ef2a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 78,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/.travis.yml": {
+      "filePath": "src/vision_opencv/.travis.yml",
+      "contentHash": "e21a8375357c54f313a958ae2780649c8c636142889c08beed60db7caedfea2e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/LICENSE-Apache": {
+      "filePath": "src/vision_opencv/LICENSE-Apache",
+      "contentHash": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 202,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/LICENSE-BSD": {
+      "filePath": "src/vision_opencv/LICENSE-BSD",
+      "contentHash": "1b1e5ebcad699924203feced7205a4bbdf4f153d34065a19a8a4e107cf1e154b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/README.md": {
+      "filePath": "src/vision_opencv/README.md",
+      "contentHash": "5b48ff3a1f6f9c6fc2413931b25c35d63ca459ad6f798474495b3a3cab831427",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/CHANGELOG.rst": {
+      "filePath": "src/vision_opencv/cv_bridge/CHANGELOG.rst",
+      "contentHash": "4db39d79cb4659a9e3a1eb96339a5f012e277f42b6e6972b50e63a6276a45ced",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 546,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/cv_bridge/CMakeLists.txt",
+      "contentHash": "b9037b2b9ed530cadc71e7566b85e8407f068a998193010065b98676ec37f061",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 102,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/README.md": {
+      "filePath": "src/vision_opencv/cv_bridge/README.md",
+      "contentHash": "5de7a2455ed471ab59ff11d5831b7734ab3e62757ace6b2049462cdec4038ca6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 64,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/cmake/cv_bridge-extras.cmake.in": {
+      "filePath": "src/vision_opencv/cv_bridge/cmake/cv_bridge-extras.cmake.in",
+      "contentHash": "d438214094dde3311c4ae964e753c1b338ae5a7b02f4e89176badb57acc134ba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/doc/conf.py": {
+      "filePath": "src/vision_opencv/cv_bridge/doc/conf.py",
+      "contentHash": "525add9f7531549a54b55fcb132e170a2736cab68c411d8961d22dc1a1074ecc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 202,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/doc/index.rst": {
+      "filePath": "src/vision_opencv/cv_bridge/doc/index.rst",
+      "contentHash": "75e0c5684816ea987cf0a94c96e5c638c29e1c5bcf0b58add6aff521c28c3ac2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/doc/mainpage.dox": {
+      "filePath": "src/vision_opencv/cv_bridge/doc/mainpage.dox",
+      "contentHash": "010fbb2bd03d79d402358226cb157199cec718597c616afad6f8f59ccd0674ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 15,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h": {
+      "filePath": "src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h",
+      "contentHash": "e1d3854779cd7feced7f63ae44a8490a1e1be913ab6dc439984e7f08177b5859",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 334,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/include/cv_bridge/rgb_colors.h": {
+      "filePath": "src/vision_opencv/cv_bridge/include/cv_bridge/rgb_colors.h",
+      "contentHash": "75ea142851d2939a9895de094950b19a4c2c8e22d7397f360c69200d787552b9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 214,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/package.xml": {
+      "filePath": "src/vision_opencv/cv_bridge/package.xml",
+      "contentHash": "fec52537582c4287354eefd7df7b087ae5f6399ee1aefa5e0f50cd89336e2a17",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/python/cv_bridge/__init__.py": {
+      "filePath": "src/vision_opencv/cv_bridge/python/cv_bridge/__init__.py",
+      "contentHash": "45d795836405d8abdefa9a0c559a249053e793659c6e809d7cac18cefb9532ac",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".core",
+          "specifiers": [
+            "CvBridge",
+            "CvBridgeError"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 9,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/python/cv_bridge/core.py": {
+      "filePath": "src/vision_opencv/cv_bridge/python/cv_bridge/core.py",
+      "contentHash": "e95e914bcaf23c88e759c673fa7f6f95884b37e278c94fd72429d347b0b04056",
+      "functions": [],
+      "classes": [
+        {
+          "name": "CvBridgeError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "CvBridge",
+          "methods": [
+            "__init__",
+            "dtype_with_channels_to_cvtype2",
+            "cvtype2_to_dtype_with_channels",
+            "encoding_to_cvtype2",
+            "encoding_to_dtype_with_channels",
+            "compressed_imgmsg_to_cv2",
+            "imgmsg_to_cv2",
+            "cv2_to_compressed_imgmsg",
+            "cv2_to_imgmsg"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 238
+        }
+      ],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        }
+      ],
+      "exports": [
+        "CvBridgeError",
+        "CvBridge"
+      ],
+      "totalLines": 285,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/cv_bridge/src/CMakeLists.txt",
+      "contentHash": "183fa0795e06b95b9af93ff5bb8d8c27f9bbfa9935663ae348380fe9d1efffa7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 76,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/src/cv_bridge.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/cv_bridge.cpp",
+      "contentHash": "2fb635686574621bc1236fb5e43166225d169eac41306de7035889068f8cc4ff",
+      "functions": [
+        {
+          "name": "depthStrToInt",
+          "params": [
+            "depth"
+          ],
+          "returnType": "int",
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "getCvType",
+          "params": [
+            "encoding"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 45
+        },
+        {
+          "name": "getEncoding",
+          "params": [
+            "encoding"
+          ],
+          "returnType": "Encoding",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "getConversionCodes",
+          "params": [],
+          "returnType": "std::map<std::pair<Encoding, Encoding>, std::vector<int>>",
+          "exported": true,
+          "lineCount": 63
+        },
+        {
+          "name": "getConversionCode",
+          "params": [
+            "src_encoding",
+            "dst_encoding"
+          ],
+          "returnType": "std::vector<int>",
+          "exported": true,
+          "lineCount": 58
+        },
+        {
+          "name": "matFromImage",
+          "params": [
+            "source"
+          ],
+          "returnType": "cv::Mat",
+          "exported": true,
+          "lineCount": 52
+        },
+        {
+          "name": "toCvCopyImpl",
+          "params": [
+            "source",
+            "src_header",
+            "src_encoding",
+            "dst_encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 48
+        },
+        {
+          "name": "toImageMsg",
+          "params": [],
+          "returnType": "sensor_msgs::msg::Image::SharedPtr",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toImageMsg",
+          "params": [
+            "ros_image"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "toCvCopy",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toCvCopy",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "toCvShare",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImageConstPtr",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toCvShare",
+          "params": [
+            "source",
+            "tracked_object",
+            "encoding"
+          ],
+          "returnType": "CvImageConstPtr",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "cvtColor",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toCompressedImageMsg",
+          "params": [
+            "dst_format"
+          ],
+          "returnType": "sensor_msgs::msg::CompressedImage::SharedPtr",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "getFormat",
+          "params": [
+            "format"
+          ],
+          "returnType": "std::string",
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "toCompressedImageMsg",
+          "params": [
+            "ros_image",
+            "dst_format"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "toCvCopy",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toCvCopy",
+          "params": [
+            "source",
+            "encoding"
+          ],
+          "returnType": "CvImagePtr",
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "cvtColorForDisplay",
+          "params": [
+            "source",
+            "encoding_out",
+            "options"
+          ],
+          "returnType": "CvImageConstPtr",
+          "exported": true,
+          "lineCount": 164
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        },
+        {
+          "source": "cv_bridge/rgb_colors.h",
+          "specifiers": [
+            "cv_bridge/rgb_colors.h"
+          ]
+        },
+        {
+          "source": "boost/endian/conversion.hpp",
+          "specifiers": [
+            "boost/endian/conversion.hpp"
+          ]
+        },
+        {
+          "source": "opencv2/imgcodecs.hpp",
+          "specifiers": [
+            "opencv2/imgcodecs.hpp"
+          ]
+        },
+        {
+          "source": "opencv2/imgproc/imgproc.hpp",
+          "specifiers": [
+            "opencv2/imgproc/imgproc.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/image_encodings.hpp",
+          "specifiers": [
+            "sensor_msgs/image_encodings.hpp"
+          ]
+        },
+        {
+          "source": "rcpputils/endian.hpp",
+          "specifiers": [
+            "rcpputils/endian.hpp"
+          ]
+        },
+        {
+          "source": "map",
+          "specifiers": [
+            "map"
+          ]
+        },
+        {
+          "source": "memory",
+          "specifiers": [
+            "memory"
+          ]
+        },
+        {
+          "source": "regex",
+          "specifiers": [
+            "regex"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        },
+        {
+          "source": "utility",
+          "specifiers": [
+            "utility"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        }
+      ],
+      "exports": [
+        "getCvType",
+        "getEncoding",
+        "getConversionCodes",
+        "getConversionCode",
+        "matFromImage",
+        "toCvCopyImpl",
+        "toImageMsg",
+        "toImageMsg",
+        "toCvCopy",
+        "toCvCopy",
+        "toCvShare",
+        "toCvShare",
+        "cvtColor",
+        "toCompressedImageMsg",
+        "getFormat",
+        "toCompressedImageMsg",
+        "toCvCopy",
+        "toCvCopy",
+        "cvtColorForDisplay"
+      ],
+      "totalLines": 739,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/module.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/module.cpp",
+      "contentHash": "c4735c87f873df774fa50b4d2fac480584b5a48c19881c6db315fb473bce050e",
+      "functions": [
+        {
+          "name": "cvtColor2Wrap",
+          "params": [
+            "obj_in",
+            "encoding_in",
+            "encoding_out"
+          ],
+          "returnType": "bp::object",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "cvtColorForDisplayWrap",
+          "params": [
+            "obj_in",
+            "encoding_in",
+            "encoding_out"
+          ],
+          "returnType": "bp::object",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "CV_MAT_CNWrap",
+          "params": [
+            "i"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "CV_MAT_DEPTHWrap",
+          "params": [
+            "i"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "BOOST_PYTHON_MODULE",
+          "params": [],
+          "exported": true,
+          "lineCount": 24
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "module.hpp",
+          "specifiers": [
+            "module.hpp"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        }
+      ],
+      "exports": [
+        "cvtColor2Wrap",
+        "cvtColorForDisplayWrap",
+        "CV_MAT_CNWrap",
+        "CV_MAT_DEPTHWrap",
+        "BOOST_PYTHON_MODULE"
+      ],
+      "totalLines": 120,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/module.hpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/module.hpp",
+      "contentHash": "3a6bf9fafaaf6bfb2735a08a388d41a3d37e783ce124c4d4f66a102d20ad40ec",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/module_opencv2.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/module_opencv2.cpp",
+      "contentHash": "616735c76a048bf148f145cf3ac33c91680b4898215e5eea2b48ac06238dbe9e",
+      "functions": [
+        {
+          "name": "failmsg",
+          "params": [
+            "fmt"
+          ],
+          "returnType": "int",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "PyAllowThreads",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "~PyAllowThreads",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "NumpyAllocator",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "~NumpyAllocator",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "allocate",
+          "params": [
+            "dims",
+            "sizes",
+            "type",
+            "refcount",
+            "datastart",
+            "data",
+            "step"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "deallocate",
+          "params": [
+            "refcount",
+            "datastart",
+            "data"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "convert_to_CvMat2",
+          "params": [
+            "o",
+            "m"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 86
+        }
+      ],
+      "classes": [
+        {
+          "name": "PyAllowThreads",
+          "methods": [
+            "PyAllowThreads",
+            "~PyAllowThreads"
+          ],
+          "properties": [
+            "_state"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "NumpyAllocator",
+          "methods": [
+            "NumpyAllocator",
+            "~NumpyAllocator",
+            "allocate",
+            "deallocate"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "imports": [
+        {
+          "source": "utility",
+          "specifiers": [
+            "utility"
+          ]
+        },
+        {
+          "source": "module.hpp",
+          "specifiers": [
+            "module.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "PyAllowThreads",
+        "~PyAllowThreads",
+        "PyAllowThreads",
+        "NumpyAllocator",
+        "~NumpyAllocator",
+        "allocate",
+        "deallocate",
+        "NumpyAllocator",
+        "allocate",
+        "deallocate",
+        "convert_to_CvMat2"
+      ],
+      "totalLines": 264,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/module_opencv3.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/module_opencv3.cpp",
+      "contentHash": "3886e300db7f1906b987e9c2b36e2c58998770ec74f40357ecaa37c18d21d01a",
+      "functions": [
+        {
+          "name": "failmsg",
+          "params": [
+            "fmt"
+          ],
+          "returnType": "int",
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "ArgInfo",
+          "params": [
+            "name_",
+            "outputarg_"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "PyAllowThreads",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "~PyAllowThreads",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "PyEnsureGIL",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "~PyEnsureGIL",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "NumpyAllocator",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "~NumpyAllocator",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "allocate",
+          "params": [
+            "u",
+            "accessFlags",
+            "usageFlags"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "deallocate",
+          "params": [
+            "u"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "pyopencv_to",
+          "params": [
+            "o",
+            "m",
+            "info"
+          ],
+          "returnType": "bool",
+          "exported": false,
+          "lineCount": 157
+        },
+        {
+          "name": "convert_to_CvMat2",
+          "params": [
+            "o",
+            "m"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "ArgInfo",
+          "methods": [
+            "ArgInfo"
+          ],
+          "properties": [
+            "name",
+            "outputarg"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "PyAllowThreads",
+          "methods": [
+            "PyAllowThreads",
+            "~PyAllowThreads"
+          ],
+          "properties": [
+            "_state"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "PyEnsureGIL",
+          "methods": [
+            "PyEnsureGIL",
+            "~PyEnsureGIL"
+          ],
+          "properties": [
+            "_state"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "NumpyAllocator",
+          "methods": [
+            "NumpyAllocator",
+            "~NumpyAllocator",
+            "allocate",
+            "deallocate"
+          ],
+          "properties": [
+            "stdAllocator"
+          ],
+          "exported": true,
+          "lineCount": 77
+        }
+      ],
+      "imports": [
+        {
+          "source": "module.hpp",
+          "specifiers": [
+            "module.hpp"
+          ]
+        },
+        {
+          "source": "opencv2/core/types_c.h",
+          "specifiers": [
+            "opencv2/core/types_c.h"
+          ]
+        },
+        {
+          "source": "opencv2/opencv_modules.hpp",
+          "specifiers": [
+            "opencv2/opencv_modules.hpp"
+          ]
+        },
+        {
+          "source": "pycompat.hpp",
+          "specifiers": [
+            "pycompat.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "ArgInfo",
+        "ArgInfo",
+        "PyAllowThreads",
+        "~PyAllowThreads",
+        "PyAllowThreads",
+        "PyEnsureGIL",
+        "~PyEnsureGIL",
+        "PyEnsureGIL",
+        "NumpyAllocator",
+        "~NumpyAllocator",
+        "allocate",
+        "deallocate",
+        "NumpyAllocator",
+        "convert_to_CvMat2"
+      ],
+      "totalLines": 373,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/pycompat.hpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/pycompat.hpp",
+      "contentHash": "fe6ab11b09845e68f4207993dc114c17f16a7bf90cd7208503996baff3d6190e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 72,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/src/rgb_colors.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/src/rgb_colors.cpp",
+      "contentHash": "b84abd2b7ce94de577f3f5abd26eac2113daad59a089e466c2ecadbc9262e732",
+      "functions": [
+        {
+          "name": "getRGBColor",
+          "params": [
+            "color"
+          ],
+          "returnType": "cv::Vec3d",
+          "exported": true,
+          "lineCount": 153
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cv_bridge/rgb_colors.h",
+          "specifiers": [
+            "cv_bridge/rgb_colors.h"
+          ]
+        },
+        {
+          "source": "opencv2/core/core.hpp",
+          "specifiers": [
+            "opencv2/core/core.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "getRGBColor"
+      ],
+      "totalLines": 203,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/cv_bridge/test/CMakeLists.txt",
+      "contentHash": "6a5df41e8eb9256efdadc51c5d737deb35bffca60001a81ff819452da5f02dd1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/cv_bridge/test/conversions.py": {
+      "filePath": "src/vision_opencv/cv_bridge/test/conversions.py",
+      "contentHash": "ae8dc500723d93a3571a61ce568a0d39128a540e0c31cb6c8b42ef175e776b9a",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestConversions",
+          "methods": [
+            "test_mono16_cv2",
+            "test_encode_decode_cv2",
+            "test_encode_decode_cv2_compressed",
+            "test_endianness"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 74
+        }
+      ],
+      "imports": [
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge",
+            "CvBridgeError"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "unittest",
+          "specifiers": [
+            "unittest"
+          ]
+        }
+      ],
+      "exports": [
+        "TestConversions"
+      ],
+      "totalLines": 89,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/enumerants.py": {
+      "filePath": "src/vision_opencv/cv_bridge/test/enumerants.py",
+      "contentHash": "b3d495208b01690234175cc05e3d6cdc0fd40a626b7375881cfc08dd2bdd5c04",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestEnumerants",
+          "methods": [
+            "test_enumerants_cv2",
+            "test_numpy_types"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "imports": [
+        {
+          "source": "unittest",
+          "specifiers": [
+            "unittest"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge",
+            "CvBridgeError",
+            "getCvType"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        }
+      ],
+      "exports": [
+        "TestEnumerants"
+      ],
+      "totalLines": 48,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/python_bindings.py": {
+      "filePath": "src/vision_opencv/cv_bridge/test/python_bindings.py",
+      "contentHash": "d91eb69fd11f8de99a7e1924797d71ebd0cdc33d17609e72587d686f0897eb80",
+      "functions": [
+        {
+          "name": "test_cvtColorForDisplay",
+          "params": [],
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "cv_bridge"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "test_cvtColorForDisplay"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/test_compression.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/test/test_compression.cpp",
+      "contentHash": "50e84c0702d07350dab1bc961c40d69303e1503520fc48b0a8a51e7756269c59",
+      "functions": [
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        },
+        {
+          "source": "stdio.h",
+          "specifiers": [
+            "stdio.h"
+          ]
+        },
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        }
+      ],
+      "exports": [
+        "TEST"
+      ],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/test_endian.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/test/test_endian.cpp",
+      "contentHash": "e7e9eac654b457b4a8ff4b3f97bfeb54dad4ed7b2036c315ed639a7824680f55",
+      "functions": [
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "boost/endian/conversion.hpp",
+          "specifiers": [
+            "boost/endian/conversion.hpp"
+          ]
+        },
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        },
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "memory",
+          "specifiers": [
+            "memory"
+          ]
+        }
+      ],
+      "exports": [
+        "TEST"
+      ],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/test_rgb_colors.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/test/test_rgb_colors.cpp",
+      "contentHash": "60c80976377677554a2e6090c09b1d493249d1d6d4e64a2e5d5111b0d8815b67",
+      "functions": [
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "opencv2/opencv.hpp",
+          "specifiers": [
+            "opencv2/opencv.hpp"
+          ]
+        },
+        {
+          "source": "cv_bridge/rgb_colors.h",
+          "specifiers": [
+            "cv_bridge/rgb_colors.h"
+          ]
+        }
+      ],
+      "exports": [
+        "TEST"
+      ],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/utest.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/test/utest.cpp",
+      "contentHash": "5c7ccc03d30b900de2518d20c09f2870555afc0f2d7590bce3c876e8f5bb2187",
+      "functions": [
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "main",
+          "params": [
+            "argc",
+            "argv"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "sensor_msgs/image_encodings.hpp",
+          "specifiers": [
+            "sensor_msgs/image_encodings.hpp"
+          ]
+        },
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        }
+      ],
+      "exports": [
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "main"
+      ],
+      "totalLines": 142,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/cv_bridge/test/utest2.cpp": {
+      "filePath": "src/vision_opencv/cv_bridge/test/utest2.cpp",
+      "contentHash": "4e60fe3552717d08e4e28cffc51224490c586d8d3a10e00b0a7c6ed84afcfdc2",
+      "functions": [
+        {
+          "name": "isUnsigned",
+          "params": [
+            "encoding"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "getEncodings",
+          "params": [],
+          "returnType": "std::vector<std::string>",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 95
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/image.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/image.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/image_encodings.hpp",
+          "specifiers": [
+            "sensor_msgs/image_encodings.hpp"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        },
+        {
+          "source": "opencv2/core/core.hpp",
+          "specifiers": [
+            "opencv2/core/core.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "isUnsigned",
+        "getEncodings",
+        "TEST"
+      ],
+      "totalLines": 173,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/CHANGELOG.rst": {
+      "filePath": "src/vision_opencv/image_geometry/CHANGELOG.rst",
+      "contentHash": "06dfabc6f66b3891575f9413e246d21a9f6b07f1a04327390939b90afe9b532c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 457,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/image_geometry/CMakeLists.txt",
+      "contentHash": "f266e2976a00658dcf3239068b4f83c528521d42ade1d04dd4e6d5f40895624e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 65,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/doc/conf.py": {
+      "filePath": "src/vision_opencv/image_geometry/doc/conf.py",
+      "contentHash": "e1a8f4f999d7e25f832de2f8ad6ab01c1aceaf42bcdffcdccbf60f0fc3e92943",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 202,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/doc/index.rst": {
+      "filePath": "src/vision_opencv/image_geometry/doc/index.rst",
+      "contentHash": "2c0ab40803f3695807a7cd4974d62e1cc9e8a2648f151bdfbcd8fa4920dd3f56",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/doc/mainpage.dox": {
+      "filePath": "src/vision_opencv/image_geometry/doc/mainpage.dox",
+      "contentHash": "da98b57a9b2516941fd37ed6ba497fcf313a6aeedbf445ed2e65e03018ff1462",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/image_geometry/__init__.py": {
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/__init__.py",
+      "contentHash": "7506b7c0d9379ac8b51ef5f6eaff29135de5300464990e245ebc3db715ccb8e1",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".cameramodels",
+          "specifiers": [
+            "PinholeCameraModel",
+            "StereoCameraModel"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/image_geometry/cameramodels.py": {
+      "filePath": "src/vision_opencv/image_geometry/image_geometry/cameramodels.py",
+      "contentHash": "baa8023f30993880d8d45b44ea155a7bdcd239014156f2d515eef4654a465bb5",
+      "functions": [
+        {
+          "name": "mkmat",
+          "params": [
+            "rows",
+            "cols",
+            "L"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeCameraModel",
+          "methods": [
+            "__init__",
+            "fromCameraInfo",
+            "rectifyImage",
+            "rectifyPoint",
+            "project3dToPixel",
+            "projectPixelTo3dRay",
+            "getDeltaU",
+            "getDeltaV",
+            "getDeltaX",
+            "getDeltaY",
+            "fullResolution",
+            "intrinsicMatrix",
+            "distortionCoeffs",
+            "rotationMatrix",
+            "projectionMatrix",
+            "fullIntrinsicMatrix",
+            "fullProjectionMatrix",
+            "cx",
+            "cy",
+            "fx",
+            "fy",
+            "Tx",
+            "Ty",
+            "tfFrame"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 242
+        },
+        {
+          "name": "StereoCameraModel",
+          "methods": [
+            "__init__",
+            "fromCameraInfo",
+            "tfFrame",
+            "project3dToPixel",
+            "projectPixelTo3d",
+            "getZ",
+            "getDisparity"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 117
+        }
+      ],
+      "imports": [
+        {
+          "source": "array",
+          "specifiers": [
+            "array"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "copy",
+          "specifiers": [
+            "copy"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "numpy"
+          ]
+        }
+      ],
+      "exports": [
+        "mkmat",
+        "PinholeCameraModel",
+        "StereoCameraModel"
+      ],
+      "totalLines": 374,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h": {
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "contentHash": "bb14e12279d76a45f0771b9239cc0fd79afdedb53984e60aa55587fe62e43f9d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 410,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h": {
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "contentHash": "54e45d563fc0410e2eb7f5525772b75bf5490179a5011b6b5b8a2e1edcd6415b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 155,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp": {
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "contentHash": "9e399e6396dc90614504b4e617d7355df6293aa6240b4eb94881727d59523f1c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/package.xml": {
+      "filePath": "src/vision_opencv/image_geometry/package.xml",
+      "contentHash": "ea98c6b6056068a35de32a5fa1141eee6f9f94fee19b190d0839b4f8b928a6f2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp": {
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "contentHash": "3dd6a0d1d0bb454075f3a92b955b47d03c837fdcabe787f54d70e69af42e0f11",
+      "functions": [
+        {
+          "name": "Cache",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "PinholeCameraModel",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "PinholeCameraModel",
+          "params": [
+            "other"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "fromCameraInfo",
+          "params": [
+            "msg"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 123
+        },
+        {
+          "name": "fromCameraInfo",
+          "params": [
+            "msg"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "fullResolution",
+          "params": [],
+          "returnType": "cv::Size",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "reducedResolution",
+          "params": [],
+          "returnType": "cv::Size",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "toFullResolution",
+          "params": [
+            "uv_reduced"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toFullResolution",
+          "params": [
+            "roi_reduced"
+          ],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "toReducedResolution",
+          "params": [
+            "uv_full"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "toReducedResolution",
+          "params": [
+            "roi_full"
+          ],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "rawRoi",
+          "params": [],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "rectifiedRoi",
+          "params": [],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "project3dToPixel",
+          "params": [
+            "xyz"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "params": [
+            "uv_rect"
+          ],
+          "returnType": "cv::Point3d",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "params": [
+            "uv_rect",
+            "P"
+          ],
+          "returnType": "cv::Point3d",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "rectifyImage",
+          "params": [
+            "raw",
+            "rectified",
+            "interpolation"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "unrectifyImage",
+          "params": [
+            "rectified",
+            "raw",
+            "interpolation"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "rectifyPoint",
+          "params": [
+            "uv_raw"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "rectifyPoint",
+          "params": [
+            "uv_raw",
+            "K",
+            "P"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "unrectifyPoint",
+          "params": [
+            "uv_rect"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "unrectifyPoint",
+          "params": [
+            "uv_rect",
+            "K",
+            "P"
+          ],
+          "returnType": "cv::Point2d",
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "rectifyRoi",
+          "params": [
+            "roi_raw"
+          ],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "unrectifyRoi",
+          "params": [
+            "roi_rect"
+          ],
+          "returnType": "cv::Rect",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "initRectificationMaps",
+          "params": [],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 81
+        },
+        {
+          "name": "initUnrectificationMaps",
+          "params": [],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 79
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeCameraModel::Cache",
+          "methods": [
+            "Cache"
+          ],
+          "properties": [
+            "distortion_state",
+            "distortion_model",
+            "K_binned",
+            "full_maps_dirty",
+            "full_map1",
+            "reduced_maps_dirty",
+            "reduced_map1",
+            "unrectify_full_maps_dirty",
+            "unrectify_full_map1",
+            "unrectify_reduced_maps_dirty",
+            "unrectify_reduced_map1",
+            "rectified_roi_dirty",
+            "rectified_roi"
+          ],
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "imports": [
+        {
+          "source": "image_geometry/pinhole_camera_model.h",
+          "specifiers": [
+            "image_geometry/pinhole_camera_model.h"
+          ]
+        },
+        {
+          "source": "sensor_msgs/distortion_models.hpp",
+          "specifiers": [
+            "sensor_msgs/distortion_models.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "Cache",
+        "PinholeCameraModel::Cache",
+        "PinholeCameraModel",
+        "PinholeCameraModel",
+        "fromCameraInfo",
+        "fromCameraInfo",
+        "fullResolution",
+        "reducedResolution",
+        "toFullResolution",
+        "toFullResolution",
+        "toReducedResolution",
+        "toReducedResolution",
+        "rawRoi",
+        "rectifiedRoi",
+        "project3dToPixel",
+        "projectPixelTo3dRay",
+        "projectPixelTo3dRay",
+        "rectifyImage",
+        "unrectifyImage",
+        "rectifyPoint",
+        "rectifyPoint",
+        "unrectifyPoint",
+        "unrectifyPoint",
+        "rectifyRoi",
+        "unrectifyRoi",
+        "initRectificationMaps",
+        "initUnrectificationMaps"
+      ],
+      "totalLines": 666,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp": {
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "contentHash": "df5493d37eb297e300f54997f129b551f5f39b0e4c09ac3b885704211d5b617f",
+      "functions": [
+        {
+          "name": "StereoCameraModel",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "StereoCameraModel",
+          "params": [
+            "other"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "fromCameraInfo",
+          "params": [
+            "left",
+            "right"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "fromCameraInfo",
+          "params": [
+            "left",
+            "right"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "updateQ",
+          "params": [],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 61
+        },
+        {
+          "name": "projectDisparityTo3d",
+          "params": [
+            "left_uv_rect",
+            "disparity",
+            "xyz"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "projectDisparityImageTo3d",
+          "params": [
+            "disparity",
+            "point_cloud",
+            "handleMissingValues"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "image_geometry/stereo_camera_model.h",
+          "specifiers": [
+            "image_geometry/stereo_camera_model.h"
+          ]
+        }
+      ],
+      "exports": [
+        "StereoCameraModel",
+        "StereoCameraModel",
+        "fromCameraInfo",
+        "fromCameraInfo",
+        "updateQ",
+        "projectDisparityTo3d",
+        "projectDisparityImageTo3d"
+      ],
+      "totalLines": 147,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/test/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/image_geometry/test/CMakeLists.txt",
+      "contentHash": "7cadbb47c0ffaf360772eb21c73ae0b1200307be3f4e46bcf12ac913d3c9a985",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/image_geometry/test/directed.py": {
+      "filePath": "src/vision_opencv/image_geometry/test/directed.py",
+      "contentHash": "250cc5058934da0742728b8dc9664c6bfc08baab218b4fb6a37684b5a368e0ce",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestDirected",
+          "methods": [
+            "setUp",
+            "test_monocular",
+            "test_stereo"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 60
+        }
+      ],
+      "imports": [
+        {
+          "source": "unittest",
+          "specifiers": [
+            "unittest"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        },
+        {
+          "source": "image_geometry",
+          "specifiers": [
+            "PinholeCameraModel",
+            "StereoCameraModel"
+          ]
+        }
+      ],
+      "exports": [
+        "TestDirected"
+      ],
+      "totalLines": 73,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/test/utest.cpp": {
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "contentHash": "3263f64c5977db56df463b9207b5491f64b433cf923890010122a1f36532a5eb",
+      "functions": [
+        {
+          "name": "SetUp",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 29
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 44
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 89
+        },
+        {
+          "name": "testUnrectifyImage",
+          "params": [
+            "cam_info",
+            "model"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 77
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 57
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 31
+        },
+        {
+          "name": "main",
+          "params": [
+            "argc",
+            "argv"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeTest",
+          "methods": [
+            "SetUp"
+          ],
+          "properties": [
+            "cam_info_",
+            "model_"
+          ],
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "imports": [
+        {
+          "source": "image_geometry/pinhole_camera_model.h",
+          "specifiers": [
+            "image_geometry/pinhole_camera_model.h"
+          ]
+        },
+        {
+          "source": "sensor_msgs/distortion_models.hpp",
+          "specifiers": [
+            "sensor_msgs/distortion_models.hpp"
+          ]
+        },
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        }
+      ],
+      "exports": [
+        "PinholeTest",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "testUnrectifyImage",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "main"
+      ],
+      "totalLines": 462,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/image_geometry/test/utest_equi.cpp": {
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "contentHash": "4ef2e5418ed17cf71bb1c28cc7fc13bc688a83064f86b5a8cf871e5874a498b0",
+      "functions": [
+        {
+          "name": "SetUp",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 28
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 42
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "TEST_F",
+          "params": [],
+          "exported": true,
+          "lineCount": 90
+        },
+        {
+          "name": "main",
+          "params": [
+            "argc",
+            "argv"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "EquidistantTest",
+          "methods": [
+            "SetUp"
+          ],
+          "properties": [
+            "cam_info_",
+            "model_"
+          ],
+          "exported": true,
+          "lineCount": 35
+        }
+      ],
+      "imports": [
+        {
+          "source": "image_geometry/pinhole_camera_model.h",
+          "specifiers": [
+            "image_geometry/pinhole_camera_model.h"
+          ]
+        },
+        {
+          "source": "sensor_msgs/distortion_models.hpp",
+          "specifiers": [
+            "sensor_msgs/distortion_models.hpp"
+          ]
+        },
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        }
+      ],
+      "exports": [
+        "EquidistantTest",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "TEST_F",
+        "main"
+      ],
+      "totalLines": 258,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/CHANGELOG.rst": {
+      "filePath": "src/vision_opencv/opencv_tests/CHANGELOG.rst",
+      "contentHash": "808c518be3f842924af25b8bcef1fad01defb9a02292f1e34398d72891b5a199",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 346,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/opencv_tests/launch/view_img.py": {
+      "filePath": "src/vision_opencv/opencv_tests/launch/view_img.py",
+      "contentHash": "897f9652418fe93b40b28111a0a20991292bfbad04f26070201623f1b8c74713",
+      "functions": [
+        {
+          "name": "launch",
+          "params": [
+            "launch_descriptor",
+            "argv"
+          ],
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "launch.legacy.exit_handler",
+          "specifiers": [
+            "default_exit_handler",
+            "restart_exit_handler"
+          ]
+        },
+        {
+          "source": "ros2run.api",
+          "specifiers": [
+            "get_executable_path"
+          ]
+        }
+      ],
+      "exports": [
+        "launch"
+      ],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/mainpage.dox": {
+      "filePath": "src/vision_opencv/opencv_tests/mainpage.dox",
+      "contentHash": "691ea0e6b377c7275a7475d59cd7f7e59dc366a351e456441ac1d43e792ae90f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 119,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/opencv_tests/opencv_tests/__init__.py": {
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py": {
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "contentHash": "cd3382cca69776f4ea6f5ebec5f212fbe8aaac75029573a15d37eaef0547b440",
+      "functions": [
+        {
+          "name": "main",
+          "params": [
+            "args"
+          ],
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge"
+          ]
+        }
+      ],
+      "exports": [
+        "main"
+      ],
+      "totalLines": 80,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py": {
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "contentHash": "633a79230099d896e9b1c82940bb1beb5e00853916440c4a10f1b6d062b860dc",
+      "functions": [
+        {
+          "name": "detect_and_draw",
+          "params": [
+            "imgmsg"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "compressed_detect_and_draw",
+          "params": [
+            "compressed_imgmsg"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "main",
+          "params": [
+            "args"
+          ],
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "optparse",
+          "specifiers": [
+            "OptionParser"
+          ]
+        },
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "numpy"
+          ]
+        }
+      ],
+      "exports": [
+        "detect_and_draw",
+        "compressed_detect_and_draw",
+        "main"
+      ],
+      "totalLines": 122,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/opencv_tests/source.py": {
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "contentHash": "4b740cb55b21cc1f03ee95a4d1b9727009fc8d842371a92e13438da608c132ef",
+      "functions": [
+        {
+          "name": "main",
+          "params": [
+            "args"
+          ],
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "numpy"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "sensor_msgs.msg"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge"
+          ]
+        }
+      ],
+      "exports": [
+        "main"
+      ],
+      "totalLines": 94,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/opencv_tests/package.xml": {
+      "filePath": "src/vision_opencv/opencv_tests/package.xml",
+      "contentHash": "173e809a8c245f36e3ef264b15acc007e69529abf6848f1658eb594026e9a2ff",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/opencv_tests/resource/opencv_tests": {
+      "filePath": "src/vision_opencv/opencv_tests/resource/opencv_tests",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/opencv_tests/setup.cfg": {
+      "filePath": "src/vision_opencv/opencv_tests/setup.cfg",
+      "contentHash": "b1fa9f95273de43d3f7dd1e164d4db54c4e7e2eb1f59a2e57be2bf2a9bcc1890",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/opencv_tests/setup.py": {
+      "filePath": "src/vision_opencv/opencv_tests/setup.py",
+      "contentHash": "26e6f28b0f5fb05b76ebd43e0b540dfb77e5f1ea6e627627ebceb927c96f10d2",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "setuptools",
+          "specifiers": [
+            "find_packages"
+          ]
+        },
+        {
+          "source": "setuptools",
+          "specifiers": [
+            "setup"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "src/vision_opencv/pytest.ini": {
+      "filePath": "src/vision_opencv/pytest.ini",
+      "contentHash": "4b8dce177a1820e68b4a821d858669035b849f9c5fbc4cfd6d4718325a7e69c8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/vision_opencv/CHANGELOG.rst": {
+      "filePath": "src/vision_opencv/vision_opencv/CHANGELOG.rst",
+      "contentHash": "8eedbeb40fbbeb2282d756457d7971412ead86d36586b4abd4cb3803d4878da2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 247,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/vision_opencv/CMakeLists.txt": {
+      "filePath": "src/vision_opencv/vision_opencv/CMakeLists.txt",
+      "contentHash": "fb87d816961aa390417627058780ccd3e2a2eb2db7c3c499b25c4e8eb1dd77b2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    "src/vision_opencv/vision_opencv/package.xml": {
+      "filePath": "src/vision_opencv/vision_opencv/package.xml",
+      "contentHash": "f045626137f8cafe25305fd78977847acad9803b3133709a8a1128e3bee0371f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_msgs/CMakeLists.txt": {
+      "filePath": "src/wheel_msgs/CMakeLists.txt",
+      "contentHash": "169a5fbadaec27a0aa9b96245790020efb872d37621fd90d34a635ebb38fc5c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_msgs/msg/ObstacleInfo.msg": {
+      "filePath": "src/wheel_msgs/msg/ObstacleInfo.msg",
+      "contentHash": "f8bb41d7bf14971e8d7105e0c67e57dc537de1b731a2d14d4c00a84111171413",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_msgs/msg/PerceptionOutput.msg": {
+      "filePath": "src/wheel_msgs/msg/PerceptionOutput.msg",
+      "contentHash": "62d399550a18fe08ce7fb255fb5485ccc9a6e4f465749baec849a18f9f5b211e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_msgs/package.xml": {
+      "filePath": "src/wheel_msgs/package.xml",
+      "contentHash": "a9715faf813cf048a37648501a3b638de4b9ce90be9a39649ced53c59ceddbca",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/CMakeLists.txt": {
+      "filePath": "src/wheel_perception/CMakeLists.txt",
+      "contentHash": "c0b3bab9ab33f8df13eb0ab227aa18f8fa2048a70336531d0b6e407519ae8010",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 267,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/config/check_onnx.py": {
+      "filePath": "src/wheel_perception/config/check_onnx.py",
+      "contentHash": "d8bd3d764bb7c25e65826e6309a74d1a67b14ef477966a9e3f3094fda3cb3325",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "onnxruntime",
+          "specifiers": [
+            "ort"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 89,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/config/params.yaml": {
+      "filePath": "src/wheel_perception/config/params.yaml",
+      "contentHash": "95a0efb958eef09155006f3a4ee7c30108b9a51506e29a6b3b9a54dd92b54775",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 163,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/config/pth2engine.py": {
+      "filePath": "src/wheel_perception/config/pth2engine.py",
+      "contentHash": "47115a873baba5cddf2bc7e307807aa62eb3e5c38dbde6e5b2aac5e726561f94",
+      "functions": [
+        {
+          "name": "pth_to_engine",
+          "params": [
+            "pth_path",
+            "engine_path",
+            "input_size",
+            "num_classes"
+          ],
+          "exported": true,
+          "lineCount": 83
+        }
+      ],
+      "classes": [
+        {
+          "name": "BiSeNetV2Inference",
+          "methods": [
+            "__init__",
+            "forward",
+            "load_weights"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "imports": [
+        {
+          "source": "torch",
+          "specifiers": [
+            "torch"
+          ]
+        },
+        {
+          "source": "torch.nn",
+          "specifiers": [
+            "nn"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "subprocess",
+          "specifiers": [
+            "subprocess"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "BiSeNetV2Inference",
+        "pth_to_engine"
+      ],
+      "totalLines": 171,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/config/seg_trt.py": {
+      "filePath": "src/wheel_perception/config/seg_trt.py",
+      "contentHash": "bb2405b1f45d95f60d8c536018a846d781818f5933d5ea3bafc7ce22cd1949de",
+      "functions": [
+        {
+          "name": "custom_unflatten",
+          "params": [
+            "dim",
+            "sizes"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "mmseg_pth_to_engine",
+          "params": [
+            "config_path",
+            "pth_path",
+            "engine_path",
+            "input_size"
+          ],
+          "exported": true,
+          "lineCount": 103
+        }
+      ],
+      "classes": [
+        {
+          "name": "MMSegInference",
+          "methods": [
+            "__init__",
+            "forward"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "imports": [
+        {
+          "source": "torch",
+          "specifiers": [
+            "torch"
+          ]
+        },
+        {
+          "source": "torch.nn",
+          "specifiers": [
+            "nn"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "subprocess",
+          "specifiers": [
+            "subprocess"
+          ]
+        },
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock"
+          ]
+        },
+        {
+          "source": "mmseg.apis",
+          "specifiers": [
+            "init_model"
+          ]
+        }
+      ],
+      "exports": [
+        "custom_unflatten",
+        "MMSegInference",
+        "mmseg_pth_to_engine"
+      ],
+      "totalLines": 206,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/config/xtx_trt.py": {
+      "filePath": "src/wheel_perception/config/xtx_trt.py",
+      "contentHash": "8fc53bceab6b0238920779b9b2d271b07cc0612078429185e55b199898e6940f",
+      "functions": [
+        {
+          "name": "build_engine",
+          "params": [
+            "onnx_file_path",
+            "engine_file_path",
+            "trtexec_path"
+          ],
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "subprocess",
+          "specifiers": [
+            "subprocess"
+          ]
+        }
+      ],
+      "exports": [
+        "build_engine"
+      ],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp": {
+      "filePath": "src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "contentHash": "fadd1c3419b74e0c6a3732f6f03c2d618e2df10fee144c8cfdbc80933a6a58d1",
+      "functions": [],
+      "classes": [
+        {
+          "name": "Pose2D",
+          "methods": [],
+          "properties": [
+            "x",
+            "y",
+            "yaw"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "Velocity",
+          "methods": [],
+          "properties": [
+            "linear",
+            "angular"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "MotionHistory",
+          "methods": [],
+          "properties": [
+            "previous_command",
+            "previous_linear_acceleration",
+            "previous_angular_acceleration",
+            "valid"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "ObstaclePoint",
+          "methods": [],
+          "properties": [
+            "x",
+            "y"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "RoadModel",
+          "methods": [],
+          "properties": [
+            "has_right_edge",
+            "has_width",
+            "right_distance",
+            "width",
+            "target_right_distance",
+            "yaw_error"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "Trajectory",
+          "methods": [],
+          "properties": [
+            "command",
+            "poses",
+            "score",
+            "minimum_clearance",
+            "collision_free",
+            "inside_road",
+            "dynamic_feasible"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "DWAPlanner",
+          "methods": [
+            "plan",
+            "simulate",
+            "evaluate",
+            "samples",
+            "normalizeAngle"
+          ],
+          "properties": [
+            "config_"
+          ],
+          "exported": true,
+          "lineCount": 68
+        }
+      ],
+      "imports": [
+        {
+          "source": "cstddef",
+          "specifiers": [
+            "cstddef"
+          ]
+        },
+        {
+          "source": "limits",
+          "specifiers": [
+            "limits"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        }
+      ],
+      "exports": [
+        "Pose2D",
+        "Velocity",
+        "MotionHistory",
+        "ObstaclePoint",
+        "RoadModel",
+        "Trajectory",
+        "plan",
+        "DWAPlanner"
+      ],
+      "totalLines": 121,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/dwa_controller/src/DWAPlanner.cpp": {
+      "filePath": "src/wheel_perception/dwa_controller/src/DWAPlanner.cpp",
+      "contentHash": "1086ba95ecd7d3ddac902d00191e65ec6338e783ec20f6b1248d13a3765ec35c",
+      "functions": [
+        {
+          "name": "DWAPlanner",
+          "params": [
+            "config"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "plan",
+          "params": [
+            "robot_state",
+            "current_velocity",
+            "road",
+            "obstacles",
+            "history",
+            "control_dt"
+          ],
+          "returnType": "DWAPlanner::Result",
+          "exported": true,
+          "lineCount": 123
+        },
+        {
+          "name": "simulate",
+          "params": [
+            "linear",
+            "angular"
+          ],
+          "returnType": "Trajectory",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "evaluate",
+          "params": [
+            "trajectory",
+            "road",
+            "obstacles",
+            "history",
+            "control_dt"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 101
+        },
+        {
+          "name": "samples",
+          "params": [
+            "lower",
+            "upper",
+            "resolution"
+          ],
+          "returnType": "std::vector<double>",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "normalizeAngle",
+          "params": [
+            "angle"
+          ],
+          "returnType": "double",
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "wheel_perception/dwa_controller/DWAPlanner.hpp",
+          "specifiers": [
+            "wheel_perception/dwa_controller/DWAPlanner.hpp"
+          ]
+        },
+        {
+          "source": "algorithm",
+          "specifiers": [
+            "algorithm"
+          ]
+        },
+        {
+          "source": "cmath",
+          "specifiers": [
+            "cmath"
+          ]
+        },
+        {
+          "source": "utility",
+          "specifiers": [
+            "utility"
+          ]
+        }
+      ],
+      "exports": [
+        "DWAPlanner",
+        "plan",
+        "simulate",
+        "evaluate",
+        "samples",
+        "normalizeAngle"
+      ],
+      "totalLines": 283,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/include/wheel_perception/core/ai_engine.hpp": {
+      "filePath": "src/wheel_perception/include/wheel_perception/core/ai_engine.hpp",
+      "contentHash": "36bacf843158bb423608e270bef68331365f1c60b3abf57a7dc566079f50d8ff",
+      "functions": [],
+      "classes": [
+        {
+          "name": "AiEngine",
+          "methods": [
+            "initialize",
+            "infer",
+            "getInputResolution"
+          ],
+          "properties": [
+            "getOutputTensor",
+            "impl_"
+          ],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "imports": [
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "memory",
+          "specifiers": [
+            "memory"
+          ]
+        },
+        {
+          "source": "map",
+          "specifiers": [
+            "map"
+          ]
+        }
+      ],
+      "exports": [
+        "initialize",
+        "infer",
+        "getInputResolution",
+        "AiEngine"
+      ],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp": {
+      "filePath": "src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp",
+      "contentHash": "523fedcb3417b486817356ed671fa36172a02ac770d53ff6dc64d1d8bf310c0b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 152,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/include/wheel_perception/core/mask_postprocess.hpp": {
+      "filePath": "src/wheel_perception/include/wheel_perception/core/mask_postprocess.hpp",
+      "contentHash": "c51b354f385ad4e325536dd241a2a9adfb96b27649266932b03b5dd868a2d22f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "cuda_runtime_api.h",
+          "specifiers": [
+            "cuda_runtime_api.h"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/include/wheel_perception/core/obstacle_fusion.hpp": {
+      "filePath": "src/wheel_perception/include/wheel_perception/core/obstacle_fusion.hpp",
+      "contentHash": "b846bf10ec3c71feed6ddd3bdc61b87592229d92e14abe5374d1097b1e86ac02",
+      "functions": [
+        {
+          "name": "reset",
+          "params": [],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "SceneLineFitResult",
+          "methods": [],
+          "properties": [
+            "has_line",
+            "raw_dist",
+            "raw_yaw",
+            "p_far_x",
+            "p_near_x",
+            "last_valid_y"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "PerceptionParams",
+          "methods": [],
+          "properties": [
+            "min_x",
+            "max_x",
+            "min_y",
+            "max_y",
+            "min_z",
+            "max_z",
+            "voxel_size",
+            "step",
+            "ellipse_x",
+            "ellipse_y",
+            "ellipse_thres"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "Obstacle3DStat",
+          "methods": [
+            "reset"
+          ],
+          "properties": [
+            "class_id",
+            "count",
+            "min_x",
+            "min_y",
+            "min_z",
+            "sum_x"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "RoadEdgePoint",
+          "methods": [],
+          "properties": [
+            "x",
+            "valid"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "ObstacleFusion",
+          "methods": [
+            "filterCloud",
+            "retrieveFilteredCloud",
+            "processSegmentation",
+            "extractRightEdge",
+            "extractRoadEdges",
+            "downloadMask",
+            "processBlindZoneOnGPU",
+            "processRoadEdgeOnGPU"
+          ],
+          "properties": [
+            "ai_width_",
+            "history_queue_",
+            "pub_cloud_rect_",
+            "pub_cloud_ellipse_",
+            "cloud_rect_vec_",
+            "cloud_ellipse_vec_",
+            "d_filtered_cloud_",
+            "d_point_count_",
+            "d_edge_buffer_",
+            "d_left_edge_buffer_",
+            "d_mask_visualization_",
+            "d_ccl_parents_",
+            "d_component_sizes_",
+            "d_largest_component_key_",
+            "d_voxel_grid_",
+            "voxel_grid_capacity_",
+            "MAX_POINTS"
+          ],
+          "exported": true,
+          "lineCount": 75
+        }
+      ],
+      "imports": [
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "cuda_runtime.h",
+          "specifiers": [
+            "cuda_runtime.h"
+          ]
+        },
+        {
+          "source": "rclcpp/rclcpp.hpp",
+          "specifiers": [
+            "rclcpp/rclcpp.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/point_cloud2.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/point_cloud2.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp_lifecycle/lifecycle_publisher.hpp",
+          "specifiers": [
+            "rclcpp_lifecycle/lifecycle_publisher.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "SceneLineFitResult",
+        "PerceptionParams",
+        "reset",
+        "Obstacle3DStat",
+        "RoadEdgePoint",
+        "filterCloud",
+        "retrieveFilteredCloud",
+        "processSegmentation",
+        "extractRightEdge",
+        "extractRoadEdges",
+        "downloadMask",
+        "processBlindZoneOnGPU",
+        "processRoadEdgeOnGPU",
+        "ObstacleFusion"
+      ],
+      "totalLines": 135,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/include/wheel_perception/core/zed_driver.hpp": {
+      "filePath": "src/wheel_perception/include/wheel_perception/core/zed_driver.hpp",
+      "contentHash": "ad51b5237f80ef1ff072c516d157435d7885ae603f9b442f5904b90f3b89c1ed",
+      "functions": [
+        {
+          "name": "ZedDriver",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        }
+      ],
+      "classes": [
+        {
+          "name": "ZedGpuFrame",
+          "methods": [],
+          "properties": [
+            "timestamp_ns",
+            "rgb_ptr_dev",
+            "rgb_step_bytes",
+            "depth_ptr_dev",
+            "depth_step_bytes",
+            "cloud_ptr_dev",
+            "cloud_step_bytes",
+            "width",
+            "height",
+            "pose_x",
+            "pose_y",
+            "pose_z",
+            "quat_x",
+            "quat_y",
+            "quat_z",
+            "quat_w"
+          ],
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "ZedDriver",
+          "methods": [
+            "ZedDriver",
+            "open",
+            "close",
+            "grab",
+            "retrieveImage",
+            "retrievePointCloud",
+            "getCameraParams",
+            "isOpened"
+          ],
+          "properties": [
+            "getRawImageGPUPtr",
+            "pimpl_",
+            "stream_"
+          ],
+          "exported": true,
+          "lineCount": 60
+        }
+      ],
+      "imports": [
+        {
+          "source": "memory",
+          "specifiers": [
+            "memory"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "cuda_runtime_api.h",
+          "specifiers": [
+            "cuda_runtime_api.h"
+          ]
+        },
+        {
+          "source": "opencv2/opencv.hpp",
+          "specifiers": [
+            "opencv2/opencv.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/point_cloud2.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/point_cloud2.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "ZedGpuFrame",
+        "ZedDriver",
+        "open",
+        "close",
+        "grab",
+        "retrieveImage",
+        "retrievePointCloud",
+        "getCameraParams",
+        "isOpened",
+        "ZedDriver"
+      ],
+      "totalLines": 120,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/launch/dwa_dataset_test.launch.py": {
+      "filePath": "src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "contentHash": "caacec68dec073002894caf77a9236b4981c4f81fa83a9e61c68dedf3e49d24e",
+      "functions": [
+        {
+          "name": "generate_launch_description",
+          "params": [],
+          "exported": true,
+          "lineCount": 39
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "ament_index_python.packages",
+          "specifiers": [
+            "get_package_share_directory"
+          ]
+        },
+        {
+          "source": "launch",
+          "specifiers": [
+            "LaunchDescription"
+          ]
+        },
+        {
+          "source": "launch.actions",
+          "specifiers": [
+            "DeclareLaunchArgument",
+            "IncludeLaunchDescription",
+            "TimerAction"
+          ]
+        },
+        {
+          "source": "launch.launch_description_sources",
+          "specifiers": [
+            "PythonLaunchDescriptionSource"
+          ]
+        },
+        {
+          "source": "launch.substitutions",
+          "specifiers": [
+            "LaunchConfiguration"
+          ]
+        },
+        {
+          "source": "launch_ros.actions",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "launch_ros.parameter_descriptions",
+          "specifiers": [
+            "ParameterValue"
+          ]
+        }
+      ],
+      "exports": [
+        "generate_launch_description"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/launch/run_launch.py": {
+      "filePath": "src/wheel_perception/launch/run_launch.py",
+      "contentHash": "8208fa4ed11196ee0f5abe2561fdf352ef534f7983d6eb6dd5806c2aec6147e9",
+      "functions": [
+        {
+          "name": "generate_launch_description",
+          "params": [],
+          "exported": true,
+          "lineCount": 113
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "yaml",
+          "specifiers": [
+            "yaml"
+          ]
+        },
+        {
+          "source": "ament_index_python.packages",
+          "specifiers": [
+            "get_package_share_directory"
+          ]
+        },
+        {
+          "source": "launch",
+          "specifiers": [
+            "LaunchDescription"
+          ]
+        },
+        {
+          "source": "launch_ros.actions",
+          "specifiers": [
+            "ComposableNodeContainer"
+          ]
+        },
+        {
+          "source": "launch_ros.descriptions",
+          "specifiers": [
+            "ComposableNode"
+          ]
+        },
+        {
+          "source": "launch.actions",
+          "specifiers": [
+            "ExecuteProcess",
+            "TimerAction"
+          ]
+        },
+        {
+          "source": "launch_ros.actions",
+          "specifiers": [
+            "Node"
+          ]
+        }
+      ],
+      "exports": [
+        "generate_launch_description"
+      ],
+      "totalLines": 123,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/package.xml": {
+      "filePath": "src/wheel_perception/package.xml",
+      "contentHash": "a40c57154bb0e14cdb952ae36bdce17c57bc44c7aef3e6db96cf94303b9fef16",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/rviz/dwa_navigation.rviz": {
+      "filePath": "src/wheel_perception/rviz/dwa_navigation.rviz",
+      "contentHash": "5fc8f72d56d6378c22d0b9abfbf426027b2c1a48d2a8e38c8dcf0a3a5d3540e6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 202,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/scripts/sub.py": {
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "contentHash": "8ef8b17dbda039aebe408c967e7b0b87908deec8fd103c40ae27814f419c2b13",
+      "functions": [
+        {
+          "name": "make_length_4",
+          "params": [
+            "s"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "cacu",
+          "params": [
+            "x",
+            "y"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "ang_cal",
+          "params": [
+            "angle",
+            "r"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "ackermann_to_differential_angle",
+          "params": [
+            "v",
+            "ang"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "encode_control",
+          "params": [
+            "v",
+            "ang"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "HardwareBridge",
+          "methods": [
+            "__init__",
+            "cmd_cb",
+            "start_async_loop",
+            "ble_task"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 82
+        }
+      ],
+      "imports": [
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "rclpy.node",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "geometry_msgs.msg",
+          "specifiers": [
+            "Twist"
+          ]
+        },
+        {
+          "source": "asyncio",
+          "specifiers": [
+            "asyncio"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        }
+      ],
+      "exports": [
+        "make_length_4",
+        "cacu",
+        "ang_cal",
+        "ackermann_to_differential_angle",
+        "encode_control",
+        "HardwareBridge",
+        "main"
+      ],
+      "totalLines": 145,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/scripts/video_infer_trt.py": {
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "contentHash": "95af4a68e043fb77d808c93ae06efdb9576d3f165af4126d627e3a0ec4fb473c",
+      "functions": [
+        {
+          "name": "ensure_tensorrt_importable",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "build_output_paths",
+          "params": [
+            "video_path",
+            "output_dir"
+          ],
+          "returnType": "Tuple[str, str]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 86
+        }
+      ],
+      "classes": [
+        {
+          "name": "TRTLogger",
+          "methods": [
+            "__init__",
+            "log"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "CudaError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "CudaRuntime",
+          "methods": [
+            "__init__",
+            "_load_libcudart",
+            "_configure_signatures",
+            "check",
+            "malloc",
+            "free",
+            "memcpy_htod",
+            "memcpy_dtoh",
+            "create_stream",
+            "synchronize_stream",
+            "destroy_stream"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 89
+        },
+        {
+          "name": "Binding",
+          "methods": [],
+          "properties": [
+            "name",
+            "dtype",
+            "shape",
+            "nbytes",
+            "ptr",
+            "is_input"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "TRTBiSeNetVideoInfer",
+          "methods": [
+            "__init__",
+            "_load_engine",
+            "_tensor_name",
+            "_tensor_shape",
+            "_tensor_dtype",
+            "_tensor_is_input",
+            "_set_input_shape_if_needed",
+            "_allocate_bindings",
+            "preprocess",
+            "infer",
+            "overlay_road_mask",
+            "release"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 119
+        }
+      ],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "ctypes",
+          "specifiers": [
+            "ctypes"
+          ]
+        },
+        {
+          "source": "importlib",
+          "specifiers": [
+            "importlib"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Tuple",
+            "Optional"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "ensure_tensorrt_importable",
+        "TRTLogger",
+        "CudaError",
+        "CudaRuntime",
+        "Binding",
+        "TRTBiSeNetVideoInfer",
+        "build_output_paths",
+        "main"
+      ],
+      "totalLines": 382,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/src/controller_node.cpp": {
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "contentHash": "4143382e0eb1a50c6efcbac88dcf09eecd45d315ffceb851b241f98020a3dafa",
+      "functions": [
+        {
+          "name": "yawToQuaternion",
+          "params": [
+            "yaw"
+          ],
+          "returnType": "geometry_msgs::msg::Quaternion",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "ControllerNode",
+          "params": [
+            "options"
+          ],
+          "exported": true,
+          "lineCount": 39
+        },
+        {
+          "name": "declareParameters",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 73
+        },
+        {
+          "name": "configureControllers",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 88
+        },
+        {
+          "name": "odomCallback",
+          "params": [
+            "message"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 45
+        },
+        {
+          "name": "cloudCallback",
+          "params": [
+            "message"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 71
+        },
+        {
+          "name": "perceptionCallback",
+          "params": [
+            "message"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 110
+        },
+        {
+          "name": "updateDwaActivation",
+          "params": [
+            "obstacles"
+          ],
+          "returnType": "bool",
+          "exported": false,
+          "lineCount": 29
+        },
+        {
+          "name": "makeCruiseTrajectory",
+          "params": [
+            "road",
+            "current_velocity",
+            "control_dt"
+          ],
+          "returnType": "dwa::Trajectory",
+          "exported": false,
+          "lineCount": 32
+        },
+        {
+          "name": "publishStop",
+          "params": [
+            "reason"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 27
+        },
+        {
+          "name": "watchdogCallback",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "toPath",
+          "params": [
+            "trajectory"
+          ],
+          "returnType": "nav_msgs::msg::Path",
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "publishVisualization",
+          "params": [
+            "result",
+            "use_dwa"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 86
+        }
+      ],
+      "classes": [
+        {
+          "name": "ControllerNode",
+          "methods": [
+            "ControllerNode",
+            "declareParameters",
+            "configureControllers",
+            "odomCallback",
+            "cloudCallback",
+            "perceptionCallback",
+            "updateDwaActivation",
+            "makeCruiseTrajectory",
+            "publishStop",
+            "watchdogCallback",
+            "toPath",
+            "publishVisualization"
+          ],
+          "properties": [
+            "lqr_",
+            "dwa_",
+            "sub_perception_",
+            "sub_odom_",
+            "sub_dataset_odom_",
+            "sub_cloud_",
+            "pub_cmd_",
+            "pub_dwa_cmd_",
+            "pub_local_trajectory_",
+            "pub_best_path_",
+            "pub_best_path_marker_",
+            "pub_candidate_paths_",
+            "pub_dwa_obstacle_cloud_",
+            "obstacle_mutex_",
+            "obstacles_",
+            "robot_state_",
+            "measured_velocity_",
+            "motion_history_",
+            "last_output_velocity_",
+            "has_velocity_feedback_",
+            "dataset_mode_",
+            "max_angular_velocity_",
+            "max_linear_acceleration_",
+            "max_angular_acceleration_",
+            "minimum_turning_velocity_",
+            "minimum_turning_radius_",
+            "simulation_dt_",
+            "prediction_time_",
+            "cruise_velocity_",
+            "dwa_activation_max_x_",
+            "dwa_activation_min_y_",
+            "dwa_activation_max_y_",
+            "dwa_activation_minimum_points_",
+            "dwa_activation_clear_frames_",
+            "dwa_clear_frame_count_",
+            "dwa_active_",
+            "last_tracked_angular_",
+            "last_odom_stamp_",
+            "last_perception_time_",
+            "last_control_time_",
+            "watchdog_timer_",
+            "watchdog_stopped_"
+          ],
+          "exported": true,
+          "lineCount": 690
+        }
+      ],
+      "imports": [
+        {
+          "source": "algorithm",
+          "specifiers": [
+            "algorithm"
+          ]
+        },
+        {
+          "source": "array",
+          "specifiers": [
+            "array"
+          ]
+        },
+        {
+          "source": "chrono",
+          "specifiers": [
+            "chrono"
+          ]
+        },
+        {
+          "source": "cmath",
+          "specifiers": [
+            "cmath"
+          ]
+        },
+        {
+          "source": "cstddef",
+          "specifiers": [
+            "cstddef"
+          ]
+        },
+        {
+          "source": "cstdint",
+          "specifiers": [
+            "cstdint"
+          ]
+        },
+        {
+          "source": "functional",
+          "specifiers": [
+            "functional"
+          ]
+        },
+        {
+          "source": "memory",
+          "specifiers": [
+            "memory"
+          ]
+        },
+        {
+          "source": "mutex",
+          "specifiers": [
+            "mutex"
+          ]
+        },
+        {
+          "source": "string",
+          "specifiers": [
+            "string"
+          ]
+        },
+        {
+          "source": "utility",
+          "specifiers": [
+            "utility"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "geometry_msgs/msg/point.hpp",
+          "specifiers": [
+            "geometry_msgs/msg/point.hpp"
+          ]
+        },
+        {
+          "source": "geometry_msgs/msg/pose_stamped.hpp",
+          "specifiers": [
+            "geometry_msgs/msg/pose_stamped.hpp"
+          ]
+        },
+        {
+          "source": "geometry_msgs/msg/twist.hpp",
+          "specifiers": [
+            "geometry_msgs/msg/twist.hpp"
+          ]
+        },
+        {
+          "source": "nav_msgs/msg/odometry.hpp",
+          "specifiers": [
+            "nav_msgs/msg/odometry.hpp"
+          ]
+        },
+        {
+          "source": "nav_msgs/msg/path.hpp",
+          "specifiers": [
+            "nav_msgs/msg/path.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp/rclcpp.hpp",
+          "specifiers": [
+            "rclcpp/rclcpp.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp_components/register_node_macro.hpp",
+          "specifiers": [
+            "rclcpp_components/register_node_macro.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/point_cloud2.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/point_cloud2.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/point_cloud2_iterator.hpp",
+          "specifiers": [
+            "sensor_msgs/point_cloud2_iterator.hpp"
+          ]
+        },
+        {
+          "source": "tf2/LinearMath/Matrix3x3.h",
+          "specifiers": [
+            "tf2/LinearMath/Matrix3x3.h"
+          ]
+        },
+        {
+          "source": "tf2/LinearMath/Quaternion.h",
+          "specifiers": [
+            "tf2/LinearMath/Quaternion.h"
+          ]
+        },
+        {
+          "source": "visualization_msgs/msg/marker.hpp",
+          "specifiers": [
+            "visualization_msgs/msg/marker.hpp"
+          ]
+        },
+        {
+          "source": "visualization_msgs/msg/marker_array.hpp",
+          "specifiers": [
+            "visualization_msgs/msg/marker_array.hpp"
+          ]
+        },
+        {
+          "source": "wheel_msgs/msg/perception_output.hpp",
+          "specifiers": [
+            "wheel_msgs/msg/perception_output.hpp"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/lqr_controller.hpp",
+          "specifiers": [
+            "wheel_perception/core/lqr_controller.hpp"
+          ]
+        },
+        {
+          "source": "wheel_perception/dwa_controller/DWAPlanner.hpp",
+          "specifiers": [
+            "wheel_perception/dwa_controller/DWAPlanner.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "yawToQuaternion",
+        "ControllerNode",
+        "ControllerNode"
+      ],
+      "totalLines": 738,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/src/core/ai_engine.cpp": {
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "contentHash": "689c076ec01e5d7be8eb85943111c49404be38d45a6cffb03fe9f5abede31de0",
+      "functions": [
+        {
+          "name": "log",
+          "params": [
+            "severity",
+            "msg"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "Impl",
+          "params": [
+            "config"
+          ],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "~Impl",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "initialize",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 61
+        },
+        {
+          "name": "infer",
+          "params": [
+            "zed_raw_ptr",
+            "zed_w",
+            "zed_h"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "getInputResolution",
+          "params": [
+            "w",
+            "h"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "AiEngine",
+          "params": [
+            "config"
+          ],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "~AiEngine",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "initialize",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "infer",
+          "params": [
+            "ptr",
+            "w",
+            "h"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "getInputResolution",
+          "params": [
+            "w",
+            "h"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 1
+        }
+      ],
+      "classes": [
+        {
+          "name": "Logger",
+          "methods": [
+            "log"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "AiEngine::Impl",
+          "methods": [
+            "Impl",
+            "~Impl",
+            "initialize",
+            "infer",
+            "getInputResolution"
+          ],
+          "properties": [
+            "config_",
+            "runtime_",
+            "engine_",
+            "context_",
+            "input_idx_",
+            "output_idx_",
+            "bindings_",
+            "input_dims_",
+            "stream_"
+          ],
+          "exported": true,
+          "lineCount": 122
+        }
+      ],
+      "imports": [
+        {
+          "source": "wheel_perception/core/ai_engine.hpp",
+          "specifiers": [
+            "wheel_perception/core/ai_engine.hpp"
+          ]
+        },
+        {
+          "source": "fstream",
+          "specifiers": [
+            "fstream"
+          ]
+        },
+        {
+          "source": "iostream",
+          "specifiers": [
+            "iostream"
+          ]
+        },
+        {
+          "source": "vector",
+          "specifiers": [
+            "vector"
+          ]
+        },
+        {
+          "source": "cuda_runtime.h",
+          "specifiers": [
+            "cuda_runtime.h"
+          ]
+        },
+        {
+          "source": "NvInfer.h",
+          "specifiers": [
+            "NvInfer.h"
+          ]
+        }
+      ],
+      "exports": [
+        "Logger",
+        "Impl",
+        "~Impl",
+        "initialize",
+        "infer",
+        "getInputResolution",
+        "AiEngine::Impl",
+        "AiEngine",
+        "~AiEngine",
+        "initialize",
+        "infer",
+        "getInputResolution"
+      ],
+      "totalLines": 163,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/src/core/global_flags.cpp": {
+      "filePath": "src/wheel_perception/src/core/global_flags.cpp",
+      "contentHash": "3a3c92a9f4c0d7c8cf49da0b810d75cc77c6a2011a2ac490f096f320e79405eb",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "wheel_perception/core/zed_driver.hpp",
+          "specifiers": [
+            "wheel_perception/core/zed_driver.hpp"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/src/core/mask_postprocess.cu": {
+      "filePath": "src/wheel_perception/src/core/mask_postprocess.cu",
+      "contentHash": "ae708231c49f4e872156b8555f2e24ace2ca4be7412254cbf3826f503d3b2670",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 194,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/src/core/obstacle_fusion.cu": {
+      "filePath": "src/wheel_perception/src/core/obstacle_fusion.cu",
+      "contentHash": "81b8d253031b99f988a7bf8e8d6613332f9c212e52aaab06ca3d089134ff0980",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 688,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/src/core/preprocess.cu": {
+      "filePath": "src/wheel_perception/src/core/preprocess.cu",
+      "contentHash": "e627f6558f72c22ee7d60a4c024370cb6541f47703c17f43f3c49581706277f4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 151,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_perception/src/core/zed_driver.cpp": {
+      "filePath": "src/wheel_perception/src/core/zed_driver.cpp",
+      "contentHash": "214c835c0de9252a41f2ad3755a9664d4b06230b0e201993fe662253ff21e738",
+      "functions": [
+        {
+          "name": "Impl",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "ZedDriver",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "~ZedDriver",
+          "params": [],
+          "exported": true,
+          "lineCount": 1
+        },
+        {
+          "name": "open",
+          "params": [
+            "config"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "close",
+          "params": [],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "isOpened",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "grab",
+          "params": [
+            "out_frame"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 79
+        },
+        {
+          "name": "retrieveImage",
+          "params": [
+            "out_img"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "retrievePointCloud",
+          "params": [
+            "msg",
+            "frame_id"
+          ],
+          "returnType": "void",
+          "exported": true,
+          "lineCount": 102
+        },
+        {
+          "name": "getCameraParams",
+          "params": [],
+          "returnType": "ZedDriver::CameraParams",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "ZedDriver::Impl",
+          "methods": [
+            "Impl"
+          ],
+          "properties": [
+            "zed",
+            "init_params",
+            "runtime_params",
+            "mat_rgb_gpu",
+            "mat_depth_gpu",
+            "mat_cloud_gpu",
+            "mat_rgb_cpu",
+            "mat_cloud_cpu",
+            "last_flag_odom"
+          ],
+          "exported": true,
+          "lineCount": 27
+        }
+      ],
+      "imports": [
+        {
+          "source": "wheel_perception/core/zed_driver.hpp",
+          "specifiers": [
+            "wheel_perception/core/zed_driver.hpp"
+          ]
+        },
+        {
+          "source": "sl/Camera.hpp",
+          "specifiers": [
+            "sl/Camera.hpp"
+          ]
+        },
+        {
+          "source": "iostream",
+          "specifiers": [
+            "iostream"
+          ]
+        },
+        {
+          "source": "cuda_runtime.h",
+          "specifiers": [
+            "cuda_runtime.h"
+          ]
+        },
+        {
+          "source": "opencv2/imgproc/imgproc.hpp",
+          "specifiers": [
+            "opencv2/imgproc/imgproc.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/point_cloud2_iterator.hpp",
+          "specifiers": [
+            "sensor_msgs/point_cloud2_iterator.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp/rclcpp.hpp",
+          "specifiers": [
+            "rclcpp/rclcpp.hpp"
+          ]
+        },
+        {
+          "source": "unordered_set",
+          "specifiers": [
+            "unordered_set"
+          ]
+        },
+        {
+          "source": "cmath",
+          "specifiers": [
+            "cmath"
+          ]
+        },
+        {
+          "source": "algorithm",
+          "specifiers": [
+            "algorithm"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/zed_driver.hpp",
+          "specifiers": [
+            "wheel_perception/core/zed_driver.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "Impl",
+        "ZedDriver::Impl",
+        "ZedDriver",
+        "~ZedDriver",
+        "open",
+        "close",
+        "isOpened",
+        "grab",
+        "retrieveImage",
+        "retrievePointCloud",
+        "getCameraParams"
+      ],
+      "totalLines": 356,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/src/fusion_node.cpp": {
+      "filePath": "src/wheel_perception/src/fusion_node.cpp",
+      "contentHash": "41136e42defebff77fbc40572320dc0bbe02b13215b020d9b2b1cb10b2940741",
+      "functions": [
+        {
+          "name": "FusionNode",
+          "params": [
+            "options"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "~FusionNode",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "on_configure",
+          "params": [],
+          "returnType": "CallbackReturn",
+          "exported": true,
+          "lineCount": 82
+        },
+        {
+          "name": "on_activate",
+          "params": [
+            "state"
+          ],
+          "returnType": "CallbackReturn",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "on_deactivate",
+          "params": [
+            "state"
+          ],
+          "returnType": "CallbackReturn",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "on_cleanup",
+          "params": [
+            "state"
+          ],
+          "returnType": "CallbackReturn",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "publish_odometry",
+          "params": [
+            "frame"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 21
+        },
+        {
+          "name": "rgb_callback",
+          "params": [
+            "msg"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "depth_callback",
+          "params": [
+            "msg"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "imu_callback",
+          "params": [
+            "msg"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "odom_callback",
+          "params": [
+            "msg"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "update_loop",
+          "params": [],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 370
+        },
+        {
+          "name": "project_pt",
+          "params": [
+            "x",
+            "y",
+            "z",
+            "p"
+          ],
+          "returnType": "cv::Point",
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "median_or_zero",
+          "params": [
+            "values"
+          ],
+          "returnType": "float",
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "update_dynamic_target_from_edges",
+          "params": [
+            "right_edges",
+            "left_edges",
+            "metrics"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 74
+        },
+        {
+          "name": "analyze_scene",
+          "params": [
+            "obstacles",
+            "edges",
+            "left_edges",
+            "metrics"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 154
+        },
+        {
+          "name": "process_blind_zone_and_bev",
+          "params": [
+            "cloud_input_dev_ptr",
+            "img_w",
+            "img_h"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 44
+        },
+        {
+          "name": "publish_perception_msg",
+          "params": [
+            "obstacles",
+            "metrics"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 45
+        },
+        {
+          "name": "publish_visualization",
+          "params": [
+            "obstacles",
+            "edges",
+            "metrics"
+          ],
+          "returnType": "void",
+          "exported": false,
+          "lineCount": 120
+        },
+        {
+          "name": "init_zed",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "bool",
+          "exported": false,
+          "lineCount": 23
+        },
+        {
+          "name": "init_ai",
+          "params": [
+            "p"
+          ],
+          "returnType": "bool",
+          "exported": false,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "SceneMetrics",
+          "methods": [],
+          "properties": [
+            "min_dist",
+            "min_point",
+            "has_line",
+            "road_dist",
+            "road_yaw_rad",
+            "has_road_width",
+            "left_distance",
+            "road_width",
+            "target_right_distance",
+            "is_vertical",
+            "debug_pt1",
+            "debug_pt2"
+          ],
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "FusionNode",
+          "methods": [
+            "FusionNode",
+            "~FusionNode",
+            "on_configure",
+            "on_activate",
+            "on_deactivate",
+            "on_cleanup",
+            "publish_odometry",
+            "rgb_callback",
+            "depth_callback",
+            "imu_callback",
+            "odom_callback",
+            "update_loop",
+            "project_pt",
+            "median_or_zero",
+            "update_dynamic_target_from_edges",
+            "analyze_scene",
+            "process_blind_zone_and_bev",
+            "publish_perception_msg",
+            "publish_visualization",
+            "init_zed",
+            "init_ai"
+          ],
+          "properties": [
+            "params_",
+            "dynamic_aim_enabled_",
+            "dynamic_aim_ratio_",
+            "dynamic_aim_min_dist_",
+            "dynamic_aim_max_dist_",
+            "dynamic_aim_fallback_dist_",
+            "dynamic_aim_min_width_",
+            "dynamic_aim_max_width_",
+            "dynamic_aim_max_target_step_",
+            "dynamic_aim_hold_frames_",
+            "sub_rgb_",
+            "sub_depth_",
+            "sub_imu_",
+            "sub_odom_",
+            "latest_rgb_",
+            "latest_depth_",
+            "last_processed_rgb_",
+            "latest_imu_",
+            "latest_odom_",
+            "frame_mutex_",
+            "d_rgb_buffer_",
+            "d_rgb_buffer_size_",
+            "d_cloud_buffer_",
+            "d_cloud_buffer_size_",
+            "ema_dist_",
+            "ema_angle_",
+            "first_frame_",
+            "max_abs_road_yaw_",
+            "last_valid_road_width_",
+            "last_target_right_distance_",
+            "road_width_invalid_frames_",
+            "mask_diagnostic_frames_",
+            "EMA_ALPHA",
+            "driver_",
+            "ai_engine_",
+            "fusion_",
+            "pub_perception_",
+            "pub_viz_",
+            "pub_viz_mouse_left_",
+            "pub_bev_fused_",
+            "pub_cloud_",
+            "pub_odom_",
+            "timer_",
+            "pub_cloud_rect_",
+            "pub_cloud_ellipse_",
+            "pub_right_road_edge_",
+            "cloud_rect_vec_",
+            "cloud_ellipse_vec_"
+          ],
+          "exported": true,
+          "lineCount": 1130
+        }
+      ],
+      "imports": [
+        {
+          "source": "rclcpp/rclcpp.hpp",
+          "specifiers": [
+            "rclcpp/rclcpp.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp_lifecycle/lifecycle_node.hpp",
+          "specifiers": [
+            "rclcpp_lifecycle/lifecycle_node.hpp"
+          ]
+        },
+        {
+          "source": "rclcpp_components/register_node_macro.hpp",
+          "specifiers": [
+            "rclcpp_components/register_node_macro.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/image.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/image.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/point_cloud2.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/point_cloud2.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/point_cloud2_iterator.hpp",
+          "specifiers": [
+            "sensor_msgs/point_cloud2_iterator.hpp"
+          ]
+        },
+        {
+          "source": "sensor_msgs/msg/imu.hpp",
+          "specifiers": [
+            "sensor_msgs/msg/imu.hpp"
+          ]
+        },
+        {
+          "source": "cv_bridge/cv_bridge.h",
+          "specifiers": [
+            "cv_bridge/cv_bridge.h"
+          ]
+        },
+        {
+          "source": "wheel_msgs/msg/perception_output.hpp",
+          "specifiers": [
+            "wheel_msgs/msg/perception_output.hpp"
+          ]
+        },
+        {
+          "source": "wheel_msgs/msg/obstacle_info.hpp",
+          "specifiers": [
+            "wheel_msgs/msg/obstacle_info.hpp"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/zed_driver.hpp",
+          "specifiers": [
+            "wheel_perception/core/zed_driver.hpp"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/ai_engine.hpp",
+          "specifiers": [
+            "wheel_perception/core/ai_engine.hpp"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/obstacle_fusion.hpp",
+          "specifiers": [
+            "wheel_perception/core/obstacle_fusion.hpp"
+          ]
+        },
+        {
+          "source": "nav_msgs/msg/odometry.hpp",
+          "specifiers": [
+            "nav_msgs/msg/odometry.hpp"
+          ]
+        },
+        {
+          "source": "cuda_runtime.h",
+          "specifiers": [
+            "cuda_runtime.h"
+          ]
+        },
+        {
+          "source": "algorithm",
+          "specifiers": [
+            "algorithm"
+          ]
+        },
+        {
+          "source": "cmath",
+          "specifiers": [
+            "cmath"
+          ]
+        },
+        {
+          "source": "cstdio",
+          "specifiers": [
+            "cstdio"
+          ]
+        },
+        {
+          "source": "wheel_perception/core/zed_driver.hpp",
+          "specifiers": [
+            "wheel_perception/core/zed_driver.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "SceneMetrics",
+        "FusionNode",
+        "~FusionNode",
+        "on_configure",
+        "on_activate",
+        "on_deactivate",
+        "on_cleanup",
+        "FusionNode"
+      ],
+      "totalLines": 1183,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_perception/test/test_dwa_planner.cpp": {
+      "filePath": "src/wheel_perception/test/test_dwa_planner.cpp",
+      "contentHash": "ab3da4fbb1fbffabb7805539d2b8ca94a079af5668566afea223da6480f4b12a",
+      "functions": [
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "TEST",
+          "params": [],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "gtest/gtest.h",
+          "specifiers": [
+            "gtest/gtest.h"
+          ]
+        },
+        {
+          "source": "algorithm",
+          "specifiers": [
+            "algorithm"
+          ]
+        },
+        {
+          "source": "cmath",
+          "specifiers": [
+            "cmath"
+          ]
+        },
+        {
+          "source": "limits",
+          "specifiers": [
+            "limits"
+          ]
+        },
+        {
+          "source": "wheel_perception/dwa_controller/DWAPlanner.hpp",
+          "specifiers": [
+            "wheel_perception/dwa_controller/DWAPlanner.hpp"
+          ]
+        }
+      ],
+      "exports": [
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST",
+        "TEST"
+      ],
+      "totalLines": 230,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/config/gateway.yaml": {
+      "filePath": "src/wheel_phone_gateway/config/gateway.yaml",
+      "contentHash": "2b6869779534e136feecc2ab9930c45b11b2bf884bfde17726b1a338dbf86fee",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py": {
+      "filePath": "src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py",
+      "contentHash": "751ffb31afd7513201150c55b2284c625f9cfd429e22d0b322bfbc4525632082",
+      "functions": [
+        {
+          "name": "generate_launch_description",
+          "params": [],
+          "returnType": "LaunchDescription",
+          "exported": true,
+          "lineCount": 37
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "launch",
+          "specifiers": [
+            "LaunchDescription"
+          ]
+        },
+        {
+          "source": "launch.actions",
+          "specifiers": [
+            "DeclareLaunchArgument"
+          ]
+        },
+        {
+          "source": "launch.substitutions",
+          "specifiers": [
+            "LaunchConfiguration"
+          ]
+        },
+        {
+          "source": "launch_ros.actions",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "launch_ros.parameter_descriptions",
+          "specifiers": [
+            "ParameterValue"
+          ]
+        }
+      ],
+      "exports": [
+        "generate_launch_description"
+      ],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/package.xml": {
+      "filePath": "src/wheel_phone_gateway/package.xml",
+      "contentHash": "ad7087dc773572dee4eabf40dee6e2e874223fcb180a1f8d28c42bacbc5daf95",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_phone_gateway/resource/wheel_phone_gateway": {
+      "filePath": "src/wheel_phone_gateway/resource/wheel_phone_gateway",
+      "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_phone_gateway/setup.cfg": {
+      "filePath": "src/wheel_phone_gateway/setup.cfg",
+      "contentHash": "100258e55ad39105a873b7bd9fc48cf74c714d47286bb96b258757d2853ae040",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": false
+    },
+    "src/wheel_phone_gateway/setup.py": {
+      "filePath": "src/wheel_phone_gateway/setup.py",
+      "contentHash": "b27016cfb6afa5c2ccc39d7923653e8774ba0efae6af69b788ca28438f63656e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "glob",
+          "specifiers": [
+            "glob"
+          ]
+        },
+        {
+          "source": "setuptools",
+          "specifiers": [
+            "find_packages",
+            "setup"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/test/test_protocol.py": {
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "contentHash": "0b62f718f1aeb609023eb051fb754fbd2f17e1ec8ad393977bd074073d1e117c",
+      "functions": [
+        {
+          "name": "test_encode_short_text_frame",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_encode_large_text_frame",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_resize_for_stream",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_send_binary_uses_binary_opcode",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_validate_launch_request_only_accepts_perception",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_launch_manager_start_is_idempotent",
+          "params": [
+            "popen"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_launch_manager_reports_unexpected_exit",
+          "params": [
+            "popen"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_launch_manager_stops_process_group",
+          "params": [
+            "popen",
+            "killpg"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "RecordingConnection",
+          "methods": [
+            "__init__",
+            "sendall"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "Mock",
+            "patch"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.gateway_node",
+          "specifiers": [
+            "encode_websocket_frame"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.gateway_node",
+          "specifiers": [
+            "resize_for_stream"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.gateway_node",
+          "specifiers": [
+            "WebSocketClient"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "LaunchProcessManager"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "PERCEPTION_LAUNCH_COMMAND"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "validate_launch_request"
+          ]
+        }
+      ],
+      "exports": [
+        "RecordingConnection",
+        "test_encode_short_text_frame",
+        "test_encode_large_text_frame",
+        "test_resize_for_stream",
+        "test_send_binary_uses_binary_opcode",
+        "test_validate_launch_request_only_accepts_perception",
+        "test_launch_manager_start_is_idempotent",
+        "test_launch_manager_reports_unexpected_exit",
+        "test_launch_manager_stops_process_group"
+      ],
+      "totalLines": 105,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/wheel_phone_gateway/__init__.py": {
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/__init__.py",
+      "contentHash": "41d6a0aa1880ca7a2bbacf8e78e2a1bd5148cdfd736ab7bcd244f0d1b5b588c8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py": {
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "contentHash": "27ab7ce58656f76c4259804ab917fd7463632290134a0202c1d2c3adc885c30b",
+      "functions": [
+        {
+          "name": "encode_websocket_frame",
+          "params": [
+            "payload",
+            "opcode"
+          ],
+          "returnType": "bytes",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "read_exact",
+          "params": [
+            "connection",
+            "size"
+          ],
+          "returnType": "bytes",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "resize_for_stream",
+          "params": [
+            "image",
+            "width",
+            "height"
+          ],
+          "returnType": "np.ndarray",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "main",
+          "params": [
+            "args"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [
+        {
+          "name": "WebSocketClient",
+          "methods": [
+            "__init__",
+            "send_json",
+            "send_control",
+            "send_binary",
+            "send_image"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "DebugVizGateway",
+          "methods": [
+            "__init__",
+            "_image_callback",
+            "_broadcast_loop",
+            "_broadcast_image",
+            "_broadcast",
+            "_health_payload",
+            "_publish_launch_status",
+            "_launch_monitor_loop",
+            "_create_handler",
+            "destroy_node"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 378
+        }
+      ],
+      "imports": [
+        {
+          "source": "base64",
+          "specifiers": [
+            "base64"
+          ]
+        },
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "socket",
+          "specifiers": [
+            "socket"
+          ]
+        },
+        {
+          "source": "struct",
+          "specifiers": [
+            "struct"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "http.server",
+          "specifiers": [
+            "BaseHTTPRequestHandler",
+            "ThreadingHTTPServer"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "Dict",
+            "List",
+            "Optional",
+            "Set",
+            "Type"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge",
+            "CvBridgeError"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "rclpy.node",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "rclpy.qos",
+          "specifiers": [
+            "DurabilityPolicy",
+            "HistoryPolicy",
+            "QoSProfile",
+            "ReliabilityPolicy"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "Image"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "LaunchProcessManager"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "PERCEPTION_LAUNCH_COMMAND"
+          ]
+        },
+        {
+          "source": "wheel_phone_gateway.launch_process",
+          "specifiers": [
+            "validate_launch_request"
+          ]
+        }
+      ],
+      "exports": [
+        "encode_websocket_frame",
+        "read_exact",
+        "resize_for_stream",
+        "WebSocketClient",
+        "DebugVizGateway",
+        "main"
+      ],
+      "totalLines": 506,
+      "hasStructuralAnalysis": true
+    },
+    "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py": {
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "contentHash": "9230b1fe81a0e7804ece2428fd2bc6764b9f83eabe2d1421750e806b3ef6642c",
+      "functions": [
+        {
+          "name": "validate_launch_request",
+          "params": [
+            "payload"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [
+        {
+          "name": "LaunchProcessManager",
+          "methods": [
+            "__init__",
+            "_status_locked",
+            "status",
+            "start",
+            "stop"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 94
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "signal",
+          "specifiers": [
+            "signal"
+          ]
+        },
+        {
+          "source": "subprocess",
+          "specifiers": [
+            "subprocess"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "Dict",
+            "Optional",
+            "Sequence"
+          ]
+        }
+      ],
+      "exports": [
+        "validate_launch_request",
+        "LaunchProcessManager"
+      ],
+      "totalLines": 126,
+      "hasStructuralAnalysis": true
+    },
+    "symlink_install_manifest.txt": {
+      "filePath": "symlink_install_manifest.txt",
+      "contentHash": "a8f3a059e0bfbcde3fbacb74cb36c4d8e0a35a4ab794eb694d0553fa660d39fd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 51,
+      "hasStructuralAnalysis": false
+    },
+    "tools/assumed_zed_hd720_calibration.json": {
+      "filePath": "tools/assumed_zed_hd720_calibration.json",
+      "contentHash": "8f6a8ffed06982f0a1aeeb4128309695063d3ead4e577ee749d7b016dff3f57e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "tools/convert_text6_stereo_dataset.py": {
+      "filePath": "tools/convert_text6_stereo_dataset.py",
+      "contentHash": "6af41d07d30bb0fd36c6194b31581f956189ef3e85906d8b345b496ef9729ff4",
+      "functions": [
+        {
+          "name": "indexed_pngs",
+          "params": [
+            "directory"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "make_matcher",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "write_link_or_copy",
+          "params": [
+            "source",
+            "target"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 76
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "shutil",
+          "specifiers": [
+            "shutil"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "indexed_pngs",
+        "make_matcher",
+        "write_link_or_copy",
+        "main"
+      ],
+      "totalLines": 137,
+      "hasStructuralAnalysis": true
+    },
+    "tools/export_zed_calibration.py": {
+      "filePath": "tools/export_zed_calibration.py",
+      "contentHash": "b8cff3d46bda4130ef9452606125feeb8fd61003027799a6e96215f016b2bc07",
+      "functions": [
+        {
+          "name": "translation_x",
+          "params": [
+            "transform"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 55
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pyzed.sl",
+          "specifiers": [
+            "sl"
+          ]
+        }
+      ],
+      "exports": [
+        "translation_x",
+        "main"
+      ],
+      "totalLines": 81,
+      "hasStructuralAnalysis": true
+    },
+    "video_pub.py": {
+      "filePath": "video_pub.py",
+      "contentHash": "0a8b82bcdfd79b9dacc6871a52c1ccadc4b4200847f50c9fcc65ce6de14119cc",
+      "functions": [
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "VideoPublisher",
+          "methods": [
+            "__init__",
+            "tick"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 73
+        }
+      ],
+      "imports": [
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "rclpy.node",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "rclpy.qos",
+          "specifiers": [
+            "QoSProfile",
+            "ReliabilityPolicy",
+            "HistoryPolicy"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "Image"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "VideoPublisher",
+        "main"
+      ],
+      "totalLines": 96,
+      "hasStructuralAnalysis": true
+    },
+    "wheel_cuda_road_width_handoff.md": {
+      "filePath": "wheel_cuda_road_width_handoff.md",
+      "contentHash": "d89e8bc2d192009adbfc6bbd5c6442184a3c8449d862a1d568fdf2a02bc9f1c0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 280,
+      "hasStructuralAnalysis": false
+    },
+    "zed_capture_dataset.py": {
+      "filePath": "zed_capture_dataset.py",
+      "contentHash": "d9c83964962858dc7a8f52c22d90709bfcbe08f267bea82ec830a25f3756b7a2",
+      "functions": [
+        {
+          "name": "get_next_dataset_dir",
+          "params": [
+            "base_dir",
+            "prefix"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 50
+        }
+      ],
+      "classes": [
+        {
+          "name": "TopicRateTracker",
+          "methods": [
+            "__init__",
+            "tick",
+            "hz",
+            "latest_time"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "ZEDDatasetCollector",
+          "methods": [
+            "__init__",
+            "_create_output_dirs",
+            "_stamp_to_sec",
+            "_vector3_to_list",
+            "_quaternion_to_list",
+            "left_callback",
+            "debug_viz_callback",
+            "right_callback",
+            "depth_callback",
+            "roadside_callback",
+            "perception_callback",
+            "cmd_vel_callback",
+            "bluetooth_feedback_callback",
+            "road_mask_callback",
+            "odom_callback",
+            "zed_odom_callback",
+            "_store_odom",
+            "imu_callback",
+            "auto_capture",
+            "save_frame",
+            "print_status",
+            "_format_hz"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 468
+        }
+      ],
+      "imports": [
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "rclpy.node",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "rclpy.qos",
+          "specifiers": [
+            "qos_profile_sensor_data"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "Image",
+            "Imu"
+          ]
+        },
+        {
+          "source": "geometry_msgs.msg",
+          "specifiers": [
+            "Twist"
+          ]
+        },
+        {
+          "source": "nav_msgs.msg",
+          "specifiers": [
+            "Odometry"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "collections",
+          "specifiers": [
+            "deque"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        }
+      ],
+      "exports": [
+        "TopicRateTracker",
+        "ZEDDatasetCollector",
+        "get_next_dataset_dir",
+        "main"
+      ],
+      "totalLines": 612,
+      "hasStructuralAnalysis": true
+    },
+    "zed_dataset_player.py": {
+      "filePath": "zed_dataset_player.py",
+      "contentHash": "e647927243c07c74130d55312583c0b7c73a67a60a09c7eabab6e45b914d67d9",
+      "functions": [
+        {
+          "name": "main",
+          "params": [
+            "args"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [
+        {
+          "name": "DatasetPlayerNode",
+          "methods": [
+            "__init__",
+            "_has_depth_files",
+            "load_imu",
+            "load_odom",
+            "load_depth",
+            "publish_frame",
+            "_publish_frame"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 291
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "cv2",
+          "specifiers": [
+            "cv2"
+          ]
+        },
+        {
+          "source": "rclpy",
+          "specifiers": [
+            "rclpy"
+          ]
+        },
+        {
+          "source": "rclpy.node",
+          "specifiers": [
+            "Node"
+          ]
+        },
+        {
+          "source": "rclpy.qos",
+          "specifiers": [
+            "DurabilityPolicy",
+            "HistoryPolicy",
+            "QoSProfile",
+            "ReliabilityPolicy",
+            "qos_profile_sensor_data"
+          ]
+        },
+        {
+          "source": "sensor_msgs.msg",
+          "specifiers": [
+            "Image",
+            "Imu"
+          ]
+        },
+        {
+          "source": "nav_msgs.msg",
+          "specifiers": [
+            "Odometry"
+          ]
+        },
+        {
+          "source": "geometry_msgs.msg",
+          "specifiers": [
+            "Quaternion",
+            "Point",
+            "Twist"
+          ]
+        },
+        {
+          "source": "cv_bridge",
+          "specifiers": [
+            "CvBridge"
+          ]
+        }
+      ],
+      "exports": [
+        "DatasetPlayerNode",
+        "main"
+      ],
+      "totalLines": 369,
+      "hasStructuralAnalysis": true
+    },
+    "实车测试指令.md": {
+      "filePath": "实车测试指令.md",
+      "contentHash": "bd650f9dc6b4b970a14ff71c7710970823ce9b59afe055fd8a4d7eac3ed60127",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 761,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

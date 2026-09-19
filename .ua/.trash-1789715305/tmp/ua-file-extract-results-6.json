@@ -1,0 +1,73 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [
+    "src/vision_opencv/cv_bridge/CHANGELOG.rst",
+    "src/vision_opencv/cv_bridge/CMakeLists.txt",
+    "src/vision_opencv/cv_bridge/package.xml"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "src/vision_opencv/cv_bridge/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 63,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "Introduction",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "Installation",
+          "level": 1,
+          "line": 12
+        },
+        {
+          "heading": "Install dependencies",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Build and Test",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "Fetch the latest code and build",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "Run the tests",
+          "level": 3,
+          "line": 46
+        },
+        {
+          "heading": "Known issues",
+          "level": 1,
+          "line": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    }
+  ]
+}

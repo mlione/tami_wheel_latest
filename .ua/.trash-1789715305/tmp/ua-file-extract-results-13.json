@@ -1,0 +1,3184 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 9,
+  "filesSkipped": [
+    "src/wheel_phone_gateway/package.xml",
+    "src/wheel_phone_gateway/resource/wheel_phone_gateway",
+    "src/wheel_phone_gateway/setup.cfg"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 9,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "generate_launch_description",
+          "startLine": 8,
+          "endLine": 44,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "generate_launch_description",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 11
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 12
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 13
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 14
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 15
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "DeclareLaunchArgument",
+          "lineNumber": 16
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "Node",
+          "lineNumber": 19
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 25
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "ParameterValue",
+          "lineNumber": 26
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 27
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "ParameterValue",
+          "lineNumber": 29
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 30
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "ParameterValue",
+          "lineNumber": 32
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 33
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "ParameterValue",
+          "lineNumber": 35
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 36
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "ParameterValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchConfiguration",
+          "lineNumber": 39
+        },
+        {
+          "caller": "generate_launch_description",
+          "callee": "LaunchDescription",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/wheel_phone_gateway/setup.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/wheel_phone_gateway/wheel_phone_gateway/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tools/assumed_zed_hd720_calibration.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 27,
+      "nonEmptyLines": 27,
+      "sections": [
+        {
+          "heading": "camera_model",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "serial_number",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "resolution",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "left_camera",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "right_camera",
+          "level": 1,
+          "line": 15
+        },
+        {
+          "heading": "stereo",
+          "level": 1,
+          "line": 22
+        },
+        {
+          "heading": "warning",
+          "level": 1,
+          "line": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "tools/convert_text6_stereo_dataset.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 136,
+      "nonEmptyLines": 115,
+      "functions": [
+        {
+          "name": "indexed_pngs",
+          "startLine": 20,
+          "endLine": 27,
+          "params": [
+            "directory"
+          ]
+        },
+        {
+          "name": "make_matcher",
+          "startLine": 30,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "write_link_or_copy",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "source",
+            "target"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 57,
+          "endLine": 132,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "indexed_pngs",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "make_matcher",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "write_link_or_copy",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 57,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "indexed_pngs",
+          "callee": "directory.glob",
+          "lineNumber": 22
+        },
+        {
+          "caller": "indexed_pngs",
+          "callee": "int",
+          "lineNumber": 24
+        },
+        {
+          "caller": "make_matcher",
+          "callee": "cv2.StereoSGBM_create",
+          "lineNumber": 33
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "target.exists",
+          "lineNumber": 49
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "target.is_symlink",
+          "lineNumber": 49
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "target.unlink",
+          "lineNumber": 50
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "os.symlink",
+          "lineNumber": 52
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "source.resolve",
+          "lineNumber": 52
+        },
+        {
+          "caller": "write_link_or_copy",
+          "callee": "shutil.copy2",
+          "lineNumber": 54
+        },
+        {
+          "caller": "main",
+          "callee": "argparse.ArgumentParser",
+          "lineNumber": 58
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 59
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 60
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 61
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 62
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 63
+        },
+        {
+          "caller": "main",
+          "callee": "parser.parse_args",
+          "lineNumber": 64
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.input).expanduser().resolve",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.input).expanduser",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "Path",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.output).expanduser().resolve",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.output).expanduser",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "Path",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "json.loads",
+          "lineNumber": 68
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.calibration).expanduser().read_text",
+          "lineNumber": 68
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.calibration).expanduser",
+          "lineNumber": 68
+        },
+        {
+          "caller": "main",
+          "callee": "Path",
+          "lineNumber": 68
+        },
+        {
+          "caller": "main",
+          "callee": "indexed_pngs",
+          "lineNumber": 69
+        },
+        {
+          "caller": "main",
+          "callee": "indexed_pngs",
+          "lineNumber": 70
+        },
+        {
+          "caller": "main",
+          "callee": "sorted",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "set(left_frames).intersection",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "set",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 73
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 76
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 77
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 79
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.imread",
+          "lineNumber": 81
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 81
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 83
+        },
+        {
+          "caller": "main",
+          "callee": "calibration.get",
+          "lineNumber": 85
+        },
+        {
+          "caller": "main",
+          "callee": "expected.get",
+          "lineNumber": 86
+        },
+        {
+          "caller": "main",
+          "callee": "expected.get",
+          "lineNumber": 86
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 87
+        },
+        {
+          "caller": "main",
+          "callee": "expected.get",
+          "lineNumber": 89
+        },
+        {
+          "caller": "main",
+          "callee": "expected.get",
+          "lineNumber": 89
+        },
+        {
+          "caller": "main",
+          "callee": "left_out.mkdir",
+          "lineNumber": 94
+        },
+        {
+          "caller": "main",
+          "callee": "depth_out.mkdir",
+          "lineNumber": 95
+        },
+        {
+          "caller": "main",
+          "callee": "make_matcher",
+          "lineNumber": 96
+        },
+        {
+          "caller": "main",
+          "callee": "enumerate",
+          "lineNumber": 99
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.imread",
+          "lineNumber": 100
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 100
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.imread",
+          "lineNumber": 101
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 101
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 103
+        },
+        {
+          "caller": "main",
+          "callee": "matcher.compute(left, right).astype",
+          "lineNumber": 105
+        },
+        {
+          "caller": "main",
+          "callee": "matcher.compute",
+          "lineNumber": 105
+        },
+        {
+          "caller": "main",
+          "callee": "np.zeros_like",
+          "lineNumber": 106
+        },
+        {
+          "caller": "main",
+          "callee": "np.isfinite",
+          "lineNumber": 109
+        },
+        {
+          "caller": "main",
+          "callee": "valid_ratios.append",
+          "lineNumber": 113
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 113
+        },
+        {
+          "caller": "main",
+          "callee": "np.mean",
+          "lineNumber": 113
+        },
+        {
+          "caller": "main",
+          "callee": "write_link_or_copy",
+          "lineNumber": 116
+        },
+        {
+          "caller": "main",
+          "callee": "np.save",
+          "lineNumber": 117
+        },
+        {
+          "caller": "main",
+          "callee": "dict",
+          "lineNumber": 119
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 120
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 124
+        },
+        {
+          "caller": "main",
+          "callee": "np.mean",
+          "lineNumber": 124
+        },
+        {
+          "caller": "main",
+          "callee": "(output / \"metadata.json\").write_text",
+          "lineNumber": 125
+        },
+        {
+          "caller": "main",
+          "callee": "json.dumps",
+          "lineNumber": 126
+        },
+        {
+          "caller": "main",
+          "callee": "len",
+          "lineNumber": 126
+        },
+        {
+          "caller": "main",
+          "callee": "(output / \"camera_info.json\").write_text",
+          "lineNumber": 128
+        },
+        {
+          "caller": "main",
+          "callee": "json.dumps",
+          "lineNumber": 129
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 131
+        },
+        {
+          "caller": "main",
+          "callee": "len",
+          "lineNumber": 131
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 132
+        },
+        {
+          "caller": "main",
+          "callee": "np.mean",
+          "lineNumber": 132
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tools/export_zed_calibration.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "translation_x",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "transform"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 22,
+          "endLine": 76,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "translation_x",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "translation_x",
+          "callee": "transform.get_translation",
+          "lineNumber": 17
+        },
+        {
+          "caller": "translation_x",
+          "callee": "translation.get",
+          "lineNumber": 18
+        },
+        {
+          "caller": "translation_x",
+          "callee": "hasattr",
+          "lineNumber": 18
+        },
+        {
+          "caller": "translation_x",
+          "callee": "float",
+          "lineNumber": 19
+        },
+        {
+          "caller": "main",
+          "callee": "argparse.ArgumentParser",
+          "lineNumber": 23
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 24
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 25
+        },
+        {
+          "caller": "main",
+          "callee": "parser.parse_args",
+          "lineNumber": 26
+        },
+        {
+          "caller": "main",
+          "callee": "sl.InitParameters",
+          "lineNumber": 34
+        },
+        {
+          "caller": "main",
+          "callee": "sl.Camera",
+          "lineNumber": 38
+        },
+        {
+          "caller": "main",
+          "callee": "zed.open",
+          "lineNumber": 39
+        },
+        {
+          "caller": "main",
+          "callee": "RuntimeError",
+          "lineNumber": 41
+        },
+        {
+          "caller": "main",
+          "callee": "zed.get_camera_information",
+          "lineNumber": 46
+        },
+        {
+          "caller": "main",
+          "callee": "str",
+          "lineNumber": 52
+        },
+        {
+          "caller": "main",
+          "callee": "int",
+          "lineNumber": 53
+        },
+        {
+          "caller": "main",
+          "callee": "int",
+          "lineNumber": 54
+        },
+        {
+          "caller": "main",
+          "callee": "int",
+          "lineNumber": 54
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 56
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 56
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 57
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 57
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 58
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 61
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 61
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 62
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 62
+        },
+        {
+          "caller": "main",
+          "callee": "float",
+          "lineNumber": 63
+        },
+        {
+          "caller": "main",
+          "callee": "abs",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "translation_x",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "zed.close",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.output).expanduser().resolve",
+          "lineNumber": 73
+        },
+        {
+          "caller": "main",
+          "callee": "Path(args.output).expanduser",
+          "lineNumber": 73
+        },
+        {
+          "caller": "main",
+          "callee": "Path",
+          "lineNumber": 73
+        },
+        {
+          "caller": "main",
+          "callee": "output.parent.mkdir",
+          "lineNumber": 74
+        },
+        {
+          "caller": "main",
+          "callee": "output.write_text",
+          "lineNumber": 75
+        },
+        {
+          "caller": "main",
+          "callee": "json.dumps",
+          "lineNumber": 75
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "video_pub.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 74,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 87,
+          "endLine": 91,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "VideoPublisher",
+          "startLine": 12,
+          "endLine": 84,
+          "methods": [
+            "__init__",
+            "tick"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "VideoPublisher",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 87,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 14
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 14
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 17
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 18
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter('video_path').get_parameter_value",
+          "lineNumber": 20
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 20
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter('fps').get_parameter_value",
+          "lineNumber": 21
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 21
+        },
+        {
+          "caller": "__init__",
+          "callee": "cv2.VideoCapture",
+          "lineNumber": 24
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.cap.isOpened",
+          "lineNumber": 25
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().error",
+          "lineNumber": 26
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 26
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.cap.get",
+          "lineNumber": 29
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 30
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.cap.get",
+          "lineNumber": 30
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 31
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.cap.get",
+          "lineNumber": 31
+        },
+        {
+          "caller": "__init__",
+          "callee": "int",
+          "lineNumber": 32
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.cap.get",
+          "lineNumber": 32
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 37
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 37
+        },
+        {
+          "caller": "__init__",
+          "callee": "QoSProfile",
+          "lineNumber": 46
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_publisher",
+          "lineNumber": 51
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_timer",
+          "lineNumber": 55
+        },
+        {
+          "caller": "tick",
+          "callee": "self.cap.read",
+          "lineNumber": 58
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_logger().info",
+          "lineNumber": 60
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_logger",
+          "lineNumber": 60
+        },
+        {
+          "caller": "tick",
+          "callee": "self.cap.set",
+          "lineNumber": 61
+        },
+        {
+          "caller": "tick",
+          "callee": "self.cap.read",
+          "lineNumber": 63
+        },
+        {
+          "caller": "tick",
+          "callee": "cv2.cvtColor",
+          "lineNumber": 68
+        },
+        {
+          "caller": "tick",
+          "callee": "Image",
+          "lineNumber": 70
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_clock().now().to_msg",
+          "lineNumber": 71
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_clock().now",
+          "lineNumber": 71
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_clock",
+          "lineNumber": 71
+        },
+        {
+          "caller": "tick",
+          "callee": "bgra.tobytes",
+          "lineNumber": 77
+        },
+        {
+          "caller": "tick",
+          "callee": "self.pub.publish",
+          "lineNumber": 79
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_logger().info",
+          "lineNumber": 82
+        },
+        {
+          "caller": "tick",
+          "callee": "self.get_logger",
+          "lineNumber": 82
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 88
+        },
+        {
+          "caller": "main",
+          "callee": "VideoPublisher",
+          "lineNumber": 89
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.spin",
+          "lineNumber": 90
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "zed_capture_dataset.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 611,
+      "nonEmptyLines": 524,
+      "functions": [
+        {
+          "name": "get_next_dataset_dir",
+          "startLine": 547,
+          "endLine": 555,
+          "params": [
+            "base_dir",
+            "prefix"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 558,
+          "endLine": 607,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TopicRateTracker",
+          "startLine": 56,
+          "endLine": 74,
+          "methods": [
+            "__init__",
+            "tick",
+            "hz",
+            "latest_time"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ZEDDatasetCollector",
+          "startLine": 77,
+          "endLine": 544,
+          "methods": [
+            "__init__",
+            "_create_output_dirs",
+            "_stamp_to_sec",
+            "_vector3_to_list",
+            "_quaternion_to_list",
+            "left_callback",
+            "debug_viz_callback",
+            "right_callback",
+            "depth_callback",
+            "roadside_callback",
+            "perception_callback",
+            "cmd_vel_callback",
+            "bluetooth_feedback_callback",
+            "road_mask_callback",
+            "odom_callback",
+            "zed_odom_callback",
+            "_store_odom",
+            "imu_callback",
+            "auto_capture",
+            "save_frame",
+            "print_status",
+            "_format_hz"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TopicRateTracker",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "ZEDDatasetCollector",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "get_next_dataset_dir",
+          "line": 547,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 558,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "deque",
+          "lineNumber": 60
+        },
+        {
+          "caller": "tick",
+          "callee": "self.times.append",
+          "lineNumber": 63
+        },
+        {
+          "caller": "hz",
+          "callee": "len",
+          "lineNumber": 66
+        },
+        {
+          "caller": "hz",
+          "callee": "len",
+          "lineNumber": 71
+        },
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 81
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 81
+        },
+        {
+          "caller": "__init__",
+          "callee": "Path",
+          "lineNumber": 83
+        },
+        {
+          "caller": "__init__",
+          "callee": "CvBridge",
+          "lineNumber": 87
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 101
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 102
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 103
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 104
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 105
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 106
+        },
+        {
+          "caller": "__init__",
+          "callee": "TopicRateTracker",
+          "lineNumber": 107
+        },
+        {
+          "caller": "__init__",
+          "callee": "threading.Lock",
+          "lineNumber": 112
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._create_output_dirs",
+          "lineNumber": 115
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 118
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 120
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 122
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 124
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 126
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 128
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 130
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 132
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 134
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 139
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 142
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 142
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 146
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_subscription",
+          "lineNumber": 151
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 154
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 154
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 155
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 155
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 159
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 159
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_timer",
+          "lineNumber": 163
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 164
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 164
+        },
+        {
+          "caller": "__init__",
+          "callee": "time.time",
+          "lineNumber": 166
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "(self.output_dir / d).mkdir",
+          "lineNumber": 172
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "self.control_csv_path.exists",
+          "lineNumber": 174
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "open",
+          "lineNumber": 175
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "f.write",
+          "lineNumber": 176
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "self.get_logger().info",
+          "lineNumber": 183
+        },
+        {
+          "caller": "_create_output_dirs",
+          "callee": "self.get_logger",
+          "lineNumber": 183
+        },
+        {
+          "caller": "_vector3_to_list",
+          "callee": "float",
+          "lineNumber": 189
+        },
+        {
+          "caller": "_vector3_to_list",
+          "callee": "float",
+          "lineNumber": 189
+        },
+        {
+          "caller": "_vector3_to_list",
+          "callee": "float",
+          "lineNumber": 189
+        },
+        {
+          "caller": "_quaternion_to_list",
+          "callee": "float",
+          "lineNumber": 192
+        },
+        {
+          "caller": "_quaternion_to_list",
+          "callee": "float",
+          "lineNumber": 192
+        },
+        {
+          "caller": "_quaternion_to_list",
+          "callee": "float",
+          "lineNumber": 192
+        },
+        {
+          "caller": "_quaternion_to_list",
+          "callee": "float",
+          "lineNumber": 192
+        },
+        {
+          "caller": "left_callback",
+          "callee": "self.bridge.imgmsg_to_cv2",
+          "lineNumber": 198
+        },
+        {
+          "caller": "left_callback",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 201
+        },
+        {
+          "caller": "left_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 201
+        },
+        {
+          "caller": "debug_viz_callback",
+          "callee": "self.bridge.imgmsg_to_cv2",
+          "lineNumber": 209
+        },
+        {
+          "caller": "debug_viz_callback",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 212
+        },
+        {
+          "caller": "debug_viz_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 212
+        },
+        {
+          "caller": "right_callback",
+          "callee": "self.bridge.imgmsg_to_cv2",
+          "lineNumber": 218
+        },
+        {
+          "caller": "right_callback",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 220
+        },
+        {
+          "caller": "right_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 220
+        },
+        {
+          "caller": "depth_callback",
+          "callee": "self.bridge.imgmsg_to_cv2",
+          "lineNumber": 227
+        },
+        {
+          "caller": "depth_callback",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 229
+        },
+        {
+          "caller": "depth_callback",
+          "callee": "self.get_logger",
+          "lineNumber": 229
+        },
+        {
+          "caller": "roadside_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 234
+        },
+        {
+          "caller": "roadside_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 234
+        },
+        {
+          "caller": "roadside_callback",
+          "callee": "self.topic_rates['roadside'].tick",
+          "lineNumber": 235
+        },
+        {
+          "caller": "roadside_callback",
+          "callee": "float",
+          "lineNumber": 239
+        },
+        {
+          "caller": "roadside_callback",
+          "callee": "float",
+          "lineNumber": 240
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 246
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 246
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "self.topic_rates['roadside'].tick",
+          "lineNumber": 247
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "self._stamp_to_sec",
+          "lineNumber": 249
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "bool",
+          "lineNumber": 252
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "float",
+          "lineNumber": 253
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "float",
+          "lineNumber": 254
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "float",
+          "lineNumber": 255
+        },
+        {
+          "caller": "perception_callback",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 256
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 262
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 262
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "self.topic_rates['cmd_vel'].tick",
+          "lineNumber": 263
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 267
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 268
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 269
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 272
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 273
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 274
+        },
+        {
+          "caller": "cmd_vel_callback",
+          "callee": "float",
+          "lineNumber": 276
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 282
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 282
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "self.topic_rates['bluetooth_feedback'].tick",
+          "lineNumber": 283
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "float",
+          "lineNumber": 286
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "float",
+          "lineNumber": 287
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "int",
+          "lineNumber": 288
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "int",
+          "lineNumber": 289
+        },
+        {
+          "caller": "bluetooth_feedback_callback",
+          "callee": "int",
+          "lineNumber": 290
+        },
+        {
+          "caller": "road_mask_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 296
+        },
+        {
+          "caller": "road_mask_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 296
+        },
+        {
+          "caller": "road_mask_callback",
+          "callee": "self.topic_rates['road_mask'].tick",
+          "lineNumber": 297
+        },
+        {
+          "caller": "road_mask_callback",
+          "callee": "int",
+          "lineNumber": 301
+        },
+        {
+          "caller": "road_mask_callback",
+          "callee": "int",
+          "lineNumber": 302
+        },
+        {
+          "caller": "odom_callback",
+          "callee": "self._store_odom",
+          "lineNumber": 308
+        },
+        {
+          "caller": "zed_odom_callback",
+          "callee": "self._store_odom",
+          "lineNumber": 312
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self.get_clock().now",
+          "lineNumber": 316
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self.get_clock",
+          "lineNumber": 316
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self.topic_rates[rate_key].tick",
+          "lineNumber": 317
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self._stamp_to_sec",
+          "lineNumber": 321
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 326
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self._quaternion_to_list",
+          "lineNumber": 327
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 328
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 329
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "float",
+          "lineNumber": 330
+        },
+        {
+          "caller": "_store_odom",
+          "callee": "float",
+          "lineNumber": 331
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self.get_clock().now",
+          "lineNumber": 337
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self.get_clock",
+          "lineNumber": 337
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self.topic_rates['imu'].tick",
+          "lineNumber": 338
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self._stamp_to_sec",
+          "lineNumber": 340
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self._quaternion_to_list",
+          "lineNumber": 343
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 344
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "self._vector3_to_list",
+          "lineNumber": 345
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "float",
+          "lineNumber": 346
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "float",
+          "lineNumber": 347
+        },
+        {
+          "caller": "imu_callback",
+          "callee": "float",
+          "lineNumber": 348
+        },
+        {
+          "caller": "auto_capture",
+          "callee": "self.save_frame",
+          "lineNumber": 353
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 363
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 363
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 367
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 367
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_clock().now",
+          "lineNumber": 371
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_clock",
+          "lineNumber": 371
+        },
+        {
+          "caller": "save_frame",
+          "callee": "cv2.imwrite",
+          "lineNumber": 375
+        },
+        {
+          "caller": "save_frame",
+          "callee": "str",
+          "lineNumber": 375
+        },
+        {
+          "caller": "save_frame",
+          "callee": "cv2.imwrite",
+          "lineNumber": 380
+        },
+        {
+          "caller": "save_frame",
+          "callee": "str",
+          "lineNumber": 380
+        },
+        {
+          "caller": "save_frame",
+          "callee": "np.save",
+          "lineNumber": 385
+        },
+        {
+          "caller": "save_frame",
+          "callee": "str",
+          "lineNumber": 385
+        },
+        {
+          "caller": "save_frame",
+          "callee": "open",
+          "lineNumber": 390
+        },
+        {
+          "caller": "save_frame",
+          "callee": "json.dump",
+          "lineNumber": 391
+        },
+        {
+          "caller": "save_frame",
+          "callee": "open",
+          "lineNumber": 396
+        },
+        {
+          "caller": "save_frame",
+          "callee": "json.dump",
+          "lineNumber": 397
+        },
+        {
+          "caller": "save_frame",
+          "callee": "open",
+          "lineNumber": 402
+        },
+        {
+          "caller": "save_frame",
+          "callee": "json.dump",
+          "lineNumber": 403
+        },
+        {
+          "caller": "save_frame",
+          "callee": "open",
+          "lineNumber": 407
+        },
+        {
+          "caller": "save_frame",
+          "callee": "json.dump",
+          "lineNumber": 408
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['cmd_vel'].hz",
+          "lineNumber": 410
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['bluetooth_feedback'].hz",
+          "lineNumber": 411
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['roadside'].hz",
+          "lineNumber": 412
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['road_mask'].hz",
+          "lineNumber": 413
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['odom'].hz",
+          "lineNumber": 414
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['zed_odom'].hz",
+          "lineNumber": 416
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.topic_rates['imu'].hz",
+          "lineNumber": 417
+        },
+        {
+          "caller": "save_frame",
+          "callee": "open",
+          "lineNumber": 470
+        },
+        {
+          "caller": "save_frame",
+          "callee": "f.write",
+          "lineNumber": 471
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 486
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 493
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 500
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 505
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 512
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self._format_hz",
+          "lineNumber": 519
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 523
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 523
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 528
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 528
+        },
+        {
+          "caller": "save_frame",
+          "callee": "hasattr",
+          "lineNumber": 529
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.timer.cancel",
+          "lineNumber": 530
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger().error",
+          "lineNumber": 533
+        },
+        {
+          "caller": "save_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 533
+        },
+        {
+          "caller": "print_status",
+          "callee": "time.time",
+          "lineNumber": 537
+        },
+        {
+          "caller": "print_status",
+          "callee": "self.get_logger().info",
+          "lineNumber": 539
+        },
+        {
+          "caller": "print_status",
+          "callee": "self.get_logger",
+          "lineNumber": 539
+        },
+        {
+          "caller": "get_next_dataset_dir",
+          "callee": "Path",
+          "lineNumber": 549
+        },
+        {
+          "caller": "get_next_dataset_dir",
+          "callee": "candidate.exists",
+          "lineNumber": 553
+        },
+        {
+          "caller": "get_next_dataset_dir",
+          "callee": "str",
+          "lineNumber": 554
+        },
+        {
+          "caller": "main",
+          "callee": "argparse.ArgumentParser",
+          "lineNumber": 559
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 560
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 562
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 564
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 566
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 568
+        },
+        {
+          "caller": "main",
+          "callee": "parser.set_defaults",
+          "lineNumber": 570
+        },
+        {
+          "caller": "main",
+          "callee": "parser.parse_args",
+          "lineNumber": 572
+        },
+        {
+          "caller": "main",
+          "callee": "get_next_dataset_dir",
+          "lineNumber": 576
+        },
+        {
+          "caller": "main",
+          "callee": "os.path.expanduser",
+          "lineNumber": 576
+        },
+        {
+          "caller": "main",
+          "callee": "os.path.expanduser",
+          "lineNumber": 578
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 581
+        },
+        {
+          "caller": "main",
+          "callee": "ZEDDatasetCollector",
+          "lineNumber": 584
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger().info",
+          "lineNumber": 593
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 593
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger().info",
+          "lineNumber": 595
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 595
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger().info",
+          "lineNumber": 597
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 597
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.spin",
+          "lineNumber": 600
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger().info",
+          "lineNumber": 603
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 603
+        },
+        {
+          "caller": "main",
+          "callee": "node.print_status",
+          "lineNumber": 604
+        },
+        {
+          "caller": "main",
+          "callee": "node.destroy_node",
+          "lineNumber": 606
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 607
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "zed_dataset_player.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 368,
+      "nonEmptyLines": 317,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 340,
+          "endLine": 364,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DatasetPlayerNode",
+          "startLine": 47,
+          "endLine": 337,
+          "methods": [
+            "__init__",
+            "_has_depth_files",
+            "load_imu",
+            "load_odom",
+            "load_depth",
+            "publish_frame",
+            "_publish_frame"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DatasetPlayerNode",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 340,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 49
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 49
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 52
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.expanduser",
+          "lineNumber": 52
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 53
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 54
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 55
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.declare_parameter",
+          "lineNumber": 56
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.expanduser",
+          "lineNumber": 58
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 58
+        },
+        {
+          "caller": "__init__",
+          "callee": "float",
+          "lineNumber": 59
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 59
+        },
+        {
+          "caller": "__init__",
+          "callee": "bool",
+          "lineNumber": 60
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 61
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_parameter",
+          "lineNumber": 62
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.isdir",
+          "lineNumber": 64
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().fatal",
+          "lineNumber": 65
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 65
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().fatal",
+          "lineNumber": 66
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 66
+        },
+        {
+          "caller": "__init__",
+          "callee": "RuntimeError",
+          "lineNumber": 67
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 70
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.isfile",
+          "lineNumber": 71
+        },
+        {
+          "caller": "__init__",
+          "callee": "open",
+          "lineNumber": 72
+        },
+        {
+          "caller": "__init__",
+          "callee": "json.load",
+          "lineNumber": 73
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.metadata.get",
+          "lineNumber": 74
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 78
+        },
+        {
+          "caller": "__init__",
+          "callee": "len",
+          "lineNumber": 79
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.listdir",
+          "lineNumber": 79
+        },
+        {
+          "caller": "__init__",
+          "callee": "f.endswith",
+          "lineNumber": 79
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.isdir",
+          "lineNumber": 79
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().fatal",
+          "lineNumber": 82
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 82
+        },
+        {
+          "caller": "__init__",
+          "callee": "RuntimeError",
+          "lineNumber": 83
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 89
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 90
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 91
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 92
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._has_depth_files",
+          "lineNumber": 95
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._has_depth_files",
+          "lineNumber": 98
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._has_depth_files",
+          "lineNumber": 101
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 104
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 104
+        },
+        {
+          "caller": "__init__",
+          "callee": "self._has_depth_files",
+          "lineNumber": 105
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 110
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 110
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.join",
+          "lineNumber": 113
+        },
+        {
+          "caller": "__init__",
+          "callee": "os.path.isfile",
+          "lineNumber": 114
+        },
+        {
+          "caller": "__init__",
+          "callee": "open",
+          "lineNumber": 115
+        },
+        {
+          "caller": "__init__",
+          "callee": "json.load",
+          "lineNumber": 116
+        },
+        {
+          "caller": "__init__",
+          "callee": "cam_info.get",
+          "lineNumber": 117
+        },
+        {
+          "caller": "__init__",
+          "callee": "cam_info.get",
+          "lineNumber": 118
+        },
+        {
+          "caller": "__init__",
+          "callee": "res.get",
+          "lineNumber": 119
+        },
+        {
+          "caller": "__init__",
+          "callee": "res.get",
+          "lineNumber": 120
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 121
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 121
+        },
+        {
+          "caller": "__init__",
+          "callee": "left_cam.get",
+          "lineNumber": 122
+        },
+        {
+          "caller": "__init__",
+          "callee": "left_cam.get",
+          "lineNumber": 122
+        },
+        {
+          "caller": "__init__",
+          "callee": "left_cam.get",
+          "lineNumber": 123
+        },
+        {
+          "caller": "__init__",
+          "callee": "left_cam.get",
+          "lineNumber": 123
+        },
+        {
+          "caller": "__init__",
+          "callee": "QoSProfile",
+          "lineNumber": 132
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_publisher",
+          "lineNumber": 138
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_publisher",
+          "lineNumber": 139
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_publisher",
+          "lineNumber": 140
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_publisher",
+          "lineNumber": 141
+        },
+        {
+          "caller": "__init__",
+          "callee": "CvBridge",
+          "lineNumber": 142
+        },
+        {
+          "caller": "__init__",
+          "callee": "max",
+          "lineNumber": 145
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.create_timer",
+          "lineNumber": 146
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 148
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 148
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 152
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 152
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 153
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 153
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 154
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 154
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 155
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 155
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger().info",
+          "lineNumber": 156
+        },
+        {
+          "caller": "__init__",
+          "callee": "self.get_logger",
+          "lineNumber": 156
+        },
+        {
+          "caller": "_has_depth_files",
+          "callee": "os.path.isdir",
+          "lineNumber": 159
+        },
+        {
+          "caller": "_has_depth_files",
+          "callee": "any",
+          "lineNumber": 161
+        },
+        {
+          "caller": "_has_depth_files",
+          "callee": "name.endswith",
+          "lineNumber": 161
+        },
+        {
+          "caller": "_has_depth_files",
+          "callee": "os.listdir",
+          "lineNumber": 161
+        },
+        {
+          "caller": "load_imu",
+          "callee": "os.path.join",
+          "lineNumber": 165
+        },
+        {
+          "caller": "load_imu",
+          "callee": "os.path.isfile",
+          "lineNumber": 166
+        },
+        {
+          "caller": "load_imu",
+          "callee": "open",
+          "lineNumber": 168
+        },
+        {
+          "caller": "load_imu",
+          "callee": "json.load",
+          "lineNumber": 169
+        },
+        {
+          "caller": "load_odom",
+          "callee": "os.path.join",
+          "lineNumber": 176
+        },
+        {
+          "caller": "load_odom",
+          "callee": "os.path.isfile",
+          "lineNumber": 177
+        },
+        {
+          "caller": "load_odom",
+          "callee": "open",
+          "lineNumber": 179
+        },
+        {
+          "caller": "load_odom",
+          "callee": "json.load",
+          "lineNumber": 180
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.join",
+          "lineNumber": 188
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.isfile",
+          "lineNumber": 189
+        },
+        {
+          "caller": "load_depth",
+          "callee": "np.fromfile",
+          "lineNumber": 190
+        },
+        {
+          "caller": "load_depth",
+          "callee": "ValueError",
+          "lineNumber": 195
+        },
+        {
+          "caller": "load_depth",
+          "callee": "depth.reshape",
+          "lineNumber": 197
+        },
+        {
+          "caller": "load_depth",
+          "callee": "depth.reshape",
+          "lineNumber": 199
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.join",
+          "lineNumber": 202
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.isfile",
+          "lineNumber": 203
+        },
+        {
+          "caller": "load_depth",
+          "callee": "np.load(npy_path).astype",
+          "lineNumber": 204
+        },
+        {
+          "caller": "load_depth",
+          "callee": "np.load",
+          "lineNumber": 204
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.join",
+          "lineNumber": 206
+        },
+        {
+          "caller": "load_depth",
+          "callee": "os.path.isfile",
+          "lineNumber": 207
+        },
+        {
+          "caller": "load_depth",
+          "callee": "cv2.imread",
+          "lineNumber": 208
+        },
+        {
+          "caller": "load_depth",
+          "callee": "depth_mm.astype",
+          "lineNumber": 210
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 217
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 217
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 219
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 219
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.timer.cancel",
+          "lineNumber": 220
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self._publish_frame",
+          "lineNumber": 225
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 227
+        },
+        {
+          "caller": "publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 227
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_clock().now().to_msg",
+          "lineNumber": 232
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_clock().now",
+          "lineNumber": 232
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_clock",
+          "lineNumber": 232
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "os.path.join",
+          "lineNumber": 235
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "os.path.isfile",
+          "lineNumber": 236
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 237
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 237
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "cv2.imread",
+          "lineNumber": 240
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger().warn",
+          "lineNumber": 242
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 242
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "cv2.cvtColor",
+          "lineNumber": 246
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.bridge.cv2_to_imgmsg",
+          "lineNumber": 253
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.load_depth",
+          "lineNumber": 258
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.bridge.cv2_to_imgmsg",
+          "lineNumber": 260
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.load_imu",
+          "lineNumber": 265
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "Imu",
+          "lineNumber": 267
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "imu_data.get",
+          "lineNumber": 272
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 273
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 274
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 275
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "imu_data.get",
+          "lineNumber": 278
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 279
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 280
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 281
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "imu_data.get",
+          "lineNumber": 284
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 285
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 286
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 287
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 288
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.load_odom",
+          "lineNumber": 296
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "Odometry",
+          "lineNumber": 298
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "odom_data.get",
+          "lineNumber": 304
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 305
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 306
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 307
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "odom_data.get",
+          "lineNumber": 310
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 311
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 312
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 313
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "float",
+          "lineNumber": 314
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.rgb_pub.publish",
+          "lineNumber": 321
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.depth_pub.publish",
+          "lineNumber": 325
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.imu_pub.publish",
+          "lineNumber": 329
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.odom_pub.publish",
+          "lineNumber": 333
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "int",
+          "lineNumber": 335
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger().info",
+          "lineNumber": 337
+        },
+        {
+          "caller": "_publish_frame",
+          "callee": "self.get_logger",
+          "lineNumber": 337
+        },
+        {
+          "caller": "main",
+          "callee": "argparse.ArgumentParser",
+          "lineNumber": 342
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 343
+        },
+        {
+          "caller": "main",
+          "callee": "os.path.expanduser",
+          "lineNumber": 343
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 344
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 345
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_argument",
+          "lineNumber": 346
+        },
+        {
+          "caller": "main",
+          "callee": "parser.set_defaults",
+          "lineNumber": 347
+        },
+        {
+          "caller": "main",
+          "callee": "parser.parse_known_args",
+          "lineNumber": 348
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 350
+        },
+        {
+          "caller": "main",
+          "callee": "DatasetPlayerNode",
+          "lineNumber": 352
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.spin",
+          "lineNumber": 357
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 361
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.ok",
+          "lineNumber": 363
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 364
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

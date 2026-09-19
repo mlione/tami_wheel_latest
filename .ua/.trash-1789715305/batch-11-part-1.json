@@ -1,0 +1,1405 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/vision_opencv/image_geometry/doc/mainpage.dox",
+      "type": "file",
+      "name": "mainpage.dox",
+      "filePath": "src/vision_opencv/image_geometry/doc/mainpage.dox",
+      "summary": "提供该 ROS 图像处理包的 Doxygen 首页和功能概述。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "type": "file",
+      "name": "pinhole_camera_model.h",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "summary": "实现或声明 ROS CameraInfo 与 OpenCV 针孔相机模型之间的标定、投影、畸变校正和 ROI 变换。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:Exception",
+      "type": "class",
+      "name": "Exception",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "lineRange": [
+        15,
+        20
+      ],
+      "summary": "类 Exception 实现 pinhole_camera_model.h 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "camera-model",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:PinholeCameraModel",
+      "type": "class",
+      "name": "PinholeCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "lineRange": [
+        25,
+        406
+      ],
+      "summary": "类 PinholeCameraModel 实现 pinhole_camera_model.h 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "camera-model",
+        "module-api"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "type": "file",
+      "name": "stereo_camera_model.h",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "summary": "实现或声明双目相机模型、视差重投影矩阵及视差到三维点云的转换。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h:StereoCameraModel",
+      "type": "class",
+      "name": "StereoCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "lineRange": [
+        13,
+        151
+      ],
+      "summary": "类 StereoCameraModel 实现 stereo_camera_model.h 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "camera-model",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "type": "file",
+      "name": "visibility_control.hpp",
+      "filePath": "src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "summary": "定义跨平台共享库符号导入、导出和可见性宏。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "type": "file",
+      "name": "pinhole_camera_model.cpp",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "summary": "实现或声明 ROS CameraInfo 与 OpenCV 针孔相机模型之间的标定、投影、畸变校正和 ROI 变换。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:Cache",
+      "type": "function",
+      "name": "Cache",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        31,
+        40
+      ],
+      "summary": "函数 Cache 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel",
+      "type": "function",
+      "name": "PinholeCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        55,
+        60
+      ],
+      "summary": "函数 PinholeCameraModel 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fromCameraInfo",
+      "type": "function",
+      "name": "fromCameraInfo",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        98,
+        220
+      ],
+      "summary": "函数 fromCameraInfo 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fullResolution",
+      "type": "function",
+      "name": "fullResolution",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        227,
+        231
+      ],
+      "summary": "函数 fullResolution 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:reducedResolution",
+      "type": "function",
+      "name": "reducedResolution",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        233,
+        239
+      ],
+      "summary": "函数 reducedResolution 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toFullResolution",
+      "type": "function",
+      "name": "toFullResolution",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        248,
+        255
+      ],
+      "summary": "函数 toFullResolution 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toReducedResolution",
+      "type": "function",
+      "name": "toReducedResolution",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        264,
+        271
+      ],
+      "summary": "函数 toReducedResolution 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rawRoi",
+      "type": "function",
+      "name": "rawRoi",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        273,
+        279
+      ],
+      "summary": "函数 rawRoi 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifiedRoi",
+      "type": "function",
+      "name": "rectifiedRoi",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        281,
+        295
+      ],
+      "summary": "函数 rectifiedRoi 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:project3dToPixel",
+      "type": "function",
+      "name": "project3dToPixel",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        297,
+        309
+      ],
+      "summary": "函数 project3dToPixel 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:projectPixelTo3dRay",
+      "type": "function",
+      "name": "projectPixelTo3dRay",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        316,
+        332
+      ],
+      "summary": "函数 projectPixelTo3dRay 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyImage",
+      "type": "function",
+      "name": "rectifyImage",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        334,
+        355
+      ],
+      "summary": "函数 rectifyImage 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyImage",
+      "type": "function",
+      "name": "unrectifyImage",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        357,
+        382
+      ],
+      "summary": "函数 unrectifyImage 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyPoint",
+      "type": "function",
+      "name": "rectifyPoint",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        389,
+        418
+      ],
+      "summary": "函数 rectifyPoint 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyPoint",
+      "type": "function",
+      "name": "unrectifyPoint",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        425,
+        458
+      ],
+      "summary": "函数 unrectifyPoint 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyRoi",
+      "type": "function",
+      "name": "rectifyRoi",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        460,
+        480
+      ],
+      "summary": "函数 rectifyRoi 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyRoi",
+      "type": "function",
+      "name": "unrectifyRoi",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        482,
+        501
+      ],
+      "summary": "函数 unrectifyRoi 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initRectificationMaps",
+      "type": "function",
+      "name": "initRectificationMaps",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        503,
+        583
+      ],
+      "summary": "函数 initRectificationMaps 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initUnrectificationMaps",
+      "type": "function",
+      "name": "initUnrectificationMaps",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        585,
+        663
+      ],
+      "summary": "函数 initUnrectificationMaps 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel::Cache",
+      "type": "class",
+      "name": "PinholeCameraModel::Cache",
+      "filePath": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "lineRange": [
+        9,
+        41
+      ],
+      "summary": "类 PinholeCameraModel::Cache 实现 pinhole_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "type": "file",
+      "name": "stereo_camera_model.cpp",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "summary": "实现或声明双目相机模型、视差重投影矩阵及视差到三维点云的转换。",
+      "tags": [
+        "opencv",
+        "camera-model",
+        "vision"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:StereoCameraModel",
+      "type": "function",
+      "name": "StereoCameraModel",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "lineRange": [
+        11,
+        19
+      ],
+      "summary": "函数 StereoCameraModel 实现 stereo_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:fromCameraInfo",
+      "type": "function",
+      "name": "fromCameraInfo",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "lineRange": [
+        29,
+        48
+      ],
+      "summary": "函数 fromCameraInfo 实现 stereo_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:updateQ",
+      "type": "function",
+      "name": "updateQ",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "lineRange": [
+        56,
+        116
+      ],
+      "summary": "函数 updateQ 实现 stereo_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityTo3d",
+      "type": "function",
+      "name": "projectDisparityTo3d",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "lineRange": [
+        118,
+        131
+      ],
+      "summary": "函数 projectDisparityTo3d 实现 stereo_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityImageTo3d",
+      "type": "function",
+      "name": "projectDisparityImageTo3d",
+      "filePath": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "lineRange": [
+        138,
+        144
+      ],
+      "summary": "函数 projectDisparityImageTo3d 实现 stereo_camera_model.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:src/vision_opencv/image_geometry/test/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "src/vision_opencv/image_geometry/test/CMakeLists.txt",
+      "summary": "测试 CMakeLists.txt 所覆盖的相机模型或图像几何行为。",
+      "tags": [
+        "documentation",
+        "build-system",
+        "ros2"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "type": "file",
+      "name": "utest.cpp",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "summary": "测试 utest.cpp 所覆盖的相机模型或图像几何行为。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest.cpp:SetUp",
+      "type": "function",
+      "name": "SetUp",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "lineRange": [
+        14,
+        42
+      ],
+      "summary": "函数 SetUp 实现 utest.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest.cpp:TEST_F",
+      "type": "function",
+      "name": "TEST_F",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "lineRange": [
+        159,
+        247
+      ],
+      "summary": "函数 TEST_F 实现 utest.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest.cpp:testUnrectifyImage",
+      "type": "function",
+      "name": "testUnrectifyImage",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "lineRange": [
+        249,
+        325
+      ],
+      "summary": "函数 testUnrectifyImage 实现 utest.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest.cpp:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "lineRange": [
+        457,
+        461
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/test/utest.cpp:PinholeTest",
+      "type": "class",
+      "name": "PinholeTest",
+      "filePath": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "lineRange": [
+        11,
+        46
+      ],
+      "summary": "类 PinholeTest 实现 utest.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "type": "file",
+      "name": "utest_equi.cpp",
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "summary": "测试 utest_equi.cpp 所覆盖的相机模型或图像几何行为。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:SetUp",
+      "type": "function",
+      "name": "SetUp",
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "lineRange": [
+        14,
+        41
+      ],
+      "summary": "函数 SetUp 实现 utest_equi.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:TEST_F",
+      "type": "function",
+      "name": "TEST_F",
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "lineRange": [
+        162,
+        251
+      ],
+      "summary": "函数 TEST_F 实现 utest_equi.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "lineRange": [
+        253,
+        257
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/vision_opencv/image_geometry/test/utest_equi.cpp:EquidistantTest",
+      "type": "class",
+      "name": "EquidistantTest",
+      "filePath": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "lineRange": [
+        11,
+        45
+      ],
+      "summary": "类 EquidistantTest 实现 utest_equi.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/launch/view_img.py",
+      "type": "file",
+      "name": "view_img.py",
+      "filePath": "src/vision_opencv/opencv_tests/launch/view_img.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 view_img.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/launch/view_img.py:launch",
+      "type": "function",
+      "name": "launch",
+      "filePath": "src/vision_opencv/opencv_tests/launch/view_img.py",
+      "lineRange": [
+        5,
+        21
+      ],
+      "summary": "函数 launch 实现 view_img.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/mainpage.dox",
+      "type": "file",
+      "name": "mainpage.dox",
+      "filePath": "src/vision_opencv/opencv_tests/mainpage.dox",
+      "summary": "ROS 2 OpenCV 集成测试组件 mainpage.dox，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 __init__.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "type": "file",
+      "name": "broadcast.py",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "summary": "ROS 2 OpenCV 集成测试组件 broadcast.py，用于图像发布、订阅或人脸检测验证。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "lineRange": [
+        48,
+        76
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:Exception",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:Exception",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:PinholeCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h:PinholeCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h:StereoCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "target": "class:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h:StereoCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:Cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:Cache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fromCameraInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fromCameraInfo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fullResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:fullResolution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:reducedResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:reducedResolution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toFullResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toFullResolution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toReducedResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:toReducedResolution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rawRoi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rawRoi",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifiedRoi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifiedRoi",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:project3dToPixel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:project3dToPixel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:projectPixelTo3dRay",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:projectPixelTo3dRay",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyImage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyImage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyPoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyPoint",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyRoi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:rectifyRoi",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyRoi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:unrectifyRoi",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initRectificationMaps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initRectificationMaps",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initUnrectificationMaps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:initUnrectificationMaps",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "class:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel::Cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "class:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp:PinholeCameraModel::Cache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:StereoCameraModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:StereoCameraModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:fromCameraInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:fromCameraInfo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:updateQ",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:updateQ",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityTo3d",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityTo3d",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityImageTo3d",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "function:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp:projectDisparityImageTo3d",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:SetUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:TEST_F",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:TEST_F",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:testUnrectifyImage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:testUnrectifyImage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest.cpp:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "class:src/vision_opencv/image_geometry/test/utest.cpp:PinholeTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "target": "class:src/vision_opencv/image_geometry/test/utest.cpp:PinholeTest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:SetUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:TEST_F",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:TEST_F",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "function:src/vision_opencv/image_geometry/test/utest_equi.cpp:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "class:src/vision_opencv/image_geometry/test/utest_equi.cpp:EquidistantTest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "target": "class:src/vision_opencv/image_geometry/test/utest_equi.cpp:EquidistantTest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/launch/view_img.py",
+      "target": "function:src/vision_opencv/opencv_tests/launch/view_img.py:launch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/launch/view_img.py",
+      "target": "function:src/vision_opencv/opencv_tests/launch/view_img.py:launch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "target": "function:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "target": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "target": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "file:src/vision_opencv/image_geometry/test/utest.cpp",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "target": "file:src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

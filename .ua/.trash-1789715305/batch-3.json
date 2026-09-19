@@ -1,0 +1,613 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "type": "file",
+      "name": "test_protocol.py",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "summary": "覆盖手机网关的 WebSocket 帧编码、图像缩放、二进制传输、launch 请求白名单和进程组生命周期。",
+      "tags": [
+        "测试",
+        "websocket",
+        "进程管理",
+        "安全验证"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_short_text_frame",
+      "type": "function",
+      "name": "test_encode_short_text_frame",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "验证短文本载荷使用 FIN 与 text opcode 的基本 WebSocket 帧格式。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_large_text_frame",
+      "type": "function",
+      "name": "test_encode_large_text_frame",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        28,
+        33
+      ],
+      "summary": "验证超过 65535 字节的文本载荷使用 64 位扩展长度字段。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_resize_for_stream",
+      "type": "function",
+      "name": "test_resize_for_stream",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "验证 720p 图像按配置缩放为 640×360。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_send_binary_uses_binary_opcode",
+      "type": "function",
+      "name": "test_send_binary_uses_binary_opcode",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        43,
+        48
+      ],
+      "summary": "验证 JPEG 数据使用 binary opcode 发送而非 base64 文本。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_validate_launch_request_only_accepts_perception",
+      "type": "function",
+      "name": "test_validate_launch_request_only_accepts_perception",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        51,
+        60
+      ],
+      "summary": "验证 launch 请求仅允许 perception 标识且拒绝自定义参数。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_start_is_idempotent",
+      "type": "function",
+      "name": "test_launch_manager_start_is_idempotent",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        64,
+        73
+      ],
+      "summary": "验证重复启动请求不会创建第二个 launch 进程。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_reports_unexpected_exit",
+      "type": "function",
+      "name": "test_launch_manager_reports_unexpected_exit",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        77,
+        87
+      ],
+      "summary": "验证异常退出的 launch 会被报告为 failed 并保留退出码。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_stops_process_group",
+      "type": "function",
+      "name": "test_launch_manager_stops_process_group",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        92,
+        104
+      ],
+      "summary": "验证停止操作向整个 launch 进程组发送 SIGINT。",
+      "tags": [
+        "测试",
+        "行为验证",
+        "回归保护"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_phone_gateway/test/test_protocol.py:RecordingConnection",
+      "type": "class",
+      "name": "RecordingConnection",
+      "filePath": "src/wheel_phone_gateway/test/test_protocol.py",
+      "lineRange": [
+        13,
+        20
+      ],
+      "summary": "模拟 socket 连接并累计 sendall 数据，便于断言 WebSocket 帧的精确字节。",
+      "tags": [
+        "测试替身",
+        "websocket",
+        "字节协议"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "type": "file",
+      "name": "gateway_node.py",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "summary": "实现 ROS 2 手机调试网关：订阅调试图像、压缩并经 WebSocket 推流，同时通过 HTTP API 受控启停感知 launch。",
+      "tags": [
+        "ros2-节点",
+        "websocket",
+        "图像流",
+        "http-服务"
+      ],
+      "complexity": "complex",
+      "languageNotes": "将 ROS 回调、HTTP 线程、广播线程和 launch 监控线程解耦，并用锁保护共享帧与客户端集合。"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:encode_websocket_frame",
+      "type": "function",
+      "name": "encode_websocket_frame",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        35,
+        44
+      ],
+      "summary": "按载荷长度选择 WebSocket 基本、16 位或 64 位长度格式，生成服务端未掩码帧。",
+      "tags": [
+        "websocket",
+        "协议编码",
+        "序列化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:read_exact",
+      "type": "function",
+      "name": "read_exact",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        47,
+        55
+      ],
+      "summary": "循环读取 socket 直到满足指定字节数，并在对端关闭时报告连接错误。",
+      "tags": [
+        "网络io",
+        "socket",
+        "错误处理"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:resize_for_stream",
+      "type": "function",
+      "name": "resize_for_stream",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        58,
+        66
+      ],
+      "summary": "将图像缩放为移动端输出尺寸，相同尺寸时直接复用输入数组。",
+      "tags": [
+        "图像处理",
+        "缩放",
+        "性能优化"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        484,
+        501
+      ],
+      "summary": "初始化 rclpy 和手机调试网关，运行事件循环并在中断或错误后有序释放资源。",
+      "tags": [
+        "入口点",
+        "ros2",
+        "生命周期"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:WebSocketClient",
+      "type": "class",
+      "name": "WebSocketClient",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        69,
+        101
+      ],
+      "summary": "封装单个客户端的线程安全发送，支持 JSON、控制帧、二进制 JPEG 与帧元数据。",
+      "tags": [
+        "websocket",
+        "并发",
+        "消息传输"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:DebugVizGateway",
+      "type": "class",
+      "name": "DebugVizGateway",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "lineRange": [
+        104,
+        481
+      ],
+      "summary": "协调 ROS 图像订阅、JPEG 编码、HTTP/WebSocket 服务、客户端广播和 launch 状态监控。",
+      "tags": [
+        "ros2-节点",
+        "网关服务",
+        "并发",
+        "图像流"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "type": "file",
+      "name": "launch_process.py",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "summary": "提供受白名单约束的 ROS 2 launch 进程管理器，以进程组方式实现幂等启动、状态回收和分级停止。",
+      "tags": [
+        "进程管理",
+        "安全控制",
+        "ros2-launch",
+        "并发"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "通过 start_new_session 创建独立进程组，并按 SIGINT、SIGTERM、SIGKILL 顺序升级停止。"
+    },
+    {
+      "id": "function:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:validate_launch_request",
+      "type": "function",
+      "name": "validate_launch_request",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "lineRange": [
+        19,
+        29
+      ],
+      "summary": "仅接受固定 perception launch 且拒绝自定义参数，阻止手机端注入任意命令。",
+      "tags": [
+        "输入校验",
+        "安全控制",
+        "白名单"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:LaunchProcessManager",
+      "type": "class",
+      "name": "LaunchProcessManager",
+      "filePath": "src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "lineRange": [
+        32,
+        125
+      ],
+      "summary": "用互斥锁管理唯一 launch 进程组，提供状态查询、幂等启动及带超时升级的停止。",
+      "tags": [
+        "进程管理",
+        "并发",
+        "生命周期"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_short_text_frame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_short_text_frame",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_large_text_frame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_encode_large_text_frame",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_resize_for_stream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_resize_for_stream",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_send_binary_uses_binary_opcode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_send_binary_uses_binary_opcode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_validate_launch_request_only_accepts_perception",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_validate_launch_request_only_accepts_perception",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_start_is_idempotent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_start_is_idempotent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_reports_unexpected_exit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_reports_unexpected_exit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_stops_process_group",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "function:src/wheel_phone_gateway/test/test_protocol.py:test_launch_manager_stops_process_group",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "class:src/wheel_phone_gateway/test/test_protocol.py:RecordingConnection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "class:src/wheel_phone_gateway/test/test_protocol.py:RecordingConnection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:encode_websocket_frame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:encode_websocket_frame",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:read_exact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:read_exact",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:resize_for_stream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:resize_for_stream",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:WebSocketClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:WebSocketClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:DebugVizGateway",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py:DebugVizGateway",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:validate_launch_request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "target": "function:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:validate_launch_request",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:LaunchProcessManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "target": "class:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py:LaunchProcessManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "target": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "target": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "target": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

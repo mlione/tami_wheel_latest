@@ -1,0 +1,1290 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "type": "file",
+      "name": "dwa_dataset_test.launch.py",
+      "filePath": "src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "summary": "启动离线数据集播放器和轮椅感知控制流水线，用于无实车验证 DWA 路径规划。",
+      "tags": [
+        "test",
+        "validation",
+        "quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/launch/dwa_dataset_test.launch.py:generate_launch_description",
+      "type": "function",
+      "name": "generate_launch_description",
+      "filePath": "src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "lineRange": [
+        14,
+        52
+      ],
+      "summary": "构造并返回 ROS 2 LaunchDescription，声明参数并启动相关节点。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/wheel_perception/launch/run_launch.py",
+      "type": "file",
+      "name": "run_launch.py",
+      "filePath": "src/wheel_perception/launch/run_launch.py",
+      "summary": "装载感知与控制组合节点、静态坐标变换及项目参数，作为主要 ROS 2 启动入口。",
+      "tags": [
+        "entry-point",
+        "ros2",
+        "launch"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/launch/run_launch.py:generate_launch_description",
+      "type": "function",
+      "name": "generate_launch_description",
+      "filePath": "src/wheel_perception/launch/run_launch.py",
+      "lineRange": [
+        10,
+        122
+      ],
+      "summary": "构造并返回 ROS 2 LaunchDescription，声明参数并启动相关节点。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:src/wheel_perception/package.xml",
+      "type": "config",
+      "name": "package.xml",
+      "filePath": "src/wheel_perception/package.xml",
+      "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。",
+      "tags": [
+        "configuration",
+        "ros2",
+        "runtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/wheel_perception/rviz/dwa_navigation.rviz",
+      "type": "file",
+      "name": "dwa_navigation.rviz",
+      "filePath": "src/wheel_perception/rviz/dwa_navigation.rviz",
+      "summary": "预配置 RViz 中的障碍物点云、道路边界、候选轨迹、最佳路径及巡航路径显示。",
+      "tags": [
+        "local-planner",
+        "dwa",
+        "control"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/wheel_perception/scripts/sub.py",
+      "type": "file",
+      "name": "sub.py",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "summary": "ROS 2 蓝牙底盘桥接节点，将 cmd_vel 转换为差速轮控制协议并异步收发 BLE 数据。",
+      "tags": [
+        "ros2",
+        "component",
+        "wheelchair"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:make_length_4",
+      "type": "function",
+      "name": "make_length_4",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        10,
+        11
+      ],
+      "summary": "函数 make_length_4 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:cacu",
+      "type": "function",
+      "name": "cacu",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        13,
+        21
+      ],
+      "summary": "函数 cacu 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:ang_cal",
+      "type": "function",
+      "name": "ang_cal",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        23,
+        32
+      ],
+      "summary": "函数 ang_cal 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:ackermann_to_differential_angle",
+      "type": "function",
+      "name": "ackermann_to_differential_angle",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        34,
+        37
+      ],
+      "summary": "函数 ackermann_to_differential_angle 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:encode_control",
+      "type": "function",
+      "name": "encode_control",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        39,
+        46
+      ],
+      "summary": "函数 encode_control 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/sub.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        138,
+        142
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/sub.py:HardwareBridge",
+      "type": "class",
+      "name": "HardwareBridge",
+      "filePath": "src/wheel_perception/scripts/sub.py",
+      "lineRange": [
+        55,
+        136
+      ],
+      "summary": "类 HardwareBridge 实现 sub.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "type": "file",
+      "name": "video_infer_trt.py",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "summary": "独立视频推理工具，直接调用 TensorRT 与 CUDA 执行 BiSeNet 道路分割并生成叠加视频。",
+      "tags": [
+        "tensorrt",
+        "inference",
+        "model-conversion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/video_infer_trt.py:ensure_tensorrt_importable",
+      "type": "function",
+      "name": "ensure_tensorrt_importable",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        23,
+        40
+      ],
+      "summary": "函数 ensure_tensorrt_importable 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/video_infer_trt.py:build_output_paths",
+      "type": "function",
+      "name": "build_output_paths",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        282,
+        289
+      ],
+      "summary": "函数 build_output_paths 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/scripts/video_infer_trt.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        292,
+        377
+      ],
+      "summary": "解析运行参数并启动对应 ROS 2 节点或离线工具。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTLogger",
+      "type": "class",
+      "name": "TRTLogger",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        47,
+        53
+      ],
+      "summary": "类 TRTLogger 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaError",
+      "type": "class",
+      "name": "CudaError",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        56,
+        57
+      ],
+      "summary": "类 CudaError 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaRuntime",
+      "type": "class",
+      "name": "CudaRuntime",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        60,
+        148
+      ],
+      "summary": "类 CudaRuntime 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/video_infer_trt.py:Binding",
+      "type": "class",
+      "name": "Binding",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        152,
+        158
+      ],
+      "summary": "类 Binding 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTBiSeNetVideoInfer",
+      "type": "class",
+      "name": "TRTBiSeNetVideoInfer",
+      "filePath": "src/wheel_perception/scripts/video_infer_trt.py",
+      "lineRange": [
+        161,
+        279
+      ],
+      "summary": "类 TRTBiSeNetVideoInfer 实现 video_infer_trt.py 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/wheel_perception/src/controller_node.cpp",
+      "type": "file",
+      "name": "controller_node.cpp",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "summary": "ROS 2 控制节点，在道路巡航与 DWA 避障间切换，并使用 LQR 跟踪局部轨迹后发布速度和可视化结果。",
+      "tags": [
+        "local-planner",
+        "dwa",
+        "control"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:yawToQuaternion",
+      "type": "function",
+      "name": "yawToQuaternion",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        35,
+        40
+      ],
+      "summary": "函数 yawToQuaternion 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "function",
+      "name": "ControllerNode",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        46,
+        84
+      ],
+      "summary": "函数 ControllerNode 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:declareParameters",
+      "type": "function",
+      "name": "declareParameters",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        87,
+        159
+      ],
+      "summary": "函数 declareParameters 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:configureControllers",
+      "type": "function",
+      "name": "configureControllers",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        161,
+        248
+      ],
+      "summary": "函数 configureControllers 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:odomCallback",
+      "type": "function",
+      "name": "odomCallback",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        250,
+        294
+      ],
+      "summary": "函数 odomCallback 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:cloudCallback",
+      "type": "function",
+      "name": "cloudCallback",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        296,
+        366
+      ],
+      "summary": "函数 cloudCallback 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:perceptionCallback",
+      "type": "function",
+      "name": "perceptionCallback",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        368,
+        477
+      ],
+      "summary": "消费融合感知结果，执行安全判定、DWA/巡航规划与 LQR 跟踪控制。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:updateDwaActivation",
+      "type": "function",
+      "name": "updateDwaActivation",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        479,
+        507
+      ],
+      "summary": "根据有效障碍点数量和滞回阈值更新 DWA 激活状态。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:makeCruiseTrajectory",
+      "type": "function",
+      "name": "makeCruiseTrajectory",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        509,
+        540
+      ],
+      "summary": "在未激活 DWA 时生成沿道路方向的巡航参考轨迹。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:publishStop",
+      "type": "function",
+      "name": "publishStop",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        550,
+        576
+      ],
+      "summary": "发布零速度并清理控制历史，执行安全停车。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:toPath",
+      "type": "function",
+      "name": "toPath",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        587,
+        601
+      ],
+      "summary": "函数 toPath 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/controller_node.cpp:publishVisualization",
+      "type": "function",
+      "name": "publishVisualization",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        603,
+        688
+      ],
+      "summary": "发布候选路径、最佳路径及停车标记供 RViz 观察。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "class",
+      "name": "ControllerNode",
+      "filePath": "src/wheel_perception/src/controller_node.cpp",
+      "lineRange": [
+        44,
+        733
+      ],
+      "summary": "类 ControllerNode 实现 controller_node.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "type": "file",
+      "name": "ai_engine.cpp",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "summary": "封装 TensorRT 引擎加载、CUDA 缓冲区管理和语义分割推理。",
+      "tags": [
+        "tensorrt",
+        "inference",
+        "model-conversion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:Impl",
+      "type": "function",
+      "name": "Impl",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        45,
+        45
+      ],
+      "summary": "函数 Impl 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:~Impl",
+      "type": "function",
+      "name": "~Impl",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        47,
+        51
+      ],
+      "summary": "函数 ~Impl 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:initialize",
+      "type": "function",
+      "name": "initialize",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        53,
+        113
+      ],
+      "summary": "函数 initialize 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:infer",
+      "type": "function",
+      "name": "infer",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        115,
+        137
+      ],
+      "summary": "执行一次 TensorRT 语义分割推理并返回 GPU 输出。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:getInputResolution",
+      "type": "function",
+      "name": "getInputResolution",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        144,
+        148
+      ],
+      "summary": "函数 getInputResolution 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:AiEngine",
+      "type": "function",
+      "name": "AiEngine",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        153,
+        153
+      ],
+      "summary": "函数 AiEngine 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/wheel_perception/src/core/ai_engine.cpp:~AiEngine",
+      "type": "function",
+      "name": "~AiEngine",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        154,
+        154
+      ],
+      "summary": "函数 ~AiEngine 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "function",
+        "implementation",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/src/core/ai_engine.cpp:Logger",
+      "type": "class",
+      "name": "Logger",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        18,
+        24
+      ],
+      "summary": "类 Logger 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/wheel_perception/src/core/ai_engine.cpp:AiEngine::Impl",
+      "type": "class",
+      "name": "AiEngine::Impl",
+      "filePath": "src/wheel_perception/src/core/ai_engine.cpp",
+      "lineRange": [
+        29,
+        150
+      ],
+      "summary": "类 AiEngine::Impl 实现 ai_engine.cpp 中的核心职责，并供该模块内部或外部调用。",
+      "tags": [
+        "class",
+        "component",
+        "module-api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/wheel_perception/src/core/global_flags.cpp",
+      "type": "file",
+      "name": "global_flags.cpp",
+      "filePath": "src/wheel_perception/src/core/global_flags.cpp",
+      "summary": "集中定义感知模块使用的全局运行标志和状态开关。",
+      "tags": [
+        "ros2",
+        "component",
+        "wheelchair"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "target": "function:src/wheel_perception/launch/dwa_dataset_test.launch.py:generate_launch_description",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/launch/dwa_dataset_test.launch.py",
+      "target": "function:src/wheel_perception/launch/dwa_dataset_test.launch.py:generate_launch_description",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/launch/run_launch.py",
+      "target": "function:src/wheel_perception/launch/run_launch.py:generate_launch_description",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/launch/run_launch.py",
+      "target": "function:src/wheel_perception/launch/run_launch.py:generate_launch_description",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:make_length_4",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:make_length_4",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:cacu",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:cacu",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:ang_cal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:ang_cal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:ackermann_to_differential_angle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:ackermann_to_differential_angle",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:encode_control",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:encode_control",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "function:src/wheel_perception/scripts/sub.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "class:src/wheel_perception/scripts/sub.py:HardwareBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/sub.py",
+      "target": "class:src/wheel_perception/scripts/sub.py:HardwareBridge",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:ensure_tensorrt_importable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:ensure_tensorrt_importable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:build_output_paths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:build_output_paths",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "function:src/wheel_perception/scripts/video_infer_trt.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTLogger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTLogger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaRuntime",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:CudaRuntime",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:Binding",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:Binding",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTBiSeNetVideoInfer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/scripts/video_infer_trt.py",
+      "target": "class:src/wheel_perception/scripts/video_infer_trt.py:TRTBiSeNetVideoInfer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:yawToQuaternion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:yawToQuaternion",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:declareParameters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:configureControllers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:odomCallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:cloudCallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:perceptionCallback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:updateDwaActivation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:makeCruiseTrajectory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:publishStop",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:toPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "function:src/wheel_perception/src/controller_node.cpp:publishVisualization",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "class:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "class:src/wheel_perception/src/controller_node.cpp:ControllerNode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:Impl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:Impl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:~Impl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:~Impl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:initialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:initialize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:infer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:infer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:getInputResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:getInputResolution",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:AiEngine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:AiEngine",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:~AiEngine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "function:src/wheel_perception/src/core/ai_engine.cpp:~AiEngine",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "class:src/wheel_perception/src/core/ai_engine.cpp:Logger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "class:src/wheel_perception/src/core/ai_engine.cpp:Logger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "class:src/wheel_perception/src/core/ai_engine.cpp:AiEngine::Impl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/wheel_perception/src/core/ai_engine.cpp",
+      "target": "class:src/wheel_perception/src/core/ai_engine.cpp:AiEngine::Impl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "file:src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/wheel_perception/src/controller_node.cpp",
+      "target": "file:src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/wheel_perception/launch/run_launch.py",
+      "target": "file:src/wheel_perception/src/fusion_node.cpp",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/wheel_perception/launch/run_launch.py",
+      "target": "file:src/wheel_perception/src/controller_node.cpp",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

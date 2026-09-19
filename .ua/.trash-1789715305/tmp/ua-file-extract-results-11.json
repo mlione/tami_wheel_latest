@@ -1,0 +1,5039 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 16,
+  "filesSkipped": [
+    "src/vision_opencv/image_geometry/doc/mainpage.dox",
+    "src/vision_opencv/image_geometry/test/CMakeLists.txt",
+    "src/vision_opencv/opencv_tests/mainpage.dox",
+    "src/vision_opencv/opencv_tests/resource/opencv_tests",
+    "src/wheel_msgs/CMakeLists.txt",
+    "src/wheel_msgs/msg/ObstacleInfo.msg",
+    "src/wheel_msgs/msg/PerceptionOutput.msg",
+    "src/wheel_msgs/package.xml",
+    "src/wheel_perception/CMakeLists.txt"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 16,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 15,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "language": "c",
+      "fileCategory": "code",
+      "totalLines": 409,
+      "nonEmptyLines": 346,
+      "callGraph": [
+        {
+          "caller": "string PinholeCameraModel::tfFrame",
+          "callee": "assert",
+          "lineNumber": 335
+        },
+        {
+          "caller": "string PinholeCameraModel::tfFrame",
+          "callee": "initialized",
+          "lineNumber": 335
+        },
+        {
+          "caller": "msg::Time PinholeCameraModel::stamp",
+          "callee": "assert",
+          "lineNumber": 342
+        },
+        {
+          "caller": "msg::Time PinholeCameraModel::stamp",
+          "callee": "initialized",
+          "lineNumber": 342
+        },
+        {
+          "caller": "PinholeCameraModel::fx",
+          "callee": "P_",
+          "lineNumber": 362
+        },
+        {
+          "caller": "PinholeCameraModel::fy",
+          "callee": "P_",
+          "lineNumber": 364
+        },
+        {
+          "caller": "PinholeCameraModel::cx",
+          "callee": "P_",
+          "lineNumber": 366
+        },
+        {
+          "caller": "PinholeCameraModel::cy",
+          "callee": "P_",
+          "lineNumber": 368
+        },
+        {
+          "caller": "PinholeCameraModel::Tx",
+          "callee": "P_",
+          "lineNumber": 370
+        },
+        {
+          "caller": "PinholeCameraModel::Ty",
+          "callee": "P_",
+          "lineNumber": 372
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaU",
+          "callee": "assert",
+          "lineNumber": 382
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaU",
+          "callee": "initialized",
+          "lineNumber": 382
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaU",
+          "callee": "fx",
+          "lineNumber": 383
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaV",
+          "callee": "assert",
+          "lineNumber": 389
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaV",
+          "callee": "initialized",
+          "lineNumber": 389
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaV",
+          "callee": "fy",
+          "lineNumber": 390
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaX",
+          "callee": "assert",
+          "lineNumber": 396
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaX",
+          "callee": "initialized",
+          "lineNumber": 396
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaX",
+          "callee": "fx",
+          "lineNumber": 397
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaY",
+          "callee": "assert",
+          "lineNumber": 403
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaY",
+          "callee": "initialized",
+          "lineNumber": 403
+        },
+        {
+          "caller": "PinholeCameraModel::getDeltaY",
+          "callee": "fy",
+          "lineNumber": 404
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h",
+      "language": "c",
+      "fileCategory": "code",
+      "totalLines": 154,
+      "nonEmptyLines": 127,
+      "callGraph": [
+        {
+          "caller": "initialized",
+          "callee": "initialized",
+          "lineNumber": 109
+        },
+        {
+          "caller": "initialized",
+          "callee": "initialized",
+          "lineNumber": 109
+        },
+        {
+          "caller": "string StereoCameraModel::tfFrame",
+          "callee": "tfFrame",
+          "lineNumber": 126
+        },
+        {
+          "caller": "StereoCameraModel::baseline",
+          "callee": "Tx",
+          "lineNumber": 135
+        },
+        {
+          "caller": "StereoCameraModel::baseline",
+          "callee": "fx",
+          "lineNumber": 135
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "assert",
+          "lineNumber": 141
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "initialized",
+          "lineNumber": 141
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "Tx",
+          "lineNumber": 142
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "cx",
+          "lineNumber": 142
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "left",
+          "lineNumber": 142
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "cx",
+          "lineNumber": 142
+        },
+        {
+          "caller": "StereoCameraModel::getZ",
+          "callee": "right",
+          "lineNumber": 142
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "assert",
+          "lineNumber": 148
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "initialized",
+          "lineNumber": 148
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "Tx",
+          "lineNumber": 149
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "cx",
+          "lineNumber": 149
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "left",
+          "lineNumber": 149
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "cx",
+          "lineNumber": 149
+        },
+        {
+          "caller": "StereoCameraModel::getDisparity",
+          "callee": "right",
+          "lineNumber": 149
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp",
+      "language": "cpp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 52,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp",
+      "language": "cpp",
+      "fileCategory": "code",
+      "totalLines": 665,
+      "nonEmptyLines": 578,
+      "functions": [
+        {
+          "name": "Cache",
+          "startLine": 31,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "PinholeCameraModel",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "PinholeCameraModel",
+          "startLine": 55,
+          "endLine": 60,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "fromCameraInfo",
+          "startLine": 98,
+          "endLine": 220,
+          "params": [
+            "msg"
+          ]
+        },
+        {
+          "name": "fromCameraInfo",
+          "startLine": 222,
+          "endLine": 225,
+          "params": [
+            "msg"
+          ]
+        },
+        {
+          "name": "fullResolution",
+          "startLine": 227,
+          "endLine": 231,
+          "params": []
+        },
+        {
+          "name": "reducedResolution",
+          "startLine": 233,
+          "endLine": 239,
+          "params": []
+        },
+        {
+          "name": "toFullResolution",
+          "startLine": 241,
+          "endLine": 246,
+          "params": [
+            "uv_reduced"
+          ]
+        },
+        {
+          "name": "toFullResolution",
+          "startLine": 248,
+          "endLine": 255,
+          "params": [
+            "roi_reduced"
+          ]
+        },
+        {
+          "name": "toReducedResolution",
+          "startLine": 257,
+          "endLine": 262,
+          "params": [
+            "uv_full"
+          ]
+        },
+        {
+          "name": "toReducedResolution",
+          "startLine": 264,
+          "endLine": 271,
+          "params": [
+            "roi_full"
+          ]
+        },
+        {
+          "name": "rawRoi",
+          "startLine": 273,
+          "endLine": 279,
+          "params": []
+        },
+        {
+          "name": "rectifiedRoi",
+          "startLine": 281,
+          "endLine": 295,
+          "params": []
+        },
+        {
+          "name": "project3dToPixel",
+          "startLine": 297,
+          "endLine": 309,
+          "params": [
+            "xyz"
+          ]
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "startLine": 311,
+          "endLine": 314,
+          "params": [
+            "uv_rect"
+          ]
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "startLine": 316,
+          "endLine": 332,
+          "params": [
+            "uv_rect",
+            "P"
+          ]
+        },
+        {
+          "name": "rectifyImage",
+          "startLine": 334,
+          "endLine": 355,
+          "params": [
+            "raw",
+            "rectified",
+            "interpolation"
+          ]
+        },
+        {
+          "name": "unrectifyImage",
+          "startLine": 357,
+          "endLine": 382,
+          "params": [
+            "rectified",
+            "raw",
+            "interpolation"
+          ]
+        },
+        {
+          "name": "rectifyPoint",
+          "startLine": 384,
+          "endLine": 387,
+          "params": [
+            "uv_raw"
+          ]
+        },
+        {
+          "name": "rectifyPoint",
+          "startLine": 389,
+          "endLine": 418,
+          "params": [
+            "uv_raw",
+            "K",
+            "P"
+          ]
+        },
+        {
+          "name": "unrectifyPoint",
+          "startLine": 420,
+          "endLine": 423,
+          "params": [
+            "uv_rect"
+          ]
+        },
+        {
+          "name": "unrectifyPoint",
+          "startLine": 425,
+          "endLine": 458,
+          "params": [
+            "uv_rect",
+            "K",
+            "P"
+          ]
+        },
+        {
+          "name": "rectifyRoi",
+          "startLine": 460,
+          "endLine": 480,
+          "params": [
+            "roi_raw"
+          ]
+        },
+        {
+          "name": "unrectifyRoi",
+          "startLine": 482,
+          "endLine": 501,
+          "params": [
+            "roi_rect"
+          ]
+        },
+        {
+          "name": "initRectificationMaps",
+          "startLine": 503,
+          "endLine": 583,
+          "params": []
+        },
+        {
+          "name": "initUnrectificationMaps",
+          "startLine": 585,
+          "endLine": 663,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeCameraModel::Cache",
+          "startLine": 9,
+          "endLine": 41,
+          "methods": [
+            "Cache"
+          ],
+          "properties": [
+            "distortion_state",
+            "distortion_model",
+            "K_binned",
+            "full_maps_dirty",
+            "full_map1",
+            "reduced_maps_dirty",
+            "reduced_map1",
+            "unrectify_full_maps_dirty",
+            "unrectify_full_map1",
+            "unrectify_reduced_maps_dirty",
+            "unrectify_reduced_map1",
+            "rectified_roi_dirty",
+            "rectified_roi"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Cache",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PinholeCameraModel::Cache",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "PinholeCameraModel",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "PinholeCameraModel",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "fromCameraInfo",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "fromCameraInfo",
+          "line": 222,
+          "isDefault": false
+        },
+        {
+          "name": "fullResolution",
+          "line": 227,
+          "isDefault": false
+        },
+        {
+          "name": "reducedResolution",
+          "line": 233,
+          "isDefault": false
+        },
+        {
+          "name": "toFullResolution",
+          "line": 241,
+          "isDefault": false
+        },
+        {
+          "name": "toFullResolution",
+          "line": 248,
+          "isDefault": false
+        },
+        {
+          "name": "toReducedResolution",
+          "line": 257,
+          "isDefault": false
+        },
+        {
+          "name": "toReducedResolution",
+          "line": 264,
+          "isDefault": false
+        },
+        {
+          "name": "rawRoi",
+          "line": 273,
+          "isDefault": false
+        },
+        {
+          "name": "rectifiedRoi",
+          "line": 281,
+          "isDefault": false
+        },
+        {
+          "name": "project3dToPixel",
+          "line": 297,
+          "isDefault": false
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "line": 311,
+          "isDefault": false
+        },
+        {
+          "name": "projectPixelTo3dRay",
+          "line": 316,
+          "isDefault": false
+        },
+        {
+          "name": "rectifyImage",
+          "line": 334,
+          "isDefault": false
+        },
+        {
+          "name": "unrectifyImage",
+          "line": 357,
+          "isDefault": false
+        },
+        {
+          "name": "rectifyPoint",
+          "line": 384,
+          "isDefault": false
+        },
+        {
+          "name": "rectifyPoint",
+          "line": 389,
+          "isDefault": false
+        },
+        {
+          "name": "unrectifyPoint",
+          "line": 420,
+          "isDefault": false
+        },
+        {
+          "name": "unrectifyPoint",
+          "line": 425,
+          "isDefault": false
+        },
+        {
+          "name": "rectifyRoi",
+          "line": 460,
+          "isDefault": false
+        },
+        {
+          "name": "unrectifyRoi",
+          "line": 482,
+          "isDefault": false
+        },
+        {
+          "name": "initRectificationMaps",
+          "line": 503,
+          "isDefault": false
+        },
+        {
+          "name": "initUnrectificationMaps",
+          "line": 585,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PinholeCameraModel",
+          "callee": "initialized",
+          "lineNumber": 57
+        },
+        {
+          "caller": "PinholeCameraModel",
+          "callee": "fromCameraInfo",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateMat",
+          "callee": "size",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateMat",
+          "callee": "static_cast<unsigned int>",
+          "lineNumber": 77
+        },
+        {
+          "caller": "updateMat",
+          "callee": "size",
+          "lineNumber": 82
+        },
+        {
+          "caller": "updateMat",
+          "callee": "cv::Mat_<double>",
+          "lineNumber": 82
+        },
+        {
+          "caller": "updateMat",
+          "callee": "cv::Mat_<double>",
+          "lineNumber": 82
+        },
+        {
+          "caller": "updateMat",
+          "callee": "size",
+          "lineNumber": 89
+        },
+        {
+          "caller": "updateMat",
+          "callee": "MatU",
+          "lineNumber": 94
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "std::make_shared<Cache>",
+          "lineNumber": 102
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 122
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 124
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "updateMat",
+          "lineNumber": 125
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "static_cast<int>",
+          "lineNumber": 125
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "size",
+          "lineNumber": 125
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "updateMat",
+          "lineNumber": 126
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "updateMat",
+          "lineNumber": 127
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "updateMat",
+          "lineNumber": 128
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 129
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 130
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 137
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 138
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 139
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 140
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "update",
+          "lineNumber": 141
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "size",
+          "lineNumber": 156
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 195
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 196
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 197
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 198
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 203
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 204
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 205
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 206
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 207
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 211
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "K_",
+          "lineNumber": 212
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 213
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 214
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "P_",
+          "lineNumber": 215
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fromCameraInfo",
+          "lineNumber": 224
+        },
+        {
+          "caller": "fullResolution",
+          "callee": "assert",
+          "lineNumber": 229
+        },
+        {
+          "caller": "fullResolution",
+          "callee": "initialized",
+          "lineNumber": 229
+        },
+        {
+          "caller": "fullResolution",
+          "callee": "cv::Size",
+          "lineNumber": 230
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "assert",
+          "lineNumber": 235
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "initialized",
+          "lineNumber": 235
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "rectifiedRoi",
+          "lineNumber": 237
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "cv::Size",
+          "lineNumber": 238
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "binningX",
+          "lineNumber": 238
+        },
+        {
+          "caller": "reducedResolution",
+          "callee": "binningY",
+          "lineNumber": 238
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "rectifiedRoi",
+          "lineNumber": 243
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "cv::Point2d",
+          "lineNumber": 244
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningX",
+          "lineNumber": 244
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningY",
+          "lineNumber": 245
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "rectifiedRoi",
+          "lineNumber": 250
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "cv::Rect",
+          "lineNumber": 251
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningX",
+          "lineNumber": 251
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningY",
+          "lineNumber": 252
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningX",
+          "lineNumber": 253
+        },
+        {
+          "caller": "toFullResolution",
+          "callee": "binningY",
+          "lineNumber": 254
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "rectifiedRoi",
+          "lineNumber": 259
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "cv::Point2d",
+          "lineNumber": 260
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningX",
+          "lineNumber": 260
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningY",
+          "lineNumber": 261
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "rectifiedRoi",
+          "lineNumber": 266
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "cv::Rect",
+          "lineNumber": 267
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningX",
+          "lineNumber": 267
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningY",
+          "lineNumber": 268
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningX",
+          "lineNumber": 269
+        },
+        {
+          "caller": "toReducedResolution",
+          "callee": "binningY",
+          "lineNumber": 270
+        },
+        {
+          "caller": "rawRoi",
+          "callee": "assert",
+          "lineNumber": 275
+        },
+        {
+          "caller": "rawRoi",
+          "callee": "initialized",
+          "lineNumber": 275
+        },
+        {
+          "caller": "rawRoi",
+          "callee": "cv::Rect",
+          "lineNumber": 277
+        },
+        {
+          "caller": "rectifiedRoi",
+          "callee": "assert",
+          "lineNumber": 283
+        },
+        {
+          "caller": "rectifiedRoi",
+          "callee": "initialized",
+          "lineNumber": 283
+        },
+        {
+          "caller": "rectifiedRoi",
+          "callee": "rawRoi",
+          "lineNumber": 287
+        },
+        {
+          "caller": "rectifiedRoi",
+          "callee": "rectifyRoi",
+          "lineNumber": 290
+        },
+        {
+          "caller": "rectifiedRoi",
+          "callee": "rawRoi",
+          "lineNumber": 290
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "assert",
+          "lineNumber": 299
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "initialized",
+          "lineNumber": 299
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "assert",
+          "lineNumber": 300
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "P_",
+          "lineNumber": 300
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "fx",
+          "lineNumber": 306
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "Tx",
+          "lineNumber": 306
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "cx",
+          "lineNumber": 306
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "fy",
+          "lineNumber": 307
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "Ty",
+          "lineNumber": 307
+        },
+        {
+          "caller": "project3dToPixel",
+          "callee": "cy",
+          "lineNumber": 307
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 313
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "assert",
+          "lineNumber": 318
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "initialized",
+          "lineNumber": 318
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 320
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 321
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 322
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 323
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 324
+        },
+        {
+          "caller": "projectPixelTo3dRay",
+          "callee": "P",
+          "lineNumber": 325
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "assert",
+          "lineNumber": 336
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "initialized",
+          "lineNumber": 336
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "copyTo",
+          "lineNumber": 340
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "initRectificationMaps",
+          "lineNumber": 343
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "depth",
+          "lineNumber": 344
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "depth",
+          "lineNumber": 344
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "cv::remap",
+          "lineNumber": 345
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "std::numeric_limits<float>::quiet_NaN",
+          "lineNumber": 345
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "cv::remap",
+          "lineNumber": 348
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "assert",
+          "lineNumber": 352
+        },
+        {
+          "caller": "rectifyImage",
+          "callee": "Exception",
+          "lineNumber": 353
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "assert",
+          "lineNumber": 362
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "initialized",
+          "lineNumber": 362
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "copyTo",
+          "lineNumber": 366
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "initUnrectificationMaps",
+          "lineNumber": 369
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "depth",
+          "lineNumber": 370
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "depth",
+          "lineNumber": 370
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "cv::remap",
+          "lineNumber": 372
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "std::numeric_limits<float>::quiet_NaN",
+          "lineNumber": 372
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "cv::remap",
+          "lineNumber": 375
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "assert",
+          "lineNumber": 379
+        },
+        {
+          "caller": "unrectifyImage",
+          "callee": "Exception",
+          "lineNumber": 380
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "rectifyPoint",
+          "lineNumber": 386
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "assert",
+          "lineNumber": 391
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "initialized",
+          "lineNumber": 391
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "Exception",
+          "lineNumber": 397
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "assert",
+          "lineNumber": 399
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "cv::undistortPoints",
+          "lineNumber": 408
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "cv::fisheye::undistortPoints",
+          "lineNumber": 411
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "assert",
+          "lineNumber": 414
+        },
+        {
+          "caller": "rectifyPoint",
+          "callee": "Exception",
+          "lineNumber": 415
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "unrectifyPoint",
+          "lineNumber": 422
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "assert",
+          "lineNumber": 427
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "initialized",
+          "lineNumber": 427
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "Exception",
+          "lineNumber": 433
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "assert",
+          "lineNumber": 435
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 438
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "cv::Mat_<double>::zeros",
+          "lineNumber": 441
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "cv::Rodrigues",
+          "lineNumber": 442
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "t",
+          "lineNumber": 442
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "cv::projectPoints",
+          "lineNumber": 447
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "std::vector<cv::Point3d>",
+          "lineNumber": 447
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "cv::fisheye::projectPoints",
+          "lineNumber": 450
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "std::vector<cv::Point3d>",
+          "lineNumber": 450
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "assert",
+          "lineNumber": 453
+        },
+        {
+          "caller": "unrectifyPoint",
+          "callee": "Exception",
+          "lineNumber": 454
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "assert",
+          "lineNumber": 462
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "initialized",
+          "lineNumber": 462
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "rectifyPoint",
+          "lineNumber": 468
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 468
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "rectifyPoint",
+          "lineNumber": 469
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 469
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "rectifyPoint",
+          "lineNumber": 470
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 470
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "rectifyPoint",
+          "lineNumber": 472
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 472
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 474
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::ceil",
+          "lineNumber": 474
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::min",
+          "lineNumber": 474
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 475
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::ceil",
+          "lineNumber": 475
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::min",
+          "lineNumber": 475
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 476
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::floor",
+          "lineNumber": 476
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::max",
+          "lineNumber": 476
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 477
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::floor",
+          "lineNumber": 477
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "std::max",
+          "lineNumber": 477
+        },
+        {
+          "caller": "rectifyRoi",
+          "callee": "cv::Rect",
+          "lineNumber": 479
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "assert",
+          "lineNumber": 484
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "initialized",
+          "lineNumber": 484
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "unrectifyPoint",
+          "lineNumber": 489
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 489
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "unrectifyPoint",
+          "lineNumber": 490
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 490
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "unrectifyPoint",
+          "lineNumber": 491
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 491
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "unrectifyPoint",
+          "lineNumber": 493
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "cv::Point2d",
+          "lineNumber": 493
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 495
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::floor",
+          "lineNumber": 495
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::min",
+          "lineNumber": 495
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 496
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::floor",
+          "lineNumber": 496
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::min",
+          "lineNumber": 496
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 497
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::ceil",
+          "lineNumber": 497
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::max",
+          "lineNumber": 497
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 498
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::ceil",
+          "lineNumber": 498
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "std::max",
+          "lineNumber": 498
+        },
+        {
+          "caller": "unrectifyRoi",
+          "callee": "cv::Rect",
+          "lineNumber": 500
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "fullResolution",
+          "lineNumber": 511
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 512
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 513
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 517
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 517
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 524
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 525
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 526
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 527
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 528
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 529
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 530
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 532
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 533
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 534
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 535
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 536
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 537
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 538
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "cv::initUndistortRectifyMap",
+          "lineNumber": 545
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "cv::fisheye::initUndistortRectifyMap",
+          "lineNumber": 549
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "assert",
+          "lineNumber": 553
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "Exception",
+          "lineNumber": 554
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 569
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 570
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 571
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 572
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "full_map1",
+          "lineNumber": 573
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "cv::Scalar",
+          "lineNumber": 573
+        },
+        {
+          "caller": "initRectificationMaps",
+          "callee": "full_map2",
+          "lineNumber": 574
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "fullResolution",
+          "lineNumber": 593
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 594
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 595
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 599
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 599
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 606
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 607
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 608
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 609
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 610
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 611
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 612
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 614
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 615
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 616
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "K_binned",
+          "lineNumber": 617
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 618
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 619
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "P_binned",
+          "lineNumber": 620
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "rectifyPoint",
+          "lineNumber": 629
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "at<float>",
+          "lineNumber": 630
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "at<float>",
+          "lineNumber": 631
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "convertMaps",
+          "lineNumber": 635
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 649
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 650
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningX",
+          "lineNumber": 651
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "binningY",
+          "lineNumber": 652
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "unrectify_full_map1",
+          "lineNumber": 653
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "cv::Scalar",
+          "lineNumber": 653
+        },
+        {
+          "caller": "initUnrectificationMaps",
+          "callee": "unrectify_full_map2",
+          "lineNumber": 654
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 27,
+        "functionCount": 26,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "language": "cpp",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 116,
+      "functions": [
+        {
+          "name": "StereoCameraModel",
+          "startLine": 5,
+          "endLine": 9,
+          "params": []
+        },
+        {
+          "name": "StereoCameraModel",
+          "startLine": 11,
+          "endLine": 19,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "fromCameraInfo",
+          "startLine": 29,
+          "endLine": 48,
+          "params": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "fromCameraInfo",
+          "startLine": 50,
+          "endLine": 54,
+          "params": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "updateQ",
+          "startLine": 56,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "projectDisparityTo3d",
+          "startLine": 118,
+          "endLine": 131,
+          "params": [
+            "left_uv_rect",
+            "disparity",
+            "xyz"
+          ]
+        },
+        {
+          "name": "projectDisparityImageTo3d",
+          "startLine": 138,
+          "endLine": 144,
+          "params": [
+            "disparity",
+            "point_cloud",
+            "handleMissingValues"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StereoCameraModel",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "StereoCameraModel",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "fromCameraInfo",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "fromCameraInfo",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "updateQ",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "projectDisparityTo3d",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "projectDisparityImageTo3d",
+          "line": 138,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "StereoCameraModel",
+          "callee": "Q_",
+          "lineNumber": 8
+        },
+        {
+          "caller": "StereoCameraModel",
+          "callee": "Q_",
+          "lineNumber": 8
+        },
+        {
+          "caller": "StereoCameraModel",
+          "callee": "Q_",
+          "lineNumber": 15
+        },
+        {
+          "caller": "StereoCameraModel",
+          "callee": "Q_",
+          "lineNumber": 15
+        },
+        {
+          "caller": "StereoCameraModel",
+          "callee": "initialized",
+          "lineNumber": 16
+        },
+        {
+          "caller": "StereoCameraModel",
+          "callee": "updateQ",
+          "lineNumber": 17
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fromCameraInfo",
+          "lineNumber": 32
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fromCameraInfo",
+          "lineNumber": 33
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "assert",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "tfFrame",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "tfFrame",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "assert",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fx",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fx",
+          "lineNumber": 38
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "assert",
+          "lineNumber": 39
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fy",
+          "lineNumber": 39
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fy",
+          "lineNumber": 39
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "assert",
+          "lineNumber": 40
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "cy",
+          "lineNumber": 40
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "cy",
+          "lineNumber": 40
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "updateQ",
+          "lineNumber": 44
+        },
+        {
+          "caller": "fromCameraInfo",
+          "callee": "fromCameraInfo",
+          "lineNumber": 53
+        },
+        {
+          "caller": "updateQ",
+          "callee": "baseline",
+          "lineNumber": 108
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 109
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fy",
+          "lineNumber": 109
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 110
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fy",
+          "lineNumber": 110
+        },
+        {
+          "caller": "updateQ",
+          "callee": "cx",
+          "lineNumber": 110
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 111
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fx",
+          "lineNumber": 111
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 112
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fx",
+          "lineNumber": 112
+        },
+        {
+          "caller": "updateQ",
+          "callee": "cy",
+          "lineNumber": 112
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 113
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fx",
+          "lineNumber": 113
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fy",
+          "lineNumber": 113
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 114
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fy",
+          "lineNumber": 114
+        },
+        {
+          "caller": "updateQ",
+          "callee": "Q_",
+          "lineNumber": 115
+        },
+        {
+          "caller": "updateQ",
+          "callee": "fy",
+          "lineNumber": 115
+        },
+        {
+          "caller": "updateQ",
+          "callee": "cx",
+          "lineNumber": 115
+        },
+        {
+          "caller": "updateQ",
+          "callee": "cx",
+          "lineNumber": 115
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "assert",
+          "lineNumber": 121
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "initialized",
+          "lineNumber": 121
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 128
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 128
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 128
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 128
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 128
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 129
+        },
+        {
+          "caller": "projectDisparityTo3d",
+          "callee": "Q_",
+          "lineNumber": 129
+        },
+        {
+          "caller": "projectDisparityImageTo3d",
+          "callee": "assert",
+          "lineNumber": 141
+        },
+        {
+          "caller": "projectDisparityImageTo3d",
+          "callee": "initialized",
+          "lineNumber": 141
+        },
+        {
+          "caller": "projectDisparityImageTo3d",
+          "callee": "cv::reprojectImageTo3D",
+          "lineNumber": 143
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/utest.cpp",
+      "language": "cpp",
+      "fileCategory": "code",
+      "totalLines": 461,
+      "nonEmptyLines": 406,
+      "functions": [
+        {
+          "name": "SetUp",
+          "startLine": 14,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 48,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 57,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 91,
+          "endLine": 134,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 136,
+          "endLine": 150,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 152,
+          "endLine": 157,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 159,
+          "endLine": 247,
+          "params": []
+        },
+        {
+          "name": "testUnrectifyImage",
+          "startLine": 249,
+          "endLine": 325,
+          "params": [
+            "cam_info",
+            "model"
+          ]
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 327,
+          "endLine": 330,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 332,
+          "endLine": 339,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 341,
+          "endLine": 351,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 353,
+          "endLine": 365,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 367,
+          "endLine": 423,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 425,
+          "endLine": 455,
+          "params": []
+        },
+        {
+          "name": "main",
+          "startLine": 457,
+          "endLine": 461,
+          "params": [
+            "argc",
+            "argv"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PinholeTest",
+          "startLine": 11,
+          "endLine": 46,
+          "methods": [
+            "SetUp"
+          ],
+          "properties": [
+            "cam_info_",
+            "model_"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PinholeTest",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 152,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 159,
+          "isDefault": false
+        },
+        {
+          "name": "testUnrectifyImage",
+          "line": 249,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 327,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 332,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 341,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 353,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 367,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 425,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 457,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetUp",
+          "callee": "resize",
+          "lineNumber": 35
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 36
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 36
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 37
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 37
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 38
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 38
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 39
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 39
+        },
+        {
+          "caller": "SetUp",
+          "callee": "fromCameraInfo",
+          "lineNumber": 41
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_STREQ",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "c_str",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "tfFrame",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fx",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 52
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fy",
+          "lineNumber": 52
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 53
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 53
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 54
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 54
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 62
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 63
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 64
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 65
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 70
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 70
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 71
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 72
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 73
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 74
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 82
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "project3dToPixel",
+          "lineNumber": 83
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 85
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 86
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 96
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 97
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 98
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "model_.intrinsicMatrix()",
+          "lineNumber": 104
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "intrinsicMatrix",
+          "lineNumber": 104
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "model_.intrinsicMatrix()",
+          "lineNumber": 104
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "intrinsicMatrix",
+          "lineNumber": 104
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 107
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 108
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 108
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 109
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 109
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 114
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 114
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "unrectifyPoint",
+          "lineNumber": 115
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 116
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 117
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 127
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "unrectifyPoint",
+          "lineNumber": 128
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 130
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 131
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 141
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 143
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 146
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaU",
+          "lineNumber": 146
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 147
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaV",
+          "lineNumber": 147
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 148
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaX",
+          "lineNumber": 148
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 149
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaY",
+          "lineNumber": 149
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 154
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "initialized",
+          "lineNumber": 154
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 155
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectionMatrix",
+          "lineNumber": 155
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 156
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectionMatrix",
+          "lineNumber": 156
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Size",
+          "lineNumber": 186
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Scalar",
+          "lineNumber": 186
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Scalar",
+          "lineNumber": 189
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::line",
+          "lineNumber": 195
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 196
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 196
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 197
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 197
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 198
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::line",
+          "lineNumber": 203
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 204
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 204
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 205
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 205
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "static_cast<uint32_t>",
+          "lineNumber": 206
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 219
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 220
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_GT",
+          "lineNumber": 222
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 229
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 230
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 231
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_GT",
+          "lineNumber": 232
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "assign",
+          "lineNumber": 235
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "size",
+          "lineNumber": 235
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 236
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 237
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 238
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 239
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "clear",
+          "lineNumber": 242
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 243
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 244
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 245
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 246
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "fullResolution",
+          "lineNumber": 254
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Scalar",
+          "lineNumber": 254
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Scalar",
+          "lineNumber": 257
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::line",
+          "lineNumber": 262
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Point",
+          "lineNumber": 263
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Point",
+          "lineNumber": 263
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::line",
+          "lineNumber": 268
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Point",
+          "lineNumber": 269
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Point",
+          "lineNumber": 269
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "rectified_image",
+          "lineNumber": 274
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "rawRoi",
+          "lineNumber": 274
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::resize",
+          "lineNumber": 275
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Size",
+          "lineNumber": 275
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "binningX",
+          "lineNumber": 275
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "binningY",
+          "lineNumber": 275
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "unrectifyImage",
+          "lineNumber": 288
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::norm",
+          "lineNumber": 289
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "EXPECT_GT",
+          "lineNumber": 291
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "assert",
+          "lineNumber": 294
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "type",
+          "lineNumber": 294
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Mat::zeros",
+          "lineNumber": 295
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "size",
+          "lineNumber": 295
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "type",
+          "lineNumber": 295
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::Mat::zeros",
+          "lineNumber": 296
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "size",
+          "lineNumber": 296
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "unrectifyPoint",
+          "lineNumber": 303
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "at<cv::Vec3b>",
+          "lineNumber": 308
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "at<cv::Vec3b>",
+          "lineNumber": 308
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "at<uchar>",
+          "lineNumber": 309
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "EXPECT_LT",
+          "lineNumber": 314
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "at<cv::Vec3b>",
+          "lineNumber": 314
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "at<cv::Vec3b>",
+          "lineNumber": 314
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::norm",
+          "lineNumber": 320
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "EXPECT_LT",
+          "lineNumber": 321
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "EXPECT_GT",
+          "lineNumber": 324
+        },
+        {
+          "caller": "testUnrectifyImage",
+          "callee": "cv::countNonZero",
+          "lineNumber": 324
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "testUnrectifyImage",
+          "lineNumber": 329
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 336
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "testUnrectifyImage",
+          "lineNumber": 338
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 348
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "testUnrectifyImage",
+          "lineNumber": 350
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 362
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "testUnrectifyImage",
+          "lineNumber": 364
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 369
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "reducedResolution",
+          "lineNumber": 370
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 371
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 372
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 373
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 374
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 375
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 376
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 380
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 381
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "reducedResolution",
+          "lineNumber": 382
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 383
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 384
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 385
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 386
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 387
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 388
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 397
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 398
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "reducedResolution",
+          "lineNumber": 399
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 400
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 401
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 402
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 403
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 404
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 405
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 414
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 415
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "reducedResolution",
+          "lineNumber": 416
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 417
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 418
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 419
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 420
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 421
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 422
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 432
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 434
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 442
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 445
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifiedRoi",
+          "lineNumber": 452
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 454
+        },
+        {
+          "caller": "main",
+          "callee": "testing::InitGoogleTest",
+          "lineNumber": 459
+        },
+        {
+          "caller": "main",
+          "callee": "RUN_ALL_TESTS",
+          "lineNumber": 460
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 15,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "src/vision_opencv/image_geometry/test/utest_equi.cpp",
+      "language": "cpp",
+      "fileCategory": "code",
+      "totalLines": 257,
+      "nonEmptyLines": 227,
+      "functions": [
+        {
+          "name": "SetUp",
+          "startLine": 14,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 47,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 56,
+          "endLine": 88,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 90,
+          "endLine": 131,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 133,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 149,
+          "endLine": 160,
+          "params": []
+        },
+        {
+          "name": "TEST_F",
+          "startLine": 162,
+          "endLine": 251,
+          "params": []
+        },
+        {
+          "name": "main",
+          "startLine": 253,
+          "endLine": 257,
+          "params": [
+            "argc",
+            "argv"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EquidistantTest",
+          "startLine": 11,
+          "endLine": 45,
+          "methods": [
+            "SetUp"
+          ],
+          "properties": [
+            "cam_info_",
+            "model_"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EquidistantTest",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 149,
+          "isDefault": false
+        },
+        {
+          "name": "TEST_F",
+          "line": 162,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 253,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetUp",
+          "callee": "resize",
+          "lineNumber": 33
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 34
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 34
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 35
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 35
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 36
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 36
+        },
+        {
+          "caller": "SetUp",
+          "callee": "std::copy",
+          "lineNumber": 37
+        },
+        {
+          "caller": "SetUp",
+          "callee": "begin",
+          "lineNumber": 37
+        },
+        {
+          "caller": "SetUp",
+          "callee": "fromCameraInfo",
+          "lineNumber": 40
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_STREQ",
+          "lineNumber": 49
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "c_str",
+          "lineNumber": 49
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "tfFrame",
+          "lineNumber": 49
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fx",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fy",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 52
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 52
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 53
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 53
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 61
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 62
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 63
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 64
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 69
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 69
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 70
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 71
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 72
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 73
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 81
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "project3dToPixel",
+          "lineNumber": 82
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 84
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 85
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 95
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 96
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_DOUBLE_EQ",
+          "lineNumber": 97
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "model_.intrinsicMatrix()",
+          "lineNumber": 103
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "intrinsicMatrix",
+          "lineNumber": 103
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "model_.intrinsicMatrix()",
+          "lineNumber": 103
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "intrinsicMatrix",
+          "lineNumber": 103
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 106
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 107
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 107
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 108
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 108
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cx",
+          "lineNumber": 113
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cy",
+          "lineNumber": 113
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "unrectifyPoint",
+          "lineNumber": 114
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 115
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 116
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyPoint",
+          "lineNumber": 125
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "unrectifyPoint",
+          "lineNumber": 126
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 127
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 128
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 138
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectPixelTo3dRay",
+          "lineNumber": 140
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 143
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaU",
+          "lineNumber": 143
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 144
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaV",
+          "lineNumber": 144
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 145
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaX",
+          "lineNumber": 145
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_NEAR",
+          "lineNumber": 146
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "getDeltaY",
+          "lineNumber": 146
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 155
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 157
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "initialized",
+          "lineNumber": 157
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 158
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectionMatrix",
+          "lineNumber": 158
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 159
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "projectionMatrix",
+          "lineNumber": 159
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Size",
+          "lineNumber": 189
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Scalar",
+          "lineNumber": 189
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Scalar",
+          "lineNumber": 192
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::line",
+          "lineNumber": 199
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 200
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 200
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::line",
+          "lineNumber": 206
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 207
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::Point",
+          "lineNumber": 207
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 220
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 221
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_GT",
+          "lineNumber": 223
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 230
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 231
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 232
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_GT",
+          "lineNumber": 233
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "assign",
+          "lineNumber": 236
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "size",
+          "lineNumber": 236
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 237
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 238
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 239
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 240
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "clear",
+          "lineNumber": 243
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 244
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "rectifyImage",
+          "lineNumber": 245
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "cv::norm",
+          "lineNumber": 246
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "EXPECT_EQ",
+          "lineNumber": 247
+        },
+        {
+          "caller": "TEST_F",
+          "callee": "fromCameraInfo",
+          "lineNumber": 250
+        },
+        {
+          "caller": "main",
+          "callee": "testing::InitGoogleTest",
+          "lineNumber": 255
+        },
+        {
+          "caller": "main",
+          "callee": "RUN_ALL_TESTS",
+          "lineNumber": 256
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/launch/view_img.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "launch",
+          "startLine": 5,
+          "endLine": 21,
+          "params": [
+            "launch_descriptor",
+            "argv"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "launch",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "launch",
+          "callee": "ld.add_process",
+          "lineNumber": 8
+        },
+        {
+          "caller": "launch",
+          "callee": "get_executable_path",
+          "lineNumber": 9
+        },
+        {
+          "caller": "launch",
+          "callee": "ld.add_process",
+          "lineNumber": 15
+        },
+        {
+          "caller": "launch",
+          "callee": "get_executable_path",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/__init__.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 0,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/broadcast.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 48,
+          "endLine": 76,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 48,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 51
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.create_node",
+          "lineNumber": 52
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 53
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_publisher",
+          "lineNumber": 57
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_publisher",
+          "lineNumber": 58
+        },
+        {
+          "caller": "main",
+          "callee": "time.sleep",
+          "lineNumber": 60
+        },
+        {
+          "caller": "main",
+          "callee": "CvBridge",
+          "lineNumber": 61
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.ok",
+          "lineNumber": 63
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.imread",
+          "lineNumber": 65
+        },
+        {
+          "caller": "main",
+          "callee": "pub_img.publish",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "cvb.cv2_to_imgmsg",
+          "lineNumber": 66
+        },
+        {
+          "caller": "main",
+          "callee": "pub_img_compressed.publish",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "cvb.cv2_to_compressed_imgmsg",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "time.sleep",
+          "lineNumber": 69
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 74
+        },
+        {
+          "caller": "main",
+          "callee": "node.destroy_node",
+          "lineNumber": 75
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 121,
+      "nonEmptyLines": 96,
+      "functions": [
+        {
+          "name": "detect_and_draw",
+          "startLine": 34,
+          "endLine": 58,
+          "params": [
+            "imgmsg"
+          ]
+        },
+        {
+          "name": "compressed_detect_and_draw",
+          "startLine": 60,
+          "endLine": 84,
+          "params": [
+            "compressed_imgmsg"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 86,
+          "endLine": 118,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "detect_and_draw",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "compressed_detect_and_draw",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 86,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "detect_and_draw",
+          "callee": "br.imgmsg_to_cv2",
+          "lineNumber": 35
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 37
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 37
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.cvtColor",
+          "lineNumber": 40
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.resize",
+          "lineNumber": 43
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.equalizeHist",
+          "lineNumber": 45
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cascade.detectMultiScale",
+          "lineNumber": 48
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 54
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "int",
+          "lineNumber": 54
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.rectangle",
+          "lineNumber": 55
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.imshow",
+          "lineNumber": 57
+        },
+        {
+          "caller": "detect_and_draw",
+          "callee": "cv2.waitKey",
+          "lineNumber": 58
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "br.compressed_imgmsg_to_cv2",
+          "lineNumber": 61
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 63
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 63
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.cvtColor",
+          "lineNumber": 66
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.resize",
+          "lineNumber": 69
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.equalizeHist",
+          "lineNumber": 71
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cascade.detectMultiScale",
+          "lineNumber": 74
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 79
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 79
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 80
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "int",
+          "lineNumber": 80
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.rectangle",
+          "lineNumber": 81
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.imshow",
+          "lineNumber": 83
+        },
+        {
+          "caller": "compressed_detect_and_draw",
+          "callee": "cv2.waitKey",
+          "lineNumber": 84
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 89
+        },
+        {
+          "caller": "main",
+          "callee": "OptionParser",
+          "lineNumber": 94
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_option",
+          "lineNumber": 95
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_option",
+          "lineNumber": 96
+        },
+        {
+          "caller": "main",
+          "callee": "parser.add_option",
+          "lineNumber": 97
+        },
+        {
+          "caller": "main",
+          "callee": "parser.parse_args",
+          "lineNumber": 98
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.CascadeClassifier",
+          "lineNumber": 100
+        },
+        {
+          "caller": "main",
+          "callee": "cascade.load",
+          "lineNumber": 101
+        },
+        {
+          "caller": "main",
+          "callee": "CvBridge",
+          "lineNumber": 102
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.create_node",
+          "lineNumber": 104
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 105
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_subscription",
+          "lineNumber": 106
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_subscription",
+          "lineNumber": 107
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.ok",
+          "lineNumber": 109
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.spin_once",
+          "lineNumber": 111
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 113
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 116
+        },
+        {
+          "caller": "main",
+          "callee": "node.destroy_node",
+          "lineNumber": 117
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 118
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/opencv_tests/source.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 93,
+      "nonEmptyLines": 81,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 48,
+          "endLine": 90,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 48,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "rclpy.init",
+          "lineNumber": 51
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.create_node",
+          "lineNumber": 52
+        },
+        {
+          "caller": "main",
+          "callee": "node.get_logger",
+          "lineNumber": 53
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_publisher",
+          "lineNumber": 55
+        },
+        {
+          "caller": "main",
+          "callee": "node.create_publisher",
+          "lineNumber": 56
+        },
+        {
+          "caller": "main",
+          "callee": "time.sleep",
+          "lineNumber": 58
+        },
+        {
+          "caller": "main",
+          "callee": "time.time",
+          "lineNumber": 59
+        },
+        {
+          "caller": "main",
+          "callee": "numpy.zeros",
+          "lineNumber": 61
+        },
+        {
+          "caller": "main",
+          "callee": "CvBridge",
+          "lineNumber": 67
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.ok",
+          "lineNumber": 69
+        },
+        {
+          "caller": "main",
+          "callee": "cvim.fill",
+          "lineNumber": 71
+        },
+        {
+          "caller": "main",
+          "callee": "cv2.circle",
+          "lineNumber": 72
+        },
+        {
+          "caller": "main",
+          "callee": "pub_img.publish",
+          "lineNumber": 81
+        },
+        {
+          "caller": "main",
+          "callee": "cvb.cv2_to_imgmsg",
+          "lineNumber": 81
+        },
+        {
+          "caller": "main",
+          "callee": "pub_compressed_img.publish",
+          "lineNumber": 82
+        },
+        {
+          "caller": "main",
+          "callee": "cvb.cv2_to_compressed_imgmsg",
+          "lineNumber": 82
+        },
+        {
+          "caller": "main",
+          "callee": "time.sleep",
+          "lineNumber": 83
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 85
+        },
+        {
+          "caller": "main",
+          "callee": "node_logger.info",
+          "lineNumber": 88
+        },
+        {
+          "caller": "main",
+          "callee": "node.destroy_node",
+          "lineNumber": 89
+        },
+        {
+          "caller": "main",
+          "callee": "rclpy.shutdown",
+          "lineNumber": 90
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/vision_opencv/opencv_tests/setup.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 38,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/wheel_perception/config/check_onnx.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 89,
+      "nonEmptyLines": 65,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/wheel_perception/config/params.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 162,
+      "nonEmptyLines": 145,
+      "sections": [
+        {
+          "heading": "/**",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "src/wheel_perception/config/pth2engine.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 170,
+      "nonEmptyLines": 145,
+      "functions": [
+        {
+          "name": "pth_to_engine",
+          "startLine": 60,
+          "endLine": 142,
+          "params": [
+            "pth_path",
+            "engine_path",
+            "input_size",
+            "num_classes"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BiSeNetV2Inference",
+          "startLine": 23,
+          "endLine": 58,
+          "methods": [
+            "__init__",
+            "forward",
+            "load_weights"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BiSeNetV2Inference",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "pth_to_engine",
+          "line": 60,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "__init__",
+          "callee": "super().__init__",
+          "lineNumber": 26
+        },
+        {
+          "caller": "__init__",
+          "callee": "super",
+          "lineNumber": 26
+        },
+        {
+          "caller": "__init__",
+          "callee": "BiSeNetV2",
+          "lineNumber": 27
+        },
+        {
+          "caller": "forward",
+          "callee": "self.model",
+          "lineNumber": 30
+        },
+        {
+          "caller": "load_weights",
+          "callee": "torch.load",
+          "lineNumber": 35
+        },
+        {
+          "caller": "load_weights",
+          "callee": "isinstance",
+          "lineNumber": 38
+        },
+        {
+          "caller": "load_weights",
+          "callee": "state_dict.items",
+          "lineNumber": 50
+        },
+        {
+          "caller": "load_weights",
+          "callee": "k.startswith",
+          "lineNumber": 51
+        },
+        {
+          "caller": "load_weights",
+          "callee": "self.model.load_state_dict",
+          "lineNumber": 56
+        },
+        {
+          "caller": "load_weights",
+          "callee": "self.model.eval",
+          "lineNumber": 57
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 70
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 71
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 72
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 78
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "torch.device",
+          "lineNumber": 79
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "torch.cuda.is_available",
+          "lineNumber": 79
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "BiSeNetV2Inference",
+          "lineNumber": 80
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "model.load_weights",
+          "lineNumber": 81
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "model.to",
+          "lineNumber": 82
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "model.eval",
+          "lineNumber": 83
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "sum",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "p.numel",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "model.parameters",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 87
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "torch.randn(1, 3, input_size[0], input_size[1]).to",
+          "lineNumber": 88
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "torch.randn",
+          "lineNumber": 88
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "torch.onnx.export",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 104
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 107
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "os.path.exists",
+          "lineNumber": 110
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 111
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 123
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "\" \".join",
+          "lineNumber": 123
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "subprocess.run",
+          "lineNumber": 124
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "os.path.exists",
+          "lineNumber": 127
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "os.remove",
+          "lineNumber": 128
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 131
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 132
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 133
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 134
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 135
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 136
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "os.path.getsize",
+          "lineNumber": 136
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 137
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 140
+        },
+        {
+          "caller": "pth_to_engine",
+          "callee": "print",
+          "lineNumber": 141
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

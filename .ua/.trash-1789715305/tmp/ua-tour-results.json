@@ -1,0 +1,1160 @@
+{
+  "scriptCompleted": true,
+  "entryPointCandidates": [
+    {
+      "id": "document:README.md",
+      "score": 5,
+      "name": "README.md",
+      "summary": "项目总览文档，说明载人轮椅 DWA + LQR 导航架构、感知与控制链路、构建运行、可视化及安全边界。"
+    },
+    {
+      "id": "file:tools/convert_text6_stereo_dataset.py",
+      "score": 3,
+      "name": "convert_text6_stereo_dataset.py",
+      "summary": "将 text6 左右目图像转换为项目回放器可读取的数据集目录，并可计算假设标定下的双目深度。"
+    },
+    {
+      "id": "document:dwa+lqr_v0.1.md",
+      "score": 2,
+      "name": "dwa+lqr_v0.1.md",
+      "summary": "记录从固定策略避障与 LQR 巡线演进到 ObstacleFusion、DWA 局部规划、LQR 跟踪和 Safety Layer 的首版改造。"
+    },
+    {
+      "id": "document:dwa+lqr_v0.2.md",
+      "score": 2,
+      "name": "dwa+lqr_v0.2.md",
+      "summary": "说明 v0.2 对 DWA 激活、轨迹平滑、点云 ROI、速度来源、候选保持和可视化的增量优化及调参方法。"
+    },
+    {
+      "id": "document:dwa+lqr_v0.3.2.md",
+      "score": 2,
+      "name": "dwa+lqr_v0.3.2.md",
+      "summary": "记录 v0.3.2 的精确参数与代码差异、DWA 调试快照、数据集回放结论、风险和实车前检查。"
+    }
+  ],
+  "fanInRanking": [
+    {
+      "id": "file:src/vision_opencv/cv_bridge/src/module.hpp",
+      "fanIn": 3,
+      "name": "module.hpp"
+    },
+    {
+      "id": "config:src/vision_opencv/opencv_tests/package.xml",
+      "fanIn": 2,
+      "name": "package.xml"
+    },
+    {
+      "id": "document:dwa+lqr_v0.3.2.md",
+      "fanIn": 2,
+      "name": "dwa+lqr_v0.3.2.md"
+    },
+    {
+      "id": "document:dwa+lqr_v0.3.md",
+      "fanIn": 2,
+      "name": "dwa+lqr_v0.3.md"
+    },
+    {
+      "id": "document:src/vision_opencv/cv_bridge/CMakeLists.txt",
+      "fanIn": 2,
+      "name": "CMakeLists.txt"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h",
+      "fanIn": 2,
+      "name": "pinhole_camera_model.h"
+    },
+    {
+      "id": "file:src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp",
+      "fanIn": 2,
+      "name": "DWAPlanner.hpp"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "fanIn": 2,
+      "name": "test_protocol.py"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py",
+      "fanIn": 2,
+      "name": "launch_process.py"
+    },
+    {
+      "id": "config:src/vision_opencv/cv_bridge/package.xml",
+      "fanIn": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "config:src/vision_opencv/image_geometry/package.xml",
+      "fanIn": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "config:src/vision_opencv/vision_opencv/package.xml",
+      "fanIn": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "config:tools/assumed_zed_hd720_calibration.json",
+      "fanIn": 1,
+      "name": "assumed_zed_hd720_calibration.json"
+    },
+    {
+      "id": "document:dwa+lqr_v0.2.md",
+      "fanIn": 1,
+      "name": "dwa+lqr_v0.2.md"
+    },
+    {
+      "id": "document:README.md",
+      "fanIn": 1,
+      "name": "README.md"
+    },
+    {
+      "id": "document:src/vision_opencv/image_geometry/CMakeLists.txt",
+      "fanIn": 1,
+      "name": "CMakeLists.txt"
+    },
+    {
+      "id": "document:src/vision_opencv/vision_opencv/CMakeLists.txt",
+      "fanIn": 1,
+      "name": "CMakeLists.txt"
+    },
+    {
+      "id": "file:src/vision_opencv/.travis.sh",
+      "fanIn": 1,
+      "name": ".travis.sh"
+    },
+    {
+      "id": "file:src/vision_opencv/cv_bridge/python/cv_bridge/core.py",
+      "fanIn": 1,
+      "name": "core.py"
+    },
+    {
+      "id": "file:src/vision_opencv/cv_bridge/src/cv_bridge.cpp",
+      "fanIn": 1,
+      "name": "cv_bridge.cpp"
+    }
+  ],
+  "fanOutRanking": [
+    {
+      "id": "file:src/wheel_perception/src/fusion_node.cpp",
+      "fanOut": 3,
+      "name": "fusion_node.cpp"
+    },
+    {
+      "id": "document:src/vision_opencv/cv_bridge/src/CMakeLists.txt",
+      "fanOut": 2,
+      "name": "CMakeLists.txt"
+    },
+    {
+      "id": "document:src/vision_opencv/cv_bridge/test/CMakeLists.txt",
+      "fanOut": 2,
+      "name": "CMakeLists.txt"
+    },
+    {
+      "id": "file:src/vision_opencv/cv_bridge/src/cv_bridge.cpp",
+      "fanOut": 2,
+      "name": "cv_bridge.cpp"
+    },
+    {
+      "id": "file:src/vision_opencv/cv_bridge/src/module_opencv3.cpp",
+      "fanOut": 2,
+      "name": "module_opencv3.cpp"
+    },
+    {
+      "id": "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp",
+      "fanOut": 2,
+      "name": "stereo_camera_model.cpp"
+    },
+    {
+      "id": "file:src/wheel_perception/dwa_controller/src/DWAPlanner.cpp",
+      "fanOut": 2,
+      "name": "DWAPlanner.cpp"
+    },
+    {
+      "id": "file:src/wheel_perception/launch/run_launch.py",
+      "fanOut": 2,
+      "name": "run_launch.py"
+    },
+    {
+      "id": "file:src/wheel_perception/src/controller_node.cpp",
+      "fanOut": 2,
+      "name": "controller_node.cpp"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/test/test_protocol.py",
+      "fanOut": 2,
+      "name": "test_protocol.py"
+    },
+    {
+      "id": "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py",
+      "fanOut": 2,
+      "name": "gateway_node.py"
+    },
+    {
+      "id": "config:src/vision_opencv/.travis.yml",
+      "fanOut": 1,
+      "name": ".travis.yml"
+    },
+    {
+      "id": "config:src/vision_opencv/cv_bridge/package.xml",
+      "fanOut": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "config:src/vision_opencv/image_geometry/package.xml",
+      "fanOut": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "config:src/vision_opencv/opencv_tests/setup.cfg",
+      "fanOut": 1,
+      "name": "setup.cfg"
+    },
+    {
+      "id": "config:src/vision_opencv/vision_opencv/package.xml",
+      "fanOut": 1,
+      "name": "package.xml"
+    },
+    {
+      "id": "document:dwa+lqr_v0.1.md",
+      "fanOut": 1,
+      "name": "dwa+lqr_v0.1.md"
+    },
+    {
+      "id": "document:dwa+lqr_v0.2.md",
+      "fanOut": 1,
+      "name": "dwa+lqr_v0.2.md"
+    },
+    {
+      "id": "document:dwa+lqr_v0.3.md",
+      "fanOut": 1,
+      "name": "dwa+lqr_v0.3.md"
+    },
+    {
+      "id": "document:README.md",
+      "fanOut": 1,
+      "name": "README.md"
+    }
+  ],
+  "bfsTraversal": {
+    "startNode": "file:tools/convert_text6_stereo_dataset.py",
+    "order": [
+      "file:tools/convert_text6_stereo_dataset.py"
+    ],
+    "depthMap": {
+      "file:tools/convert_text6_stereo_dataset.py": 0
+    },
+    "byDepth": {
+      "0": [
+        "file:tools/convert_text6_stereo_dataset.py"
+      ]
+    }
+  },
+  "nonCodeFiles": {
+    "documentation": [
+      {
+        "id": "document:README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "项目总览文档，说明载人轮椅 DWA + LQR 导航架构、感知与控制链路、构建运行、可视化及安全边界。"
+      },
+      {
+        "id": "document:dwa+lqr_v0.1.md",
+        "name": "dwa+lqr_v0.1.md",
+        "type": "document",
+        "summary": "记录从固定策略避障与 LQR 巡线演进到 ObstacleFusion、DWA 局部规划、LQR 跟踪和 Safety Layer 的首版改造。"
+      },
+      {
+        "id": "document:dwa+lqr_v0.2.md",
+        "name": "dwa+lqr_v0.2.md",
+        "type": "document",
+        "summary": "说明 v0.2 对 DWA 激活、轨迹平滑、点云 ROI、速度来源、候选保持和可视化的增量优化及调参方法。"
+      },
+      {
+        "id": "document:dwa+lqr_v0.3.2.md",
+        "name": "dwa+lqr_v0.3.2.md",
+        "type": "document",
+        "summary": "记录 v0.3.2 的精确参数与代码差异、DWA 调试快照、数据集回放结论、风险和实车前检查。"
+      },
+      {
+        "id": "document:dwa+lqr_v0.3.md",
+        "name": "dwa+lqr_v0.3.md",
+        "type": "document",
+        "summary": "总结 v0.3 的低速滚动转弯、最小转弯半径约束、停车可视化和数据集工具，并给出诊断结论与后续优先级。"
+      },
+      {
+        "id": "document:symlink_install_manifest.txt",
+        "name": "symlink_install_manifest.txt",
+        "type": "document",
+        "summary": "列出 wheel_perception 软链接安装空间中的库、头文件、launch、模型、配置与 ament 元数据路径，供安装产物核查。"
+      },
+      {
+        "id": "document:wheel_cuda_road_width_handoff.md",
+        "name": "wheel_cuda_road_width_handoff.md",
+        "type": "document",
+        "summary": "交接道路宽度估计与调试可视化改动，涵盖边框伪边界过滤、采样范围、参数影响、已知状态锁死问题和验证建议。"
+      },
+      {
+        "id": "document:实车测试指令.md",
+        "name": "实车测试指令.md",
+        "type": "document",
+        "summary": "提供载人轮椅实车测试的分阶段操作手册，覆盖硬件检查、感知规划验证、RViz、蓝牙底盘、数据录制、故障和急停。"
+      },
+      {
+        "id": "document:src/vision_opencv/README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "概述 vision_opencv 元仓库及 cv_bridge、image_geometry、opencv_tests 等 ROS 2 与 OpenCV 集成包。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/CHANGELOG.rst",
+        "name": "CHANGELOG.rst",
+        "type": "document",
+        "summary": "记录 cv_bridge 从早期 ROS 版本到 3.0.7 的发布历史，涵盖图像编码转换、跨平台构建、Python 绑定与依赖修复。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "定义 cv_bridge 的 ament/CMake 构建入口，配置 C++14、Boost.Python、OpenCV、ROS 2 消息依赖以及库、头文件和测试安装规则。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "介绍 cv_bridge 的用途、依赖安装、源码构建与测试流程，并提示已知问题和贡献渠道。"
+      },
+      {
+        "id": "document:src/vision_opencv/image_geometry/CHANGELOG.rst",
+        "name": "CHANGELOG.rst",
+        "type": "document",
+        "summary": "记录 image_geometry 的版本演进，重点涵盖相机模型、图像校正、畸变模型、Python 安装和 Windows 构建修复。"
+      },
+      {
+        "id": "document:src/vision_opencv/image_geometry/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "定义 image_geometry 的 C++ 与 Python 混合构建，编译针孔和双目相机模型库并导出 OpenCV、sensor_msgs 依赖及公共头文件。"
+      },
+      {
+        "id": "document:src/vision_opencv/opencv_tests/CHANGELOG.rst",
+        "name": "CHANGELOG.rst",
+        "type": "document",
+        "summary": "记录 opencv_tests 测试包的发布历史，包括 ROS 2 移植、启动目录调整、安装路径冲突修复与维护信息变更。"
+      },
+      {
+        "id": "document:src/vision_opencv/vision_opencv/CHANGELOG.rst",
+        "name": "CHANGELOG.rst",
+        "type": "document",
+        "summary": "记录 vision_opencv 元包从 ROS 1 到 ROS 2 3.0.7 的版本时间线及许可证、作者和维护者调整。"
+      },
+      {
+        "id": "document:src/vision_opencv/vision_opencv/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "提供最小化 ament_cmake 构建入口，用于生成不含实现目标的 vision_opencv ROS 2 元包。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/doc/index.rst",
+        "name": "index.rst",
+        "type": "document",
+        "summary": "作为 cv_bridge Python API 文档首页，通过 Sphinx autodoc 展示 CvBridge 与 CvBridgeError。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/src/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "构建并安装 cv_bridge C++ 库和 Boost.Python 扩展，配置生成式导出头文件、NumPy 头路径及 OpenCV 版本条件编译。"
+      },
+      {
+        "id": "document:src/vision_opencv/cv_bridge/test/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "注册 cv_bridge 的 C++ GoogleTest 与 Python pytest 套件，链接项目库并为耗时转换测试提供可选跳过机制。"
+      },
+      {
+        "id": "document:src/vision_opencv/image_geometry/doc/index.rst",
+        "name": "index.rst",
+        "type": "document",
+        "summary": "作为 image_geometry 文档首页，说明 CameraInfo 几何解释能力并列出针孔与双目相机模型 API。"
+      },
+      {
+        "id": "document:src/vision_opencv/image_geometry/test/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "测试 CMakeLists.txt 所覆盖的相机模型或图像几何行为。"
+      },
+      {
+        "id": "document:src/wheel_msgs/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。"
+      },
+      {
+        "id": "document:src/wheel_perception/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "document",
+        "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。"
+      }
+    ],
+    "infrastructure": [],
+    "data": [],
+    "config": [
+      {
+        "id": "config:src/vision_opencv/.travis.yml",
+        "name": ".travis.yml",
+        "type": "config",
+        "summary": "配置 Ubuntu Trusty 与 ROS Kinetic 的 Travis 任务，在 Xenial 容器中执行仓库自带的构建测试脚本并采集失败日志。"
+      },
+      {
+        "id": "config:src/vision_opencv/pytest.ini",
+        "name": "pytest.ini",
+        "type": "config",
+        "summary": "将 pytest 的 JUnit 报告格式固定为 xunit2，供测试报告工具兼容读取。"
+      },
+      {
+        "id": "config:src/vision_opencv/cv_bridge/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明 cv_bridge ROS 2 包的版本、许可证、维护者及构建、运行和测试依赖，指定 ament_cmake 构建类型。"
+      },
+      {
+        "id": "config:src/vision_opencv/image_geometry/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明 image_geometry ROS 2 包的元数据以及 OpenCV、sensor_msgs、ament 和测试框架依赖。"
+      },
+      {
+        "id": "config:src/vision_opencv/opencv_tests/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "定义 opencv_tests 的 ament_python 包元数据及 rclpy、launch、sensor_msgs 和 cv_bridge 运行依赖。"
+      },
+      {
+        "id": "config:src/vision_opencv/opencv_tests/setup.cfg",
+        "name": "setup.cfg",
+        "type": "config",
+        "summary": "将开发和安装阶段的 Python 可执行脚本统一放入 ROS 2 包专用的 lib/opencv_tests 目录。"
+      },
+      {
+        "id": "config:src/vision_opencv/vision_opencv/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明 vision_opencv 元包的版本、许可证和维护信息，并以运行依赖聚合 cv_bridge 与 image_geometry。"
+      },
+      {
+        "id": "config:.ua/config.json",
+        "name": "config.json",
+        "type": "config",
+        "summary": "配置 Understand Anything 分析输出语言为中文。"
+      },
+      {
+        "id": "config:src/wheel_msgs/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+      },
+      {
+        "id": "config:src/wheel_perception/config/params.yaml",
+        "name": "params.yaml",
+        "type": "config",
+        "summary": "集中配置 ZED、感知、道路边界、DWA、LQR、安全层及数据集模式参数。"
+      },
+      {
+        "id": "config:src/wheel_perception/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+      },
+      {
+        "id": "config:src/wheel_phone_gateway/config/gateway.yaml",
+        "name": "gateway.yaml",
+        "type": "config",
+        "summary": "配置手机调试网关的图像、感知和控制话题及发布频率。"
+      },
+      {
+        "id": "config:src/wheel_phone_gateway/package.xml",
+        "name": "package.xml",
+        "type": "config",
+        "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+      },
+      {
+        "id": "config:src/wheel_phone_gateway/setup.cfg",
+        "name": "setup.cfg",
+        "type": "config",
+        "summary": "配置 Python ROS 2 包的安装、资源索引和控制台入口。"
+      },
+      {
+        "id": "config:tools/assumed_zed_hd720_calibration.json",
+        "name": "assumed_zed_hd720_calibration.json",
+        "type": "config",
+        "summary": "保存无相机时使用的 HD720 假设双目标定、基线和图像尺寸。"
+      }
+    ]
+  },
+  "clusters": [],
+  "layers": {
+    "count": 8,
+    "list": [
+      {
+        "id": "layer:perception",
+        "name": "感知与传感器层",
+        "description": "负责 ZED RGB-D 取流、TensorRT 语义分割、CUDA 掩膜后处理、点云融合和道路边界提取，并向导航链路提供环境观测。"
+      },
+      {
+        "id": "layer:planning-control",
+        "name": "规划与控制层",
+        "description": "实现道路巡航与 DWA 局部避障决策，以 LQR 跟踪局部轨迹并发布候选路径、最佳路径和速度控制结果。"
+      },
+      {
+        "id": "layer:vision-foundation",
+        "name": "视觉基础库层",
+        "description": "提供 cv_bridge 图像互操作、Python/OpenCV 绑定以及单目和双目相机几何投影能力，为轮椅视觉感知提供底层支撑。"
+      },
+      {
+        "id": "layer:ros-integration",
+        "name": "ROS 2 接口与集成层",
+        "description": "定义轮椅感知消息，组织 ROS 2 launch、蓝牙底盘桥接和手机调试网关，连接感知、规划、可视化与执行端。"
+      },
+      {
+        "id": "layer:offline-tooling",
+        "name": "离线数据与模型工具层",
+        "description": "承担 ZED 数据采集回放、双目标定与数据集转换，以及 BiSeNet/ONNX/TensorRT 模型检查、转换和离线推理。"
+      },
+      {
+        "id": "layer:test",
+        "name": "测试与验证层",
+        "description": "覆盖 cv_bridge、相机几何、OpenCV ROS 集成、手机网关和 DWA 规划器的单元测试及数据集验证入口。"
+      },
+      {
+        "id": "layer:config",
+        "name": "配置与构建层",
+        "description": "集中管理 ROS 2 包元数据、运行参数、Python/CMake 构建设置、CI 脚本、RViz 依赖资源和分析工具配置。"
+      },
+      {
+        "id": "layer:documentation",
+        "name": "文档与工程记录层",
+        "description": "汇总系统说明、版本演进、实车测试手册、API 文档、构建清单、许可证和上游组件变更记录。"
+      }
+    ]
+  },
+  "nodeSummaryIndex": {
+    "file:src/vision_opencv/cv_bridge/src/module.cpp": {
+      "name": "module.cpp",
+      "type": "file",
+      "summary": "为 cv_bridge 构建 Boost.Python 扩展入口，将 NumPy/OpenCV 图像转换、颜色编码转换及 OpenCV 类型查询暴露给 Python。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/module.hpp": {
+      "name": "module.hpp",
+      "type": "file",
+      "summary": "声明 cv_bridge Python 扩展共享的 NumPy C API、OpenCV 转换函数和兼容宏，是不同 OpenCV 实现文件的公共接口。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/module_opencv2.cpp": {
+      "name": "module_opencv2.cpp",
+      "type": "file",
+      "summary": "实现面向 OpenCV 2 的 NumPy 与 cv::Mat 双向内存桥接，包括引用计数适配、数组布局检查和转置处理。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/module_opencv3.cpp": {
+      "name": "module_opencv3.cpp",
+      "type": "file",
+      "summary": "实现面向 OpenCV 3/4 API 的 NumPy 与 cv::Mat 转换层，处理 GIL、数据类型、步幅、连续性和多通道数组。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/pycompat.hpp": {
+      "name": "pycompat.hpp",
+      "type": "file",
+      "summary": "提供 Python 2/3 与 NumPy C API 的条件编译兼容定义，统一整数、字符串和模块初始化接口。"
+    },
+    "file:src/vision_opencv/image_geometry/image_geometry/__init__.py": {
+      "name": "__init__.py",
+      "type": "file",
+      "summary": "作为 image_geometry Python 包入口，重新导出单目和双目相机模型。"
+    },
+    "file:src/vision_opencv/image_geometry/image_geometry/cameramodels.py": {
+      "name": "cameramodels.py",
+      "type": "file",
+      "summary": "实现 ROS CameraInfo 驱动的单目与双目相机几何模型，支持校正、像素与三维投影、视差和深度换算。"
+    },
+    "file:src/vision_opencv/image_geometry/test/directed.py": {
+      "name": "directed.py",
+      "type": "file",
+      "summary": "以固定相机标定数据验证单目校正、双目投影互逆关系以及像素位移与空间位移换算。"
+    },
+    "file:src/wheel_phone_gateway/test/test_protocol.py": {
+      "name": "test_protocol.py",
+      "type": "file",
+      "summary": "覆盖手机网关的 WebSocket 帧编码、图像缩放、二进制传输、launch 请求白名单和进程组生命周期。"
+    },
+    "file:src/wheel_phone_gateway/wheel_phone_gateway/gateway_node.py": {
+      "name": "gateway_node.py",
+      "type": "file",
+      "summary": "实现 ROS 2 手机调试网关：订阅调试图像、压缩并经 WebSocket 推流，同时通过 HTTP API 受控启停感知 launch。"
+    },
+    "file:src/wheel_phone_gateway/wheel_phone_gateway/launch_process.py": {
+      "name": "launch_process.py",
+      "type": "file",
+      "summary": "提供受白名单约束的 ROS 2 launch 进程管理器，以进程组方式实现幂等启动、状态回收和分级停止。"
+    },
+    "document:README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "项目总览文档，说明载人轮椅 DWA + LQR 导航架构、感知与控制链路、构建运行、可视化及安全边界。"
+    },
+    "document:dwa+lqr_v0.1.md": {
+      "name": "dwa+lqr_v0.1.md",
+      "type": "document",
+      "summary": "记录从固定策略避障与 LQR 巡线演进到 ObstacleFusion、DWA 局部规划、LQR 跟踪和 Safety Layer 的首版改造。"
+    },
+    "document:dwa+lqr_v0.2.md": {
+      "name": "dwa+lqr_v0.2.md",
+      "type": "document",
+      "summary": "说明 v0.2 对 DWA 激活、轨迹平滑、点云 ROI、速度来源、候选保持和可视化的增量优化及调参方法。"
+    },
+    "document:dwa+lqr_v0.3.2.md": {
+      "name": "dwa+lqr_v0.3.2.md",
+      "type": "document",
+      "summary": "记录 v0.3.2 的精确参数与代码差异、DWA 调试快照、数据集回放结论、风险和实车前检查。"
+    },
+    "document:dwa+lqr_v0.3.md": {
+      "name": "dwa+lqr_v0.3.md",
+      "type": "document",
+      "summary": "总结 v0.3 的低速滚动转弯、最小转弯半径约束、停车可视化和数据集工具，并给出诊断结论与后续优先级。"
+    },
+    "document:symlink_install_manifest.txt": {
+      "name": "symlink_install_manifest.txt",
+      "type": "document",
+      "summary": "列出 wheel_perception 软链接安装空间中的库、头文件、launch、模型、配置与 ament 元数据路径，供安装产物核查。"
+    },
+    "document:wheel_cuda_road_width_handoff.md": {
+      "name": "wheel_cuda_road_width_handoff.md",
+      "type": "document",
+      "summary": "交接道路宽度估计与调试可视化改动，涵盖边框伪边界过滤、采样范围、参数影响、已知状态锁死问题和验证建议。"
+    },
+    "document:实车测试指令.md": {
+      "name": "实车测试指令.md",
+      "type": "document",
+      "summary": "提供载人轮椅实车测试的分阶段操作手册，覆盖硬件检查、感知规划验证、RViz、蓝牙底盘、数据录制、故障和急停。"
+    },
+    "file:src/vision_opencv/.travis.sh": {
+      "name": ".travis.sh",
+      "type": "file",
+      "summary": "在 Travis 容器内安装 ROS 依赖、建立 catkin 工作区，并依次执行构建、测试、安装模式重建及计时折叠。"
+    },
+    "config:src/vision_opencv/.travis.yml": {
+      "name": ".travis.yml",
+      "type": "config",
+      "summary": "配置 Ubuntu Trusty 与 ROS Kinetic 的 Travis 任务，在 Xenial 容器中执行仓库自带的构建测试脚本并采集失败日志。"
+    },
+    "document:src/vision_opencv/README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "概述 vision_opencv 元仓库及 cv_bridge、image_geometry、opencv_tests 等 ROS 2 与 OpenCV 集成包。"
+    },
+    "config:src/vision_opencv/pytest.ini": {
+      "name": "pytest.ini",
+      "type": "config",
+      "summary": "将 pytest 的 JUnit 报告格式固定为 xunit2，供测试报告工具兼容读取。"
+    },
+    "document:src/vision_opencv/cv_bridge/CHANGELOG.rst": {
+      "name": "CHANGELOG.rst",
+      "type": "document",
+      "summary": "记录 cv_bridge 从早期 ROS 版本到 3.0.7 的发布历史，涵盖图像编码转换、跨平台构建、Python 绑定与依赖修复。"
+    },
+    "document:src/vision_opencv/cv_bridge/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "定义 cv_bridge 的 ament/CMake 构建入口，配置 C++14、Boost.Python、OpenCV、ROS 2 消息依赖以及库、头文件和测试安装规则。"
+    },
+    "document:src/vision_opencv/cv_bridge/README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "介绍 cv_bridge 的用途、依赖安装、源码构建与测试流程，并提示已知问题和贡献渠道。"
+    },
+    "config:src/vision_opencv/cv_bridge/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明 cv_bridge ROS 2 包的版本、许可证、维护者及构建、运行和测试依赖，指定 ament_cmake 构建类型。"
+    },
+    "document:src/vision_opencv/image_geometry/CHANGELOG.rst": {
+      "name": "CHANGELOG.rst",
+      "type": "document",
+      "summary": "记录 image_geometry 的版本演进，重点涵盖相机模型、图像校正、畸变模型、Python 安装和 Windows 构建修复。"
+    },
+    "document:src/vision_opencv/image_geometry/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "定义 image_geometry 的 C++ 与 Python 混合构建，编译针孔和双目相机模型库并导出 OpenCV、sensor_msgs 依赖及公共头文件。"
+    },
+    "config:src/vision_opencv/image_geometry/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明 image_geometry ROS 2 包的元数据以及 OpenCV、sensor_msgs、ament 和测试框架依赖。"
+    },
+    "document:src/vision_opencv/opencv_tests/CHANGELOG.rst": {
+      "name": "CHANGELOG.rst",
+      "type": "document",
+      "summary": "记录 opencv_tests 测试包的发布历史，包括 ROS 2 移植、启动目录调整、安装路径冲突修复与维护信息变更。"
+    },
+    "config:src/vision_opencv/opencv_tests/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "定义 opencv_tests 的 ament_python 包元数据及 rclpy、launch、sensor_msgs 和 cv_bridge 运行依赖。"
+    },
+    "config:src/vision_opencv/opencv_tests/setup.cfg": {
+      "name": "setup.cfg",
+      "type": "config",
+      "summary": "将开发和安装阶段的 Python 可执行脚本统一放入 ROS 2 包专用的 lib/opencv_tests 目录。"
+    },
+    "document:src/vision_opencv/vision_opencv/CHANGELOG.rst": {
+      "name": "CHANGELOG.rst",
+      "type": "document",
+      "summary": "记录 vision_opencv 元包从 ROS 1 到 ROS 2 3.0.7 的版本时间线及许可证、作者和维护者调整。"
+    },
+    "document:src/vision_opencv/vision_opencv/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "提供最小化 ament_cmake 构建入口，用于生成不含实现目标的 vision_opencv ROS 2 元包。"
+    },
+    "config:src/vision_opencv/vision_opencv/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明 vision_opencv 元包的版本、许可证和维护信息，并以运行依赖聚合 cv_bridge 与 image_geometry。"
+    },
+    "config:.ua/config.json": {
+      "name": "config.json",
+      "type": "config",
+      "summary": "配置 Understand Anything 分析输出语言为中文。"
+    },
+    "file:src/vision_opencv/LICENSE-Apache": {
+      "name": "LICENSE-Apache",
+      "type": "file",
+      "summary": "收录 vision_opencv 项目适用的 Apache License 2.0 完整许可文本。"
+    },
+    "file:src/vision_opencv/LICENSE-BSD": {
+      "name": "LICENSE-BSD",
+      "type": "file",
+      "summary": "收录 vision_opencv 项目部分代码适用的 BSD 许可条款与免责声明。"
+    },
+    "file:src/vision_opencv/cv_bridge/cmake/cv_bridge-extras.cmake.in": {
+      "name": "cv_bridge-extras.cmake.in",
+      "type": "file",
+      "summary": "导出构建时探测到的 OpenCV 版本、安装路径、共享库模式和组件列表，供下游 cv_bridge CMake 配置使用。"
+    },
+    "file:src/vision_opencv/cv_bridge/doc/conf.py": {
+      "name": "conf.py",
+      "type": "file",
+      "summary": "配置 cv_bridge 的 Sphinx 文档构建，包括 autodoc、doctest、intersphinx、数学渲染、HTML 主题和输出格式。"
+    },
+    "document:src/vision_opencv/cv_bridge/doc/index.rst": {
+      "name": "index.rst",
+      "type": "document",
+      "summary": "作为 cv_bridge Python API 文档首页，通过 Sphinx autodoc 展示 CvBridge 与 CvBridgeError。"
+    },
+    "file:src/vision_opencv/cv_bridge/doc/mainpage.dox": {
+      "name": "mainpage.dox",
+      "type": "file",
+      "summary": "定义 cv_bridge 的 Doxygen 主页，概述 ROS Image 与 OpenCV 图像互转能力并索引 CvImage、toCvCopy 和 toCvShare API。"
+    },
+    "file:src/vision_opencv/cv_bridge/include/cv_bridge/cv_bridge.h": {
+      "name": "cv_bridge.h",
+      "type": "file",
+      "summary": "声明 cv_bridge 的 C++ 公共 API，包括 CvImage、异常类型、压缩格式以及 ROS 2 Image 与 OpenCV cv::Mat 之间的复制、共享和显示转换接口。"
+    },
+    "file:src/vision_opencv/cv_bridge/include/cv_bridge/rgb_colors.h": {
+      "name": "rgb_colors.h",
+      "type": "file",
+      "summary": "声明 146 种命名 RGB 颜色枚举及将枚举值映射为 OpenCV cv::Vec3d 的公共函数。"
+    },
+    "file:src/vision_opencv/cv_bridge/python/cv_bridge/__init__.py": {
+      "name": "__init__.py",
+      "type": "file",
+      "summary": "作为 cv_bridge Python 包入口，重导出本地 Boost 扩展以及 CvBridge 和 CvBridgeError。"
+    },
+    "file:src/vision_opencv/cv_bridge/python/cv_bridge/core.py": {
+      "name": "core.py",
+      "type": "file",
+      "summary": "实现 cv_bridge 的 Python 高层接口，在 ROS 2 Image/CompressedImage 消息与 NumPy/OpenCV 图像之间完成编码解析、字节序处理和压缩转换。"
+    },
+    "document:src/vision_opencv/cv_bridge/src/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "构建并安装 cv_bridge C++ 库和 Boost.Python 扩展，配置生成式导出头文件、NumPy 头路径及 OpenCV 版本条件编译。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/cv_bridge.cpp": {
+      "name": "cv_bridge.cpp",
+      "type": "file",
+      "summary": "实现 cv_bridge 的 C++ 图像互操作核心，解析编码、选择 OpenCV 转换链、处理字节序与共享内存，并支持压缩图像和可视化颜色映射。"
+    },
+    "file:src/vision_opencv/cv_bridge/src/rgb_colors.cpp": {
+      "name": "rgb_colors.cpp",
+      "type": "file",
+      "summary": "实现命名颜色枚举到 RGB 浮点向量的查表映射，为标签图和显示转换提供稳定配色。"
+    },
+    "document:src/vision_opencv/cv_bridge/test/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "注册 cv_bridge 的 C++ GoogleTest 与 Python pytest 套件，链接项目库并为耗时转换测试提供可选跳过机制。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/conversions.py": {
+      "name": "conversions.py",
+      "type": "file",
+      "summary": "验证 Python CvBridge 对单色图、彩色图、压缩图和不同字节序数据的编码解码往返行为。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/enumerants.py": {
+      "name": "enumerants.py",
+      "type": "file",
+      "summary": "测试 Python 绑定中的 OpenCV 编码枚举、NumPy 类型映射、引用计数和非法输入异常。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/python_bindings.py": {
+      "name": "python_bindings.py",
+      "type": "file",
+      "summary": "验证 Python 扩展的显示色彩转换与 CvBridge 单通道图像往返转换。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/test_compression.cpp": {
+      "name": "test_compression.cpp",
+      "type": "file",
+      "summary": "使用 GoogleTest 检查 CvImage 的无损 PNG 与有损 JPEG 压缩消息往返转换。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/test_endian.cpp": {
+      "name": "test_endian.cpp",
+      "type": "file",
+      "summary": "验证大端和小端 ROS Image 数据在 toCvShare 转换后的整数像素值与内存共享行为。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/test_rgb_colors.cpp": {
+      "name": "test_rgb_colors.cpp",
+      "type": "file",
+      "summary": "抽样验证命名颜色枚举到 RGB 数值的映射结果。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/utest.cpp": {
+      "name": "utest.cpp",
+      "type": "file",
+      "summary": "覆盖 CvImage 消息生成、颜色转换、编码类型、步长和异常处理等 C++ 基础行为，并提供 GoogleTest 入口。"
+    },
+    "file:src/vision_opencv/cv_bridge/test/utest2.cpp": {
+      "name": "utest2.cpp",
+      "type": "file",
+      "summary": "系统遍历多种 ROS 图像编码，验证颜色/单色转换兼容性、共享转换异常及位深缩放精度。"
+    },
+    "file:src/vision_opencv/image_geometry/doc/conf.py": {
+      "name": "conf.py",
+      "type": "file",
+      "summary": "配置 image_geometry 的 Sphinx API 文档构建、扩展、主题以及 HTML、LaTeX、man page 和 Texinfo 输出。"
+    },
+    "document:src/vision_opencv/image_geometry/doc/index.rst": {
+      "name": "index.rst",
+      "type": "document",
+      "summary": "作为 image_geometry 文档首页，说明 CameraInfo 几何解释能力并列出针孔与双目相机模型 API。"
+    },
+    "file:src/vision_opencv/image_geometry/doc/mainpage.dox": {
+      "name": "mainpage.dox",
+      "type": "file",
+      "summary": "提供该 ROS 图像处理包的 Doxygen 首页和功能概述。"
+    },
+    "file:src/vision_opencv/image_geometry/include/image_geometry/pinhole_camera_model.h": {
+      "name": "pinhole_camera_model.h",
+      "type": "file",
+      "summary": "实现或声明 ROS CameraInfo 与 OpenCV 针孔相机模型之间的标定、投影、畸变校正和 ROI 变换。"
+    },
+    "file:src/vision_opencv/image_geometry/include/image_geometry/stereo_camera_model.h": {
+      "name": "stereo_camera_model.h",
+      "type": "file",
+      "summary": "实现或声明双目相机模型、视差重投影矩阵及视差到三维点云的转换。"
+    },
+    "file:src/vision_opencv/image_geometry/include/image_geometry/visibility_control.hpp": {
+      "name": "visibility_control.hpp",
+      "type": "file",
+      "summary": "定义跨平台共享库符号导入、导出和可见性宏。"
+    },
+    "file:src/vision_opencv/image_geometry/src/pinhole_camera_model.cpp": {
+      "name": "pinhole_camera_model.cpp",
+      "type": "file",
+      "summary": "实现或声明 ROS CameraInfo 与 OpenCV 针孔相机模型之间的标定、投影、畸变校正和 ROI 变换。"
+    },
+    "file:src/vision_opencv/image_geometry/src/stereo_camera_model.cpp": {
+      "name": "stereo_camera_model.cpp",
+      "type": "file",
+      "summary": "实现或声明双目相机模型、视差重投影矩阵及视差到三维点云的转换。"
+    },
+    "document:src/vision_opencv/image_geometry/test/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "测试 CMakeLists.txt 所覆盖的相机模型或图像几何行为。"
+    },
+    "file:src/vision_opencv/image_geometry/test/utest.cpp": {
+      "name": "utest.cpp",
+      "type": "file",
+      "summary": "测试 utest.cpp 所覆盖的相机模型或图像几何行为。"
+    },
+    "file:src/vision_opencv/image_geometry/test/utest_equi.cpp": {
+      "name": "utest_equi.cpp",
+      "type": "file",
+      "summary": "测试 utest_equi.cpp 所覆盖的相机模型或图像几何行为。"
+    },
+    "file:src/vision_opencv/opencv_tests/launch/view_img.py": {
+      "name": "view_img.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 view_img.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/mainpage.dox": {
+      "name": "mainpage.dox",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 mainpage.dox，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/opencv_tests/__init__.py": {
+      "name": "__init__.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 __init__.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/opencv_tests/broadcast.py": {
+      "name": "broadcast.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 broadcast.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/opencv_tests/rosfacedetect.py": {
+      "name": "rosfacedetect.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 rosfacedetect.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/opencv_tests/source.py": {
+      "name": "source.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 source.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/resource/opencv_tests": {
+      "name": "opencv_tests",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 opencv_tests，用于图像发布、订阅或人脸检测验证。"
+    },
+    "file:src/vision_opencv/opencv_tests/setup.py": {
+      "name": "setup.py",
+      "type": "file",
+      "summary": "ROS 2 OpenCV 集成测试组件 setup.py，用于图像发布、订阅或人脸检测验证。"
+    },
+    "document:src/wheel_msgs/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。"
+    },
+    "file:src/wheel_msgs/msg/ObstacleInfo.msg": {
+      "name": "ObstacleInfo.msg",
+      "type": "file",
+      "summary": "定义单个三维障碍物的位置、距离和尺寸消息。"
+    },
+    "file:src/wheel_msgs/msg/PerceptionOutput.msg": {
+      "name": "PerceptionOutput.msg",
+      "type": "file",
+      "summary": "定义感知到控制层的聚合消息，包含最近障碍物、道路边界、道路航向和障碍物列表。"
+    },
+    "config:src/wheel_msgs/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+    },
+    "document:src/wheel_perception/CMakeLists.txt": {
+      "name": "CMakeLists.txt",
+      "type": "document",
+      "summary": "定义对应 ROS 2 包的编译目标、依赖、测试及安装规则。"
+    },
+    "file:src/wheel_perception/config/check_onnx.py": {
+      "name": "check_onnx.py",
+      "type": "file",
+      "summary": "检查 ONNX 模型结构、输入输出及 ONNX Runtime 推理结果。"
+    },
+    "config:src/wheel_perception/config/params.yaml": {
+      "name": "params.yaml",
+      "type": "config",
+      "summary": "集中配置 ZED、感知、道路边界、DWA、LQR、安全层及数据集模式参数。"
+    },
+    "file:src/wheel_perception/config/pth2engine.py": {
+      "name": "pth2engine.py",
+      "type": "file",
+      "summary": "将 BiSeNetV2 PyTorch 权重包装并导出 ONNX/TensorRT 引擎。"
+    },
+    "file:src/wheel_perception/config/seg_trt.py": {
+      "name": "seg_trt.py",
+      "type": "file",
+      "summary": "将 MMSegmentation 模型适配为推理模块并导出 TensorRT 引擎。"
+    },
+    "file:src/wheel_perception/config/xtx_trt.py": {
+      "name": "xtx_trt.py",
+      "type": "file",
+      "summary": "通过 trtexec 命令将 ONNX 文件构建为 TensorRT engine。"
+    },
+    "file:src/wheel_perception/dwa_controller/include/wheel_perception/dwa_controller/DWAPlanner.hpp": {
+      "name": "DWAPlanner.hpp",
+      "type": "file",
+      "summary": "定义道路约束 DWA 局部规划器的数据模型、参数、候选轨迹与规划接口。"
+    },
+    "file:src/wheel_perception/dwa_controller/src/DWAPlanner.cpp": {
+      "name": "DWAPlanner.cpp",
+      "type": "file",
+      "summary": "实现动态窗口采样、差速运动学轨迹预测，以及航向、道路、障碍物、速度和平滑性综合评分。"
+    },
+    "file:src/wheel_perception/include/wheel_perception/core/ai_engine.hpp": {
+      "name": "ai_engine.hpp",
+      "type": "file",
+      "summary": "声明语义分割 TensorRT 推理引擎的初始化、推理和输入尺寸接口。"
+    },
+    "file:src/wheel_perception/include/wheel_perception/core/lqr_controller.hpp": {
+      "name": "lqr_controller.hpp",
+      "type": "file",
+      "summary": "提供离散 LQR 控制器，根据横向误差和航向误差计算平滑角速度并进行执行器映射。"
+    },
+    "file:src/wheel_perception/include/wheel_perception/core/mask_postprocess.hpp": {
+      "name": "mask_postprocess.hpp",
+      "type": "file",
+      "summary": "声明语义分割掩膜 CUDA 后处理入口。"
+    },
+    "file:src/wheel_perception/include/wheel_perception/core/obstacle_fusion.hpp": {
+      "name": "obstacle_fusion.hpp",
+      "type": "file",
+      "summary": "声明障碍物融合参数、道路边缘数据结构及 GPU 感知处理接口。"
+    },
+    "file:src/wheel_perception/include/wheel_perception/core/zed_driver.hpp": {
+      "name": "zed_driver.hpp",
+      "type": "file",
+      "summary": "定义 ZED GPU 帧和相机驱动公开接口。"
+    },
+    "file:src/wheel_perception/launch/dwa_dataset_test.launch.py": {
+      "name": "dwa_dataset_test.launch.py",
+      "type": "file",
+      "summary": "启动离线数据集播放器和轮椅感知控制流水线，用于无实车验证 DWA 路径规划。"
+    },
+    "file:src/wheel_perception/launch/run_launch.py": {
+      "name": "run_launch.py",
+      "type": "file",
+      "summary": "装载感知与控制组合节点、静态坐标变换及项目参数，作为主要 ROS 2 启动入口。"
+    },
+    "config:src/wheel_perception/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+    },
+    "file:src/wheel_perception/rviz/dwa_navigation.rviz": {
+      "name": "dwa_navigation.rviz",
+      "type": "file",
+      "summary": "预配置 RViz 中的障碍物点云、道路边界、候选轨迹、最佳路径及巡航路径显示。"
+    },
+    "file:src/wheel_perception/scripts/sub.py": {
+      "name": "sub.py",
+      "type": "file",
+      "summary": "ROS 2 蓝牙底盘桥接节点，将 cmd_vel 转换为差速轮控制协议并异步收发 BLE 数据。"
+    },
+    "file:src/wheel_perception/scripts/video_infer_trt.py": {
+      "name": "video_infer_trt.py",
+      "type": "file",
+      "summary": "独立视频推理工具，直接调用 TensorRT 与 CUDA 执行 BiSeNet 道路分割并生成叠加视频。"
+    },
+    "file:src/wheel_perception/src/controller_node.cpp": {
+      "name": "controller_node.cpp",
+      "type": "file",
+      "summary": "ROS 2 控制节点，在道路巡航与 DWA 避障间切换，并使用 LQR 跟踪局部轨迹后发布速度和可视化结果。"
+    },
+    "file:src/wheel_perception/src/core/ai_engine.cpp": {
+      "name": "ai_engine.cpp",
+      "type": "file",
+      "summary": "封装 TensorRT 引擎加载、CUDA 缓冲区管理和语义分割推理。"
+    },
+    "file:src/wheel_perception/src/core/global_flags.cpp": {
+      "name": "global_flags.cpp",
+      "type": "file",
+      "summary": "集中定义感知模块使用的全局运行标志和状态开关。"
+    },
+    "file:src/wheel_perception/src/core/mask_postprocess.cu": {
+      "name": "mask_postprocess.cu",
+      "type": "file",
+      "summary": "使用 CUDA 连通域标记保留主要道路区域，过滤语义分割掩膜中的零散噪声。"
+    },
+    "file:src/wheel_perception/src/core/obstacle_fusion.cu": {
+      "name": "obstacle_fusion.cu",
+      "type": "file",
+      "summary": "实现 CUDA 点云过滤、障碍物体素化、道路边缘提取与盲区 BEV 融合，是感知到规划的核心数据处理层。"
+    },
+    "file:src/wheel_perception/src/core/preprocess.cu": {
+      "name": "preprocess.cu",
+      "type": "file",
+      "summary": "实现 ZED 图像的 CUDA 双线性缩放、归一化以及网络输出 argmax。"
+    },
+    "file:src/wheel_perception/src/core/zed_driver.cpp": {
+      "name": "zed_driver.cpp",
+      "type": "file",
+      "summary": "封装 ZED 相机打开、抓帧、图像与点云获取及相机内参读取。"
+    },
+    "file:src/wheel_perception/src/fusion_node.cpp": {
+      "name": "fusion_node.cpp",
+      "type": "file",
+      "summary": "系统感知主节点，组织 ZED 取流、TensorRT 推理、CUDA 点云融合、道路边界分析及 PerceptionOutput 发布。"
+    },
+    "file:src/wheel_perception/test/test_dwa_planner.cpp": {
+      "name": "test_dwa_planner.cpp",
+      "type": "file",
+      "summary": "覆盖 DWA 动态窗口、碰撞判断、道路约束、平滑代价与停车选择行为的单元测试。"
+    },
+    "config:src/wheel_phone_gateway/config/gateway.yaml": {
+      "name": "gateway.yaml",
+      "type": "config",
+      "summary": "配置手机调试网关的图像、感知和控制话题及发布频率。"
+    },
+    "file:src/wheel_phone_gateway/launch/debug_viz_gateway.launch.py": {
+      "name": "debug_viz_gateway.launch.py",
+      "type": "file",
+      "summary": "启动轮椅感知管线和手机端调试可视化网关。"
+    },
+    "config:src/wheel_phone_gateway/package.xml": {
+      "name": "package.xml",
+      "type": "config",
+      "summary": "声明对应 ROS 2 包的元数据、构建工具及运行依赖。"
+    },
+    "file:src/wheel_phone_gateway/resource/wheel_phone_gateway": {
+      "name": "wheel_phone_gateway",
+      "type": "file",
+      "summary": "ROS 2 ament 资源索引标记文件，用于发现 Python 包。"
+    },
+    "config:src/wheel_phone_gateway/setup.cfg": {
+      "name": "setup.cfg",
+      "type": "config",
+      "summary": "配置 Python ROS 2 包的安装、资源索引和控制台入口。"
+    },
+    "file:src/wheel_phone_gateway/setup.py": {
+      "name": "setup.py",
+      "type": "file",
+      "summary": "配置 Python ROS 2 包的安装、资源索引和控制台入口。"
+    },
+    "file:src/wheel_phone_gateway/wheel_phone_gateway/__init__.py": {
+      "name": "__init__.py",
+      "type": "file",
+      "summary": "标记 Python 包并提供包级初始化入口。"
+    },
+    "config:tools/assumed_zed_hd720_calibration.json": {
+      "name": "assumed_zed_hd720_calibration.json",
+      "type": "config",
+      "summary": "保存无相机时使用的 HD720 假设双目标定、基线和图像尺寸。"
+    },
+    "file:tools/convert_text6_stereo_dataset.py": {
+      "name": "convert_text6_stereo_dataset.py",
+      "type": "file",
+      "summary": "将 text6 左右目图像转换为项目回放器可读取的数据集目录，并可计算假设标定下的双目深度。"
+    },
+    "file:tools/export_zed_calibration.py": {
+      "name": "export_zed_calibration.py",
+      "type": "file",
+      "summary": "从已连接 ZED 相机读取双目标定参数并导出 JSON。"
+    },
+    "file:video_pub.py": {
+      "name": "video_pub.py",
+      "type": "file",
+      "summary": "按定时器读取视频帧并发布 ROS 图像话题，供视觉模块进行简单回放测试。"
+    },
+    "file:zed_capture_dataset.py": {
+      "name": "zed_capture_dataset.py",
+      "type": "file",
+      "summary": "ROS 2 数据采集器，同步保存 ZED 双目、深度、感知结果、控制指令、里程计和 IMU 数据。"
+    },
+    "file:zed_dataset_player.py": {
+      "name": "zed_dataset_player.py",
+      "type": "file",
+      "summary": "离线数据集回放节点，按配置帧率发布历史 RGB-D、IMU 与里程计消息以复现完整感知控制链路。"
+    }
+  },
+  "totalNodes": 123,
+  "totalEdges": 49
+}

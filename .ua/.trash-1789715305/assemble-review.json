@@ -1,0 +1,16 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "合并器共处理 16 个批次文件（13 个逻辑批次），输入 360 个节点、511 条边，输出 360 个节点、503 条边；仅有 8 条 tested_by 关系因端点或测试/生产配对校验未通过而被保守剔除，占输入边约 1.6%，数量合理。",
+    "合并报告没有 Could not fix 项，未发现缺失 id、未知节点类型或非法复杂度值，无需恢复或重映射节点。",
+    "123 个扫描文件均有且仅有对应的 file、config 或 document 顶层节点，未发现遗漏或额外文件节点。",
+    "所有边的 source 与 target 均指向现存节点，未发现悬空边、自环或重复边；节点 ID 前缀均与节点类型一致。",
+    "importMap 中 8 个非空条目对应 10 条导入关系，assembled graph 已完整包含全部 10 条 imports 边，因此无需补充跨批次导入关系。",
+    "tested_by 自动链接器未新增关系，并标记了 5 个可能缺少测试链接的生产节点；这属于测试覆盖关系信息不完整的提示，不影响当前图谱结构有效性，后续可结合构建系统和测试目标人工补充。"
+  ]
+}
