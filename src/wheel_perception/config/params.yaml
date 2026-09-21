@@ -33,7 +33,7 @@
         # base_link 坐标系：X向前、Y向左、Z向上，角度单位为 rad。
         # 实际安装为“右0.2m、前0.2m”，所以 Y 必须填 -0.2。
         extrinsic:
-          translation_x: 0.2
+          translation_x: 0.45
           translation_y: -0.2
           translation_z: 0.0
           roll: 0.0
