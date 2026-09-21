@@ -292,7 +292,7 @@ class ControllerNode : public rclcpp::Node {
 
     RCLCPP_INFO(get_logger(), "DWA velocity source: %s",
                 dataset_mode_ ? "last controller output (dataset mode)"
-                              : "odometry twist (real-wheelchair mode)");
+                              : "WORLD-pose-difference /odom twist (real-wheelchair mode)");
     RCLCPP_INFO(
         get_logger(),
         "DWA camera-to-base extrinsic xyz=(%.3f, %.3f, %.3f), rpy=(%.3f, %.3f, %.3f)",
@@ -320,6 +320,9 @@ class ControllerNode : public rclcpp::Node {
       return;
     }
 
+    // In real-wheelchair mode FusionNode has already converted consecutive
+    // ZED WORLD camera poses into base-link body velocity.  The controller
+    // consumes that result directly; it never consumes raw SDK Pose.twist.
     const double measured_v = message->twist.twist.linear.x;
     const double measured_w = message->twist.twist.angular.z;
     const bool accept_zero_twist =

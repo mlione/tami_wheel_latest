@@ -35,7 +35,7 @@ struct ZedGpuFrame {
 
     int width = 0;
     int height = 0;
-    // [新增] 用于存放位置跟踪(Positional Tracking)的里程计和四元数
+    // Absolute camera pose returned by ZED REFERENCE_FRAME::WORLD.
     float pose_x = 0.0f;
     float pose_y = 0.0f;
     float pose_z = 0.0f;
@@ -44,9 +44,9 @@ struct ZedGpuFrame {
     float quat_z = 0.0f;
     float quat_w = 1.0f;
 
-    // ZED positional tracking output. Twist is expressed in the SDK camera
-    // frame (X forward, Y left, Z up). FusionNode owns the parameterized
-    // camera-to-base pose, twist and covariance conversion.
+    // Raw SDK Pose.twist in REFERENCE_FRAME::CAMERA. It is retained only for
+    // diagnostics; FusionNode derives the control /odom.twist from consecutive
+    // WORLD poses and image timestamps.
     float linear_velocity_x = 0.0f;
     float linear_velocity_y = 0.0f;
     float linear_velocity_z = 0.0f;
@@ -56,6 +56,7 @@ struct ZedGpuFrame {
     std::array<double, 36> pose_covariance{};
     std::array<double, 36> twist_covariance{};
     bool odometry_valid = false;
+    bool sdk_twist_valid = false;
 
 
 };

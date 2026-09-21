@@ -1,5 +1,9 @@
 # DWA + LQR v0.4 开发、测试与问题记录
 
+> 本文记录 v0.4 当时的实现和测试结论。后续代码已完成 ZED WORLD
+> 绝对位姿差分速度方案；当前实现请参阅
+> [`zed_world_pose_velocity_report.md`](zed_world_pose_velocity_report.md)。
+
 > 文档日期：2026-09-19
 >
 > 对应工作区：`~/tami/tami_wheel_latest`

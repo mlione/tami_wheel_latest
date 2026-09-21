@@ -51,7 +51,7 @@ Safety Layer：紧急距离 / 感知超时 / 无安全轨迹
 - LQR 不再直接根据道路误差决定整条路径，而是跟踪 DWA/CRUISE 局部轨迹的前视点；
 - `/cmd_vel` 统一为标准 SI 单位，旧 `sub.py` 和 `lqr.gain` 协议缩放已移除；
 - 新增独立 `ble_hardware_bridge`，负责物理速度到摇杆/GATT 协议的转换；
-- ZED CAMERA pose/twist 可转换到 `base_link` 并发布 `/odom`，相机杆臂外参同时用于感知点和 TF；
+- ZED WORLD 绝对位姿按图像时间戳差分为 `base_link` 速度并发布 `/odom`，SDK Twist 只作诊断；
 - 数据集模式使用上一控制输出构造动态窗口，实车模式才尝试使用 `/odom.twist`，两者互不污染；
 - RViz 区分绿色巡线、蓝色 DWA 路径、蓝色停车点以及有效/无效候选。
 
@@ -209,6 +209,7 @@ Fixed Frame 设为 `base_link`：
 | `/perception/debug/right_road_edge` | 道路右边界点 |
 | `/debug/viz` | 语义分割和边界叠加图 |
 | `/odom` | 实车模式下实验性的 ZED 基座运动估计 |
+| `/zed/diagnostics/sdk_twist` | 原始 SDK Twist 的 `base_link` 诊断值，不参与控制 |
 | `/cmd_vel` | LQR 后的最终标准物理速度 |
 
 ## 只接 ZED 的规划测试
@@ -224,6 +225,7 @@ ros2 launch wheel_perception run_launch.py
 ```bash
 ros2 topic hz /odom
 ros2 topic echo /odom --field twist.twist
+ros2 topic echo /zed/diagnostics/sdk_twist --field twist
 ros2 run tf2_ros tf2_echo base_link zed_left_camera_frame
 ```
 
@@ -254,21 +256,23 @@ ble_hardware_bridge/ble_hardware_bridge/config/ble_hardware_bridge.yaml
 
 ## ZED 速度反馈现状
 
-代码已打通 `/odom`，但当前 rosbag 测试表明绝对速度仍未验证可靠：
+旧版 rosbag 测试曾表明直接使用 SDK Twist 的绝对量级不可靠：
 
 - `/odom` 实际约 `16.23 Hz`，而 ZED 配置为 `60 FPS`；
-- pose 差分速度约为 SDK twist 的 `0.27` 倍，二者趋势高度相关；
+- WORLD pose 差分速度约为旧 SDK Twist 的 `0.27` 倍，二者趋势高度相关；
 - 原始 `linear.x` 峰值约 `4.61 m/s`，对轮椅明显不合理；
 - 控制器偶发报告反馈 stale，疑似 `/odom` 回调与耗时控制回调互斥导致排队。
 
-因此目前应把 `/odom.twist` 视为实验数据，而不是已验证的轮速真值。当前配置保持：
+当前代码已经改为：使用 ZED 图像时间戳对连续 WORLD 绝对位姿差分，先通过外参消除相机杆臂，再生成 `/odom.twist`；旧 SDK Twist 仅发布到 `/zed/diagnostics/sdk_twist`。数据集模式继续使用上一控制输出，两种模式互不影响。
+
+该实现已经通过直行速度、杆臂补偿和异常时间间隔单元测试，但尚需用已知距离、秒表、轮编码器或动捕完成实车尺度验证。因此 `/odom.twist` 仍属于视觉惯性估计，不应当作轮编码器真值。当前配置保持：
 
 ```yaml
 velocity_feedback:
   stop_on_timeout: false
 ```
 
-下一步应基于 ZED 图像时间戳和 WORLD 绝对 pose 差分计算速度，并让 `/odom` 使用独立/reentrant callback group，再用已知距离或轮编码器标定。
+详细实现和测试步骤见 [`zed_world_pose_velocity_report.md`](zed_world_pose_velocity_report.md)。下一步应让 `/odom` 使用独立/reentrant callback group，并用已知距离或轮编码器标定。
 
 ## 常见问题
 
@@ -291,7 +295,7 @@ velocity_feedback:
 
 后续优先级：
 
-1. 修复并标定 ZED 速度时间尺度；
+1. 实车标定并验证 WORLD 位姿差分速度尺度；
 2. 为 `/odom` 分离 callback group；
 3. 增加障碍空间聚类和多帧一致性；
 4. 实现“真实净空改善奖励 + 有条件停车惩罚”；

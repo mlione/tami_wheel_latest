@@ -21,10 +21,15 @@
       svo_path: ""          # 如果要回放SVO录像，填路径，否则留空
       use_dataset_mode: true #用数据集模式 (从SVO或ROS话题读取数据，而非直接访问相机)
       odometry:
-        enabled: true             # 实车模式下从同一次 ZED grab 发布 pose+twist
+        enabled: true             # 实车模式：用同一 ZED grab 的 WORLD 绝对位姿差分生成 /odom
         odom_frame: odom
         base_frame: base_link
-        velocity_filter_alpha: 0.25 # EMA；越小越平滑，但延迟越大
+        velocity_filter_alpha: 0.25 # 世界位姿差分速度的 EMA；越小越平滑，但延迟越大
+        velocity_min_dt: 0.005     # 小于该图像时间差的数据不参与速度差分
+        velocity_max_dt: 0.2       # 跟踪中断/卡帧超过该时间时不发布该次速度
+        linear_velocity_stddev: 0.20  # /odom.twist 线速度标准差，仅用于协方差
+        angular_velocity_stddev: 0.25 # /odom.twist 角速度标准差，仅用于协方差
+        publish_sdk_twist_diagnostic: true # 原始 SDK Twist 只发布诊断，不参与控制
         # base_link 坐标系：X向前、Y向左、Z向上，角度单位为 rad。
         # 实际安装为“右0.2m、前0.2m”，所以 Y 必须填 -0.2。
         extrinsic:

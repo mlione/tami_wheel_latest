@@ -21,6 +21,7 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 # --- 3. CUDA & TensorRT & ZED 配置 ---
 enable_language(CUDA)
@@ -103,6 +104,7 @@ include_directories(
 # =========================================================
 add_library(wheel_core SHARED
   src/core/zed_driver.cpp
+  src/core/world_pose_velocity_estimator.cpp
   src/core/ai_engine.cpp
   src/core/obstacle_fusion.cu
   src/core/mask_postprocess.cu
@@ -123,6 +125,7 @@ target_link_libraries(wheel_core
   ${NVINFER_PLUGIN_LIB}
   ${OpenCV_LIBS}
 )
+target_include_directories(wheel_core PRIVATE ${Eigen3_INCLUDE_DIRS})
 
 # [关键] 核心库也需要 ROS 依赖
 ament_target_dependencies(wheel_core
@@ -142,8 +145,6 @@ target_include_directories(fusion_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
-
-find_package(Eigen3 REQUIRED)
 
 # 在包含目录里添加 Eigen 的路径
 include_directories(
@@ -248,6 +249,15 @@ if(BUILD_TESTING)
   target_link_libraries(test_dwa_planner dwa_controller)
   target_include_directories(test_dwa_planner PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/dwa_controller/include
+  )
+
+  ament_add_gtest(test_world_pose_velocity_estimator
+    test/test_world_pose_velocity_estimator.cpp
+    src/core/world_pose_velocity_estimator.cpp
+  )
+  target_include_directories(test_world_pose_velocity_estimator PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${Eigen3_INCLUDE_DIRS}
   )
 endif()
 

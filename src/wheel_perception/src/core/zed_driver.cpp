@@ -36,8 +36,8 @@ struct ZedDriver::Impl {
     sl::Mat mat_cloud_cpu; 
 
     bool odometry_enabled = false;
-    sl::Transform accumulated_odom_pose;
-    sl::Pose camera_delta_pose;
+    sl::Pose world_camera_pose;
+    sl::Pose camera_motion_pose;
 
     Impl() {
         // 默认参数初始化
@@ -69,6 +69,7 @@ void clearOdometryFrame(ZedGpuFrame& frame) {
     frame.pose_covariance.fill(0.0);
     frame.twist_covariance.fill(0.0);
     frame.odometry_valid = false;
+    frame.sdk_twist_valid = false;
 }
 
 template<typename DriverImpl>
@@ -76,22 +77,21 @@ bool populateOdometryFrame(DriverImpl& impl, ZedGpuFrame& frame) {
     clearOdometryFrame(frame);
     if (!impl.odometry_enabled) return false;
 
+    // WORLD is an absolute pose tied to the positional-tracking origin.  Do
+    // not accumulate CAMERA-frame relative transforms: doing so compounds
+    // timing and frame errors and was the source of the overestimated speed.
     const auto tracking_state =
-        impl.zed.getPosition(impl.camera_delta_pose, sl::REFERENCE_FRAME::CAMERA);
+        impl.zed.getPosition(impl.world_camera_pose, sl::REFERENCE_FRAME::WORLD);
     const auto tracking_status = impl.zed.getPositionalTrackingStatus();
     if (tracking_state != sl::POSITIONAL_TRACKING_STATE::OK ||
         tracking_status.odometry_status != sl::ODOMETRY_STATUS::OK ||
-        !impl.camera_delta_pose.valid) {
+        !impl.world_camera_pose.valid) {
         return false;
     }
 
-    impl.accumulated_odom_pose =
-        impl.accumulated_odom_pose * impl.camera_delta_pose.pose_data;
-    auto orientation = impl.accumulated_odom_pose.getOrientation();
+    auto orientation = impl.world_camera_pose.pose_data.getOrientation();
     orientation.normalise();
-    impl.accumulated_odom_pose.setOrientation(orientation);
-
-    const auto translation = impl.accumulated_odom_pose.getTranslation();
+    const auto translation = impl.world_camera_pose.pose_data.getTranslation();
     frame.pose_x = translation.tx;
     frame.pose_y = translation.ty;
     frame.pose_z = translation.tz;
@@ -100,15 +100,27 @@ bool populateOdometryFrame(DriverImpl& impl, ZedGpuFrame& frame) {
     frame.quat_z = orientation.oz;
     frame.quat_w = orientation.ow;
 
-    frame.linear_velocity_x = impl.camera_delta_pose.twist[0];
-    frame.linear_velocity_y = impl.camera_delta_pose.twist[1];
-    frame.linear_velocity_z = impl.camera_delta_pose.twist[2];
-    frame.angular_velocity_x = impl.camera_delta_pose.twist[3];
-    frame.angular_velocity_y = impl.camera_delta_pose.twist[4];
-    frame.angular_velocity_z = impl.camera_delta_pose.twist[5];
     for (std::size_t index = 0; index < frame.pose_covariance.size(); ++index) {
-        frame.pose_covariance[index] = impl.camera_delta_pose.pose_covariance[index];
-        frame.twist_covariance[index] = impl.camera_delta_pose.twist_covariance[index];
+        frame.pose_covariance[index] = impl.world_camera_pose.pose_covariance[index];
+    }
+
+    // Keep SDK Twist as an independent diagnostic. The control feedback path
+    // deliberately does not consume these values.
+    const auto motion_state =
+        impl.zed.getPosition(impl.camera_motion_pose, sl::REFERENCE_FRAME::CAMERA);
+    if (motion_state == sl::POSITIONAL_TRACKING_STATE::OK &&
+        impl.camera_motion_pose.valid) {
+        frame.linear_velocity_x = impl.camera_motion_pose.twist[0];
+        frame.linear_velocity_y = impl.camera_motion_pose.twist[1];
+        frame.linear_velocity_z = impl.camera_motion_pose.twist[2];
+        frame.angular_velocity_x = impl.camera_motion_pose.twist[3];
+        frame.angular_velocity_y = impl.camera_motion_pose.twist[4];
+        frame.angular_velocity_z = impl.camera_motion_pose.twist[5];
+        for (std::size_t index = 0; index < frame.twist_covariance.size(); ++index) {
+            frame.twist_covariance[index] =
+                impl.camera_motion_pose.twist_covariance[index];
+        }
+        frame.sdk_twist_valid = true;
     }
     frame.odometry_valid = true;
     return true;
@@ -171,7 +183,6 @@ bool ZedDriver::open(const Config& config){
     } else {
         std::cout << "[ZedDriver] Positional Tracking Enabled!" << std::endl;
     }
-    pimpl_->accumulated_odom_pose.setIdentity();
     return true;
 }
 
@@ -207,7 +218,7 @@ bool ZedDriver::grab(ZedGpuFrame& out_frame){
     out_frame.width  = pimpl_->mat_rgb_gpu.getWidth();
     out_frame.height = pimpl_->mat_rgb_gpu.getHeight();
 
-    // 4. 与当前 RGB-D 帧同时获取位姿、Twist 和协方差。
+    // 4. 与当前 RGB-D 帧同时获取 WORLD 绝对位姿；SDK Twist 仅作诊断。
     populateOdometryFrame(*pimpl_, out_frame);
 
     // GPU 指针

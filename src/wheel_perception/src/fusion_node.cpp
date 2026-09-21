@@ -6,6 +6,7 @@
 // [关键修复] 必须包含这个头文件才能用 Modifier 和 Iterator
 #include <sensor_msgs/point_cloud2_iterator.hpp> 
 #include <sensor_msgs/msg/imu.hpp> // [新增]
+#include <geometry_msgs/msg/twist_stamped.hpp>
 #include <cv_bridge/cv_bridge.h>
 
 #include "wheel_msgs/msg/perception_output.hpp" 
@@ -13,6 +14,7 @@
 #include "wheel_perception/core/zed_driver.hpp"
 #include "wheel_perception/core/ai_engine.hpp"
 #include "wheel_perception/core/obstacle_fusion.hpp"
+#include "wheel_perception/core/world_pose_velocity_estimator.hpp"
 #include <nav_msgs/msg/odometry.hpp> // [新增] 里程计消息头文件
 #include <cuda_runtime.h>            // [新增] 必须包含 CUDA API 以便管理显存
 #include <algorithm>
@@ -98,6 +100,19 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     odometry_filter_alpha_ = std::clamp(
         this->declare_parameter<double>("zed.odometry.velocity_filter_alpha", 0.25),
         0.0, 1.0);
+    odometry_minimum_sample_period_ = std::max(
+        0.0, this->declare_parameter<double>("zed.odometry.velocity_min_dt", 0.005));
+    odometry_maximum_sample_period_ = std::max(
+        odometry_minimum_sample_period_,
+        this->declare_parameter<double>("zed.odometry.velocity_max_dt", 0.2));
+    odometry_linear_stddev_ = std::max(
+        0.0, this->declare_parameter<double>(
+            "zed.odometry.linear_velocity_stddev", 0.20));
+    odometry_angular_stddev_ = std::max(
+        0.0, this->declare_parameter<double>(
+            "zed.odometry.angular_velocity_stddev", 0.25));
+    publish_sdk_twist_diagnostic_ = this->declare_parameter<bool>(
+        "zed.odometry.publish_sdk_twist_diagnostic", true);
     odom_frame_id_ = this->declare_parameter<std::string>(
         "zed.odometry.odom_frame", "odom");
     base_frame_id_ = this->declare_parameter<std::string>(
@@ -122,6 +137,9 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
     base_T_camera_.setIdentity();
     base_T_camera_.linear() = camera_rotation_in_base_;
     base_T_camera_.translation() = camera_translation_in_base_;
+    world_pose_velocity_estimator_ =
+        std::make_unique<core::WorldPoseVelocityEstimator>(
+            odometry_minimum_sample_period_, odometry_maximum_sample_period_);
     zed_cfg.enable_odometry = odometry_enabled_;
 
     // ================= 3. 感知算法参数 (PerceptionParams) =================
@@ -184,15 +202,20 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         dynamic_aim_enabled_ ? "true" : "false");
     RCLCPP_INFO(
         get_logger(),
-        "ZED odometry: %s, frames=%s->%s, velocity EMA alpha=%.2f, "
+        "ZED odometry: %s, source=WORLD pose difference, frames=%s->%s, "
+        "valid dt=[%.3f, %.3f] s, velocity EMA alpha=%.2f, "
         "camera in base xyz=(%.3f, %.3f, %.3f), rpy=(%.3f, %.3f, %.3f)",
         odometry_enabled_ ? "enabled" : "disabled", odom_frame_id_.c_str(),
-        base_frame_id_.c_str(), odometry_filter_alpha_,
+        base_frame_id_.c_str(), odometry_minimum_sample_period_,
+        odometry_maximum_sample_period_, odometry_filter_alpha_,
         camera_translation_in_base_.x(), camera_translation_in_base_.y(),
         camera_translation_in_base_.z(), camera_roll, camera_pitch, camera_yaw);
     
     // ZED里程计发布者
     pub_odom_ = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
+    pub_sdk_twist_diagnostic_ =
+        this->create_publisher<geometry_msgs::msg::TwistStamped>(
+            "/zed/diagnostics/sdk_twist", 10);
     return CallbackReturn::SUCCESS;
 }
 
@@ -206,6 +229,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_ellipse_->on_activate();
         pub_right_road_edge_->on_activate();
         pub_odom_->on_activate(); 
+        pub_sdk_twist_diagnostic_->on_activate();
         pub_bev_fused_->on_activate();
         timer_ = this->create_wall_timer(std::chrono::milliseconds(15), std::bind(&FusionNode::update_loop, this));
         return LifecycleNode::on_activate(state);
@@ -221,6 +245,7 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_ellipse_->on_deactivate();
         pub_right_road_edge_->on_deactivate();
         pub_odom_->on_deactivate();
+        pub_sdk_twist_diagnostic_->on_deactivate();
         pub_bev_fused_->on_deactivate();
         return LifecycleNode::on_deactivate(state);
     }
@@ -235,9 +260,13 @@ CallbackReturn on_configure(const rclcpp_lifecycle::State &) override {
         pub_cloud_ellipse_.reset();
         pub_right_road_edge_.reset();
         pub_odom_.reset();
+        pub_sdk_twist_diagnostic_.reset();
         pub_bev_fused_.reset();
         timer_.reset();
         has_filtered_odometry_ = false;
+        if (world_pose_velocity_estimator_) {
+            world_pose_velocity_estimator_->reset();
+        }
         
         // [新增] 释放手动开辟的显存
         if (d_rgb_buffer_) {
@@ -334,7 +363,7 @@ private:
         return result;
     }
 
-    Eigen::Isometry3d transformCameraMotionPoseToBase(
+    Eigen::Isometry3d worldCameraPose(
         const core::ZedGpuFrame& frame) const {
         Eigen::Quaterniond camera_orientation(
             frame.quat_w, frame.quat_x, frame.quat_y, frame.quat_z);
@@ -344,15 +373,11 @@ private:
             camera_orientation.normalize();
         }
 
-        Eigen::Isometry3d camera_initial_T_camera = Eigen::Isometry3d::Identity();
-        camera_initial_T_camera.linear() = camera_orientation.toRotationMatrix();
-        camera_initial_T_camera.translation() =
+        Eigen::Isometry3d world_T_camera = Eigen::Isometry3d::Identity();
+        world_T_camera.linear() = camera_orientation.toRotationMatrix();
+        world_T_camera.translation() =
             Eigen::Vector3d(frame.pose_x, frame.pose_y, frame.pose_z);
-
-        // ZED odometry starts at the initial camera frame. Conjugating by the
-        // fixed base->camera extrinsic expresses the same relative motion at
-        // the wheelchair rotation center and preserves an identity start pose.
-        return base_T_camera_ * camera_initial_T_camera * base_T_camera_.inverse();
+        return world_T_camera;
     }
 
     void transformCameraTwistToBase(
@@ -380,15 +405,20 @@ private:
         base_twist.angular.z = base_angular.z();
     }
 
-    nav_msgs::msg::Odometry makeBaseOdometryMessage(
-        const core::ZedGpuFrame& frame) const {
-        nav_msgs::msg::Odometry message;
+    bool makeBaseOdometryMessage(
+        const core::ZedGpuFrame& frame,
+        nav_msgs::msg::Odometry& message) {
+        if (!world_pose_velocity_estimator_) return false;
+
+        const auto estimate = world_pose_velocity_estimator_->update(
+            worldCameraPose(frame), base_T_camera_, frame.timestamp_ns);
+        if (!estimate.pose_valid || !estimate.velocity_valid) return false;
+
         message.header.stamp = rclcpp::Time(static_cast<int64_t>(frame.timestamp_ns));
         message.header.frame_id = odom_frame_id_;
         message.child_frame_id = base_frame_id_;
 
-        const Eigen::Isometry3d base_motion =
-            transformCameraMotionPoseToBase(frame);
+        const Eigen::Isometry3d& base_motion = estimate.odom_T_base;
         const Eigen::Quaterniond base_orientation(base_motion.linear());
         message.pose.pose.position.x = base_motion.translation().x();
         message.pose.pose.position.y = base_motion.translation().y();
@@ -397,12 +427,39 @@ private:
         message.pose.pose.orientation.y = base_orientation.y();
         message.pose.pose.orientation.z = base_orientation.z();
         message.pose.pose.orientation.w = base_orientation.w();
-        transformCameraTwistToBase(frame, message.twist.twist);
+        message.twist.twist.linear.x = estimate.linear_velocity.x();
+        message.twist.twist.linear.y = estimate.linear_velocity.y();
+        message.twist.twist.linear.z = estimate.linear_velocity.z();
+        message.twist.twist.angular.x = estimate.angular_velocity.x();
+        message.twist.twist.angular.y = estimate.angular_velocity.y();
+        message.twist.twist.angular.z = estimate.angular_velocity.z();
         message.pose.covariance =
             transformCameraCovarianceToBase(frame.pose_covariance);
-        message.twist.covariance =
-            transformCameraCovarianceToBase(frame.twist_covariance);
-        return message;
+        message.twist.covariance.fill(0.0);
+        const double linear_variance =
+            odometry_linear_stddev_ * odometry_linear_stddev_;
+        const double angular_variance =
+            odometry_angular_stddev_ * odometry_angular_stddev_;
+        message.twist.covariance[0] = linear_variance;
+        message.twist.covariance[7] = linear_variance;
+        message.twist.covariance[14] = linear_variance;
+        message.twist.covariance[21] = angular_variance;
+        message.twist.covariance[28] = angular_variance;
+        message.twist.covariance[35] = angular_variance;
+        return true;
+    }
+
+    void publishSdkTwistDiagnostic(const core::ZedGpuFrame& frame) {
+        if (!publish_sdk_twist_diagnostic_ || !frame.sdk_twist_valid ||
+            !pub_sdk_twist_diagnostic_ ||
+            !pub_sdk_twist_diagnostic_->is_activated()) {
+            return;
+        }
+        geometry_msgs::msg::TwistStamped message;
+        message.header.stamp = rclcpp::Time(static_cast<int64_t>(frame.timestamp_ns));
+        message.header.frame_id = base_frame_id_;
+        transformCameraTwistToBase(frame, message.twist);
+        pub_sdk_twist_diagnostic_->publish(std::move(message));
     }
 
     void filterOdometryTwist(nav_msgs::msg::Odometry& message) {
@@ -439,13 +496,24 @@ private:
         if (!odometry_enabled_ || !pub_odom_ || !pub_odom_->is_activated()) return;
         if (!frame.odometry_valid) {
             has_filtered_odometry_ = false;
+            if (world_pose_velocity_estimator_) {
+                world_pose_velocity_estimator_->invalidateVelocityHistory();
+            }
             RCLCPP_WARN_THROTTLE(
                 get_logger(), *get_clock(), 2000,
                 "ZED odometry tracking is unavailable; suppressing /odom");
             return;
         }
 
-        auto message = makeBaseOdometryMessage(frame);
+        publishSdkTwistDiagnostic(frame);
+        nav_msgs::msg::Odometry message;
+        if (!makeBaseOdometryMessage(frame, message)) {
+            has_filtered_odometry_ = false;
+            RCLCPP_DEBUG_THROTTLE(
+                get_logger(), *get_clock(), 2000,
+                "Waiting for two valid WORLD poses with an acceptable image dt");
+            return;
+        }
         filterOdometryTwist(message);
         pub_odom_->publish(std::move(message));
     }
@@ -1410,6 +1478,8 @@ void update_loop() {
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Image>::SharedPtr pub_bev_fused_;
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_;
     rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_odom_;
+    rclcpp_lifecycle::LifecyclePublisher<geometry_msgs::msg::TwistStamped>::SharedPtr
+        pub_sdk_twist_diagnostic_;
     rclcpp::TimerBase::SharedPtr timer_;
     // 1. 调试用的点云发布者 (Lifecycle 类型)
     rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_rect_;
@@ -1418,11 +1488,17 @@ void update_loop() {
 
     bool odometry_enabled_{false};
     double odometry_filter_alpha_{0.25};
+    double odometry_minimum_sample_period_{0.005};
+    double odometry_maximum_sample_period_{0.2};
+    double odometry_linear_stddev_{0.20};
+    double odometry_angular_stddev_{0.25};
+    bool publish_sdk_twist_diagnostic_{true};
     std::string odom_frame_id_{"odom"};
     std::string base_frame_id_{"base_link"};
     Eigen::Vector3d camera_translation_in_base_{Eigen::Vector3d::Zero()};
     Eigen::Matrix3d camera_rotation_in_base_{Eigen::Matrix3d::Identity()};
     Eigen::Isometry3d base_T_camera_{Eigen::Isometry3d::Identity()};
+    std::unique_ptr<core::WorldPoseVelocityEstimator> world_pose_velocity_estimator_;
     bool has_filtered_odometry_{false};
     std::array<double, 3> filtered_linear_velocity_{};
     std::array<double, 3> filtered_angular_velocity_{};
