@@ -1,7 +1,7 @@
 # TAMI Wheel：道路约束 DWA + LQR 轮椅导航
 
-> 当前开发版本：**DWA + LQR v0.4（2026-09-19）**
-> 完整改进、参数、测试结果与已知问题见 [`dwa+lqr_v0.4.md`](dwa+lqr_v0.4.md)。
+> 当前开发版本：**DWA + LQR v0.5（2026-09-21）**
+> 完整改进、参数、实车bag结果与已知问题见 [`dwa+lqr_v0.5.md`](dwa+lqr_v0.5.md)。
 
 本项目在原有 ZED RGB-D、TensorRT BiSeNet 语义分割、CUDA 点云融合、道路边界提取和 LQR 巡线基础上，增加道路约束 DWA 局部规划、分级安全层、RViz 轨迹可视化、ZED 运动估计接口及独立 BLE 底盘桥。
 
@@ -42,20 +42,22 @@ Safety Layer：紧急距离 / 感知超时 / 无安全轨迹
 | 统一导航参数 | `src/wheel_perception/config/params.yaml` |
 | BLE 桥 | `ble_hardware_bridge/ble_hardware_bridge/` |
 
-## v0.4 主要变化
+## v0.5 相比 v0.4 的主要变化
 
-- DWA 根据障碍点云预测常值 `(v,w)` 轨迹，并施加碰撞、道路边界、动态窗口、最小转弯半径和 BLE 可执行域硬约束；
-- 允许低速滚动转弯，当前仍禁止 `v=0,w!=0` 的原地转向；
-- 无近障时使用确定性 CRUISE 轨迹，达到激活点数后才使用 DWA；
-- 轨迹评分包含道路航向、障碍净空、速度、道路位置和平滑代价；
-- LQR 不再直接根据道路误差决定整条路径，而是跟踪 DWA/CRUISE 局部轨迹的前视点；
-- `/cmd_vel` 统一为标准 SI 单位，旧 `sub.py` 和 `lqr.gain` 协议缩放已移除；
-- 新增独立 `ble_hardware_bridge`，负责物理速度到摇杆/GATT 协议的转换；
-- ZED WORLD 绝对位姿按图像时间戳差分为 `base_link` 速度并发布 `/odom`，SDK Twist 只作诊断；
-- 数据集模式使用上一控制输出构造动态窗口，实车模式才尝试使用 `/odom.twist`，两者互不污染；
-- RViz 区分绿色巡线、蓝色 DWA 路径、蓝色停车点以及有效/无效候选。
+v0.4已经完成道路约束DWA、LQR局部轨迹跟踪、BLE可执行域和独立底盘桥。v0.5保持该导航结构，重点完善实车速度反馈：
 
-当前代码**尚未实现**此前讨论的“净空改善奖励”“安全条件停车惩罚”“障碍空间聚类”和“普通急停 2/3 帧确认”。这些内容仍列为后续工作，详见 v0.4 文档。
+- ZED改用 `REFERENCE_FRAME::WORLD` 绝对位姿，不再累加CAMERA相对运动；
+- 使用同一ZED图像时间戳对连续WORLD位姿差分，产生 `/odom.twist`；
+- 差分前利用相机外参恢复轮椅旋转中心位姿，消除转向杆臂速度；
+- SDK `Pose.twist` 从控制链移除，仅发布 `/zed/diagnostics/sdk_twist` 诊断话题；
+- 新增采样周期上下限、跟踪恢复重置、独立速度协方差和WORLD速度EMA；
+- 新增 `WorldPoseVelocityEstimator` 模块及直行、杆臂、异常周期单元测试；
+- 通过原地转向bag将相机前向外参由 `0.20 m` 标定为 `0.45 m`；
+- 实车bag验证一/二/三档速度量级合理，静止漂移约毫米每秒；
+- WORLD差分与SDK Twist趋势高度相关，但SDK绝对值仍放大约3.4倍；
+- 数据集模式继续使用上一控制输出，实车模式使用新鲜 `/odom.twist`，两者互不污染。
+
+当前代码**尚未实现**独立 `/odom` callback group、WORLD速度物理异常过滤、净空改善奖励、安全条件停车惩罚、障碍空间聚类和普通急停2/3帧确认。不要把文档中的后续方案当成已落地功能。
 
 ## DWA 与 LQR
 
@@ -256,23 +258,26 @@ ble_hardware_bridge/ble_hardware_bridge/config/ble_hardware_bridge.yaml
 
 ## ZED 速度反馈现状
 
-旧版 rosbag 测试曾表明直接使用 SDK Twist 的绝对量级不可靠：
+当前 `/odom.twist` 使用ZED图像时间戳对连续WORLD绝对位姿差分，并先通过外参消除相机杆臂；SDK Twist只发布到 `/zed/diagnostics/sdk_twist`，不参与DWA。数据集模式继续使用上一控制输出，两种模式互不影响。
 
-- `/odom` 实际约 `16.23 Hz`，而 ZED 配置为 `60 FPS`；
-- WORLD pose 差分速度约为旧 SDK Twist 的 `0.27` 倍，二者趋势高度相关；
-- 原始 `linear.x` 峰值约 `4.61 m/s`，对轮椅明显不合理；
-- 控制器偶发报告反馈 stale，疑似 `/odom` 回调与耗时控制回调互斥导致排队。
+实车bag结果：
 
-当前代码已经改为：使用 ZED 图像时间戳对连续 WORLD 绝对位姿差分，先通过外参消除相机杆臂，再生成 `/odom.twist`；旧 SDK Twist 仅发布到 `/zed/diagnostics/sdk_twist`。数据集模式继续使用上一控制输出，两种模式互不影响。
+- 完整链路实际约 `16~17 Hz`，WORLD速度尺度不再依赖配置的 `60 FPS`；
+- 一档、二档、三档稳定段约为 `0.47 / 0.66~0.68 / 0.88 m/s`；
+- 静止 `linear.x` 标准差约 `0.001 m/s`；
+- `translation_x=0.45 m` 后，原地转向横向杆臂残差从约 `0.25 m` 降到约 `0.005~0.012 m`；
+- WORLD/SDK的线速度中位比例约 `0.299`、相关系数约 `0.958`；
+- WORLD/SDK的角速度中位比例约 `0.292`、相关系数约 `0.985`；
+- SDK Twist趋势正确，但绝对值约放大 `3.3~3.6` 倍，不能用于控制。
 
-该实现已经通过直行速度、杆臂补偿和异常时间间隔单元测试，但尚需用已知距离、秒表、轮编码器或动捕完成实车尺度验证。因此 `/odom.twist` 仍属于视觉惯性估计，不应当作轮编码器真值。当前配置保持：
+WORLD估计器已通过直行速度、杆臂补偿和异常时间间隔单元测试，但它仍是视觉惯性里程计，不是轮编码器真值。当前配置保持：
 
 ```yaml
 velocity_feedback:
   stop_on_timeout: false
 ```
 
-详细实现和测试步骤见 [`zed_world_pose_velocity_report.md`](zed_world_pose_velocity_report.md)。下一步应让 `/odom` 使用独立/reentrant callback group，并用已知距离或轮编码器标定。
+详细实现和测试步骤见 [`dwa+lqr_v0.5.md`](dwa+lqr_v0.5.md) 和 [`zed_world_pose_velocity_report.md`](zed_world_pose_velocity_report.md)。下一步应让 `/odom` 使用独立的 `MutuallyExclusive` callback group、增加物理异常值过滤，并用已知距离或轮编码器完成外部标定。
 
 ## 常见问题
 
@@ -295,11 +300,11 @@ velocity_feedback:
 
 后续优先级：
 
-1. 实车标定并验证 WORLD 位姿差分速度尺度；
-2. 为 `/odom` 分离 callback group；
-3. 增加障碍空间聚类和多帧一致性；
-4. 实现“真实净空改善奖励 + 有条件停车惩罚”；
-5. 标定轮椅 footprint、转弯能力和制动距离；
-6. 完成 BLE 断连和独立安全制动测试。
+1. 为 `/odom` 分离独立 `MutuallyExclusive` callback group，并复测stale；
+2. 增加WORLD速度、加速度和角速度物理异常过滤；
+3. 排查完整链路偶发 `0.3 s` 间隔，并重新评估反馈超时；
+4. 增加障碍空间聚类和多帧一致性；
+5. 实现“真实净空改善奖励 + 有条件停车惩罚”；
+6. 标定轮椅footprint、制动能力并完成BLE断连安全测试。
 
-更完整的测试数据、问题原因和部署注意事项请阅读 [`dwa+lqr_v0.4.md`](dwa+lqr_v0.4.md)。
+更完整的版本差异、测试数据、问题原因和部署注意事项请阅读 [`dwa+lqr_v0.5.md`](dwa+lqr_v0.5.md)。v0.4历史记录仍保留在 [`dwa+lqr_v0.4.md`](dwa+lqr_v0.4.md)。

@@ -35,6 +35,7 @@ text3/
 #本地生成的版本文档与修改报告
 /dwa+lqr_v*.md
 !/dwa+lqr_v0.4.md
+!/dwa+lqr_v0.5.md
 /*修改报告.md
 
 #understand技能生成的知识图谱
