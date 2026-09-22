@@ -205,6 +205,10 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
   const double left_at_origin = road.has_width
       ? road.width - road.right_distance
       : std::numeric_limits<double>::infinity();
+  // Road edges constrain the complete wheelchair footprint, not only the
+  // base_link centre. Keep the circular footprint plus the configured extra
+  // safety margin inside both detected boundaries.
+  const double road_boundary_clearance = config_.robot_radius + config_.road_margin;
 
   for (const auto& pose : trajectory.poses) {
     for (const auto& obstacle : obstacles) {
@@ -221,13 +225,15 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
     if (road.has_right_edge) {
       const double center_y = target_offset + road_slope * pose.x;
       road_cost += std::abs(pose.y - center_y);
-      const double right_y = right_at_origin + road_slope * pose.x + config_.road_margin;
+      const double right_y =
+          right_at_origin + road_slope * pose.x + road_boundary_clearance;
       if (pose.y < right_y) {
         trajectory.inside_road = false;
         road_cost += kInvalidRoadPenalty;
       }
       if (road.has_width) {
-        const double left_y = left_at_origin + road_slope * pose.x - config_.road_margin;
+        const double left_y =
+            left_at_origin + road_slope * pose.x - road_boundary_clearance;
         if (pose.y > left_y) {
           trajectory.inside_road = false;
           road_cost += kInvalidRoadPenalty;

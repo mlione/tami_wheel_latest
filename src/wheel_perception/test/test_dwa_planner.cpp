@@ -61,13 +61,29 @@ TEST(DWAPlanner, NeverCrossesRoadBoundary) {
   config.max_acceleration = 10.0;
   config.max_angular_acceleration = 10.0;
   DWAPlanner planner(config);
-  RoadModel narrow_road{true, true, 0.55, 1.1, 0.55, 0.0};
+  RoadModel narrow_road{true, true, 1.0, 2.0, 1.0, 0.0};
 
   const auto result =
       planner.plan(Pose2D{}, Velocity{}, narrow_road, {}, MotionHistory{}, 0.1);
 
   ASSERT_TRUE(result.valid);
   EXPECT_TRUE(result.best.inside_road);
+}
+
+TEST(DWAPlanner, RejectsRoadTooNarrowForFootprintAndMargins) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  config.robot_radius = 0.45;
+  config.road_margin = 0.15;
+  DWAPlanner planner(config);
+  // The 1.1 m road is narrower than two times the required 0.60 m clearance.
+  RoadModel narrow_road{true, true, 0.55, 1.1, 0.55, 0.0};
+
+  const auto result =
+      planner.plan(Pose2D{}, Velocity{}, narrow_road, {}, MotionHistory{}, 0.1);
+
+  EXPECT_FALSE(result.valid);
 }
 
 TEST(DWAPlanner, RejectsTrajectoriesBlockedAcrossTheRoad) {

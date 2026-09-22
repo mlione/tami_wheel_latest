@@ -86,6 +86,8 @@ class DWAPlanner {
     double clearance_switch_margin{0.30};
     double obstacle_distance_threshold{2.5};
     double robot_radius{0.45};
+    // Additional clearance outside the circular robot footprint when checking
+    // road boundaries.
     double road_margin{0.15};
     // Conservative subset of the BLE wheelchair's executable (v, w) space.
     // Stop remains an explicit command; every non-zero command must be above

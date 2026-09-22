@@ -45,12 +45,15 @@
     # ==========================
     perception:
       # --- 感知区域 (ROI) ---
-      # 注意：坐标系为 X前, Y左, Z上
+      # 注意：这层过滤发生在点云转换到轮椅中心 (base_link) 之前，
+      # 所以下列范围使用相机坐标系：X向前、Y向左、Z向上。
+      # 当前相机相对轮椅中心位于前方 0.45 m、右侧 0.20 m，
+      # 因此将相机 ROI 设为非对称范围，使转换后约对应 base_link 的 Y=[-1.5, 1.5] m。
       roi:
-        min_x: 0.3          # 前方盲区 (小于此距离的点忽略)
-        max_x: 10.0          # 有效探测距离
-        min_y: -3.0         # [关键] 右侧边界 (对齐旧代码 if(y >= -0.4))
-        max_y: 3.0          # 左侧边界
+        min_x: 0.3          # 相机前方盲区；受可见距离限制，无法覆盖 base_link 前方 0.3 m 内的全部区域
+        max_x: 4.6          # 相机坐标；转换后约对应 base_link 前方 5.0 m
+        min_y: -1.3         # 相机右侧；转换后约对应 base_link Y=-1.5 m
+        max_y: 1.7          # 相机左侧；转换后约对应 base_link Y=+1.5 m
         min_z: -0.2         # 地面过滤 (去除地面点)
         max_z: 2.0          # 高度上限
 
@@ -83,6 +86,8 @@
       # 目标设定
       aim_dist: 0.8 # 目标离墙距离 (米)，让车不要贴墙太近
       lookahead_time: 0.5 # LQR 跟踪 DWA 轨迹的前视时间 (秒)
+      max_dwa_tracking_correction: 0.15 # DWA模式：LQR相对参考角速度的最大修正量 (rad/s)
+      max_cruise_angular_velocity: 0.30 # 巡线模式：LQR角速度上限 (rad/s)，仍受后续加速度和硬件约束
 
     # === DWA 局部规划参数（与现有 ROS YAML 参数系统共用）===
     dwa:
@@ -90,7 +95,7 @@
       min_velocity: 0.0                 # 载人设备默认禁止倒车
       max_angular_velocity: 1.0         # rad/s，DWA 内部物理角速度
       max_acceleration: 0.5             # m/s^2
-      max_angular_acceleration: 5.0     # rad/s^2
+      max_angular_acceleration: 1.5     # rad/s^2
       prediction_time: 2.5              # 秒；ROS 2 参数声明为 double，必须保留小数点
       simulation_time_step: 0.1         # 轨迹积分步长
       velocity_resolution: 0.1          # m/s
@@ -136,7 +141,7 @@
 
       obstacle_distance_threshold: 5.0  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径
-      road_margin: 0.15                  # 道路边界内缩安全裕量
+      road_margin: 0.15                  # 车体半径之外的额外道路边界安全裕量
       # 与 ble_hardware_bridge 一致的保守可执行域。(0,0) 始终是合法停车指令；
       # 非零运动必须跨过遥感死区，并满足当前挡位的角速度能力。
       hardware_constraints:

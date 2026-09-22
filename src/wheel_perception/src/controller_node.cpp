@@ -105,6 +105,8 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("lqr.model_v", 0.5);
     declare_parameter("lqr.aim_dist", 0.65);
     declare_parameter("lqr.lookahead_time", 0.6);
+    declare_parameter("lqr.max_dwa_tracking_correction", 0.15);
+    declare_parameter("lqr.max_cruise_angular_velocity", 0.30);
     declare_parameter("dynamic_aim.enabled", true);
     declare_parameter("logic.base_vel", 1.0);
     declare_parameter("logic.stop_dist", 1.0);
@@ -203,6 +205,10 @@ class ControllerNode : public rclcpp::Node {
     lqr_config.k_w = get_parameter("lqr.k_w").as_double();
     lqr_config.model_v = get_parameter("lqr.model_v").as_double();
     lqr_ = std::make_unique<LqrController>(lqr_config);
+    max_dwa_tracking_correction_ = std::max(
+        0.0, get_parameter("lqr.max_dwa_tracking_correction").as_double());
+    max_cruise_angular_velocity_ = std::max(
+        0.0, get_parameter("lqr.max_cruise_angular_velocity").as_double());
 
     dwa::DWAPlanner::Config dwa_config;
     dwa_config.max_velocity = get_parameter("dwa.max_velocity").as_double();
@@ -547,8 +553,18 @@ class ControllerNode : public rclcpp::Node {
     const auto& reference = selectLookahead(result.best);
     const double lateral_error = -reference.y;
     const double heading_error = -reference.yaw;
-    double tracked_w = lqr_->computeTracking(lateral_error, heading_error,
-                                             result.best.command.angular, control_dt);
+    const double reference_w = result.best.command.angular;
+    const double raw_tracked_w = lqr_->computeTracking(
+        lateral_error, heading_error, reference_w, control_dt);
+    // DWA limits the feedback correction around its checked reference command.
+    // Cruise has its own steering limit because its reference angular velocity
+    // is zero. Both modes still pass through the actuator/rate limits below.
+    double tracked_w = use_dwa
+        ? reference_w + std::clamp(
+            raw_tracked_w - reference_w,
+            -max_dwa_tracking_correction_, max_dwa_tracking_correction_)
+        : std::clamp(raw_tracked_w,
+                     -max_cruise_angular_velocity_, max_cruise_angular_velocity_);
     tracked_w = std::clamp(tracked_w, -max_angular_velocity_, max_angular_velocity_);
     const double max_delta_w = max_angular_acceleration_ * control_dt;
     tracked_w = std::clamp(tracked_w, last_tracked_angular_ - max_delta_w,
@@ -632,6 +648,7 @@ class ControllerNode : public rclcpp::Node {
                   dwa_active_ ? "DWA obstacle avoidance" : "road cruise",
                   points_in_activation_area);
       motion_history_ = {};
+      lqr_->reset();
     }
     return dwa_active_;
   }
@@ -855,6 +872,8 @@ class ControllerNode : public rclcpp::Node {
   double max_angular_velocity_{1.0};
   double max_linear_acceleration_{0.5};
   double max_angular_acceleration_{1.5};
+  double max_dwa_tracking_correction_{0.15};
+  double max_cruise_angular_velocity_{0.30};
   double minimum_turning_velocity_{0.001};
   double minimum_turning_radius_{0.6};
   double minimum_moving_velocity_{0.15};
