@@ -94,7 +94,7 @@
       max_velocity: 1.0                 # m/s
       min_velocity: 0.0                 # 载人设备默认禁止倒车
       max_angular_velocity: 1.0         # rad/s，DWA 内部物理角速度
-      max_acceleration: 0.5             # m/s^2
+      max_acceleration: 1.0             # m/s^2
       max_angular_acceleration: 1.5     # rad/s^2
       prediction_time: 2.5              # 秒；ROS 2 参数声明为 double，必须保留小数点
       simulation_time_step: 0.1         # 轨迹积分步长
