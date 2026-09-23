@@ -91,6 +91,8 @@ TEST(DWAPlanner, RejectsTrajectoriesBlockedAcrossTheRoad) {
   config.max_acceleration = 0.5;
   config.max_angular_acceleration = 10.0;
   config.robot_radius = 0.4;
+  config.enable_stop_preference = true;
+  config.stop_penalty = 100.0;
   DWAPlanner planner(config);
   RoadModel road{true, true, 1.0, 3.0, 1.0, 0.0};
   std::vector<ObstaclePoint> wall;
@@ -277,4 +279,78 @@ TEST(DWAPlanner, RespectsAccelerationLimitsRelativeToCommandHistory) {
   EXPECT_LE(std::abs(result.best.command.angular - history.previous_command.angular),
             config.max_angular_acceleration * dt + 1e-6);
 }
+DWAPlanner::Config stopPreferenceTestConfig() {
+  DWAPlanner::Config config;
+  config.max_velocity = 0.8;
+  config.prediction_time = 3.0;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  config.minimum_turning_radius = 0.1;
+  config.weight_heading = 0.0;
+  config.weight_velocity = 0.0;
+  config.weight_road = 0.0;
+  config.weight_smooth = 0.0;
+  config.enable_stop_preference = true;
+  config.stop_penalty = 6.0;
+  config.minimum_moving_clearance = 0.10;
+  config.minimum_clearance_gain = 0.05;
+  return config;
+}
+
+TEST(DWAPlanner, PrefersOnlyExecutableSafeClearanceImprovingTurnOverStop) {
+  const DWAPlanner::Config config = stopPreferenceTestConfig();
+  const std::vector<ObstaclePoint> obstacles{{1.5, 0.0}};
+  DWAPlanner::Config baseline_config = config;
+  baseline_config.enable_stop_preference = false;
+
+  const auto baseline = DWAPlanner(baseline_config).plan(
+      Pose2D{}, Velocity{}, RoadModel{}, obstacles, MotionHistory{}, 0.1);
+  DWAPlanner planner(config);
+  const auto preferred = planner.plan(
+      Pose2D{}, Velocity{}, RoadModel{}, obstacles, MotionHistory{}, 0.1);
+
+  ASSERT_TRUE(baseline.valid);
+  ASSERT_TRUE(preferred.valid);
+  EXPECT_NEAR(baseline.best.command.linear, 0.0, 1e-9);
+  EXPECT_GT(preferred.best.command.linear, config.minimum_turning_velocity);
+  EXPECT_GT(std::abs(preferred.best.command.angular), 1e-6);
+  EXPECT_TRUE(planner.isHardwareFeasible(preferred.best.command));
+  EXPECT_GE(preferred.best.minimum_clearance, config.minimum_moving_clearance);
+  EXPECT_GE(preferred.best.terminal_clearance - preferred.best.initial_clearance,
+            config.minimum_clearance_gain);
+}
+
+TEST(DWAPlanner, StopPreferenceDoesNotForceMotionWithoutImprovingTurn) {
+  auto config = stopPreferenceTestConfig();
+  config.max_angular_velocity = 0.0;
+  config.stop_penalty = 100.0;
+
+  const auto result = DWAPlanner(config).plan(
+      Pose2D{}, Velocity{}, RoadModel{}, {{1.2, 0.0}}, MotionHistory{}, 0.1);
+
+  ASSERT_TRUE(result.valid);
+  EXPECT_NEAR(result.best.command.linear, 0.0, 1e-9);
+  const auto stop = std::find_if(result.candidates.begin(), result.candidates.end(),
+                                 [](const Trajectory& candidate) {
+                                   return std::abs(candidate.command.linear) <= 1e-9;
+                                 });
+  ASSERT_NE(stop, result.candidates.end());
+  EXPECT_DOUBLE_EQ(stop->score, result.best.score);
+}
+
+TEST(DWAPlanner, SafeAvoidanceReleasesStationaryTrajectoryHold) {
+  auto config = stopPreferenceTestConfig();
+  config.score_switch_margin = 100.0;
+  MotionHistory history;
+  history.valid = true;
+
+  const auto result = DWAPlanner(config).plan(
+      Pose2D{}, Velocity{}, RoadModel{}, {{1.5, 0.0}}, history, 0.1);
+
+  ASSERT_TRUE(result.valid);
+  EXPECT_GT(result.best.command.linear, config.minimum_turning_velocity);
+  EXPECT_GE(result.best.terminal_clearance - result.best.initial_clearance,
+            config.minimum_clearance_gain);
+}
+
 }  // namespace

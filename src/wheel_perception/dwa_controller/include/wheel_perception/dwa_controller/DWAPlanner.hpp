@@ -43,6 +43,8 @@ struct Trajectory {
   std::vector<Pose2D> poses;
   double score{-std::numeric_limits<double>::infinity()};
   double minimum_clearance{std::numeric_limits<double>::infinity()};
+  double initial_clearance{std::numeric_limits<double>::infinity()};
+  double terminal_clearance{std::numeric_limits<double>::infinity()};
   bool collision_free{false};
   bool inside_road{false};
   bool dynamic_feasible{false};
@@ -84,6 +86,10 @@ class DWAPlanner {
     double relative_switch_margin{0.05};
     double hold_minimum_clearance{0.20};
     double clearance_switch_margin{0.30};
+    bool enable_stop_preference{false};
+    double stop_penalty{0.0};
+    double minimum_moving_clearance{0.10};
+    double minimum_clearance_gain{0.05};
     double obstacle_distance_threshold{2.5};
     double robot_radius{0.45};
     // Additional clearance outside the circular robot footprint when checking
@@ -126,6 +132,7 @@ class DWAPlanner {
                 const std::vector<ObstaclePoint>& obstacles,
                 const MotionHistory& history,
                 double control_dt) const;
+  bool applyConditionalStopPenalty(Result& result) const;
   std::vector<double> samples(double lower, double upper, double resolution) const;
   static double normalizeAngle(double angle);
 

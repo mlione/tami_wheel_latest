@@ -20,6 +20,9 @@ DWAPlanner::DWAPlanner(Config config) : config_(std::move(config)) {
   config_.minimum_turning_radius = std::max(config_.minimum_turning_radius, 0.0);
   config_.max_jerk = std::max(config_.max_jerk, kEpsilon);
   config_.max_angular_jerk = std::max(config_.max_angular_jerk, kEpsilon);
+  config_.stop_penalty = std::max(config_.stop_penalty, 0.0);
+  config_.minimum_moving_clearance = std::max(config_.minimum_moving_clearance, 0.0);
+  config_.minimum_clearance_gain = std::max(config_.minimum_clearance_gain, 0.0);
   config_.minimum_moving_velocity = std::max(config_.minimum_moving_velocity, 0.0);
   config_.gear_0001_selection_threshold = std::max(
       config_.gear_0001_selection_threshold, config_.minimum_moving_velocity);
@@ -135,6 +138,8 @@ DWAPlanner::Result DWAPlanner::plan(
     }
   }
 
+  const bool stop_preference_applied = applyConditionalStopPenalty(result);
+
   // Candidate hysteresis: keep the previous safe command unless a new path is
   // meaningfully better or provides materially more obstacle clearance.
   if (result.valid && history.valid && config_.enable_trajectory_hold) {
@@ -163,13 +168,56 @@ DWAPlanner::Result DWAPlanner::plan(
           config_.relative_switch_margin * std::max(1.0, std::abs(incumbent->score));
       const double clearance_gain =
           result.best.minimum_clearance - incumbent->minimum_clearance;
-      if (improvement < required_improvement &&
+      const bool leaving_deliberate_stop = stop_preference_applied &&
+          incumbent->command.linear <= config_.minimum_turning_velocity + kEpsilon &&
+          result.best.command.linear > config_.minimum_turning_velocity + kEpsilon;
+      if (!leaving_deliberate_stop && improvement < required_improvement &&
           clearance_gain < config_.clearance_switch_margin) {
         result.best = *incumbent;
       }
     }
   }
   return result;
+}
+
+bool DWAPlanner::applyConditionalStopPenalty(Result& result) const {
+  if (!result.valid || !config_.enable_stop_preference || config_.stop_penalty <= 0.0) {
+    return false;
+  }
+
+  const auto is_feasible = [](const Trajectory& candidate) {
+    return candidate.collision_free && candidate.inside_road &&
+           candidate.dynamic_feasible && std::isfinite(candidate.score);
+  };
+  const auto is_safe_avoidance = [&](const Trajectory& candidate) {
+    return is_feasible(candidate) &&
+           candidate.command.linear > config_.minimum_turning_velocity + kEpsilon &&
+           std::abs(candidate.command.angular) > kEpsilon &&
+           candidate.minimum_clearance >= config_.minimum_moving_clearance &&
+           candidate.terminal_clearance - candidate.initial_clearance >=
+               config_.minimum_clearance_gain + kEpsilon;
+  };
+  const bool has_safe_avoidance = std::any_of(
+      result.candidates.begin(), result.candidates.end(), is_safe_avoidance);
+  if (!has_safe_avoidance) {
+    return false;
+  }
+
+  // Penalize stopping and other non-improving motion equally, so a slow
+  // approach cannot win merely because the stationary option was penalized.
+  // Hard collision, road, acceleration and BLE constraints remain unchanged.
+  result.valid = false;
+  for (auto& candidate : result.candidates) {
+    if (!is_feasible(candidate)) continue;
+    if (!is_safe_avoidance(candidate)) {
+      candidate.score -= config_.stop_penalty;
+    }
+    if (!result.valid || candidate.score > result.best.score) {
+      result.valid = true;
+      result.best = candidate;
+    }
+  }
+  return is_safe_avoidance(result.best);
 }
 
 Trajectory DWAPlanner::simulate(double linear, double angular) const {
@@ -210,7 +258,8 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
   // safety margin inside both detected boundaries.
   const double road_boundary_clearance = config_.robot_radius + config_.road_margin;
 
-  for (const auto& pose : trajectory.poses) {
+  for (std::size_t pose_index = 0; pose_index < trajectory.poses.size(); ++pose_index) {
+    const auto& pose = trajectory.poses[pose_index];
     for (const auto& obstacle : obstacles) {
       if (obstacle.x < -config_.robot_radius ||
           obstacle.x > config_.obstacle_distance_threshold) {
@@ -219,6 +268,12 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
       const double clearance = std::hypot(pose.x - obstacle.x, pose.y - obstacle.y) -
                                config_.robot_radius;
       trajectory.minimum_clearance = std::min(trajectory.minimum_clearance, clearance);
+      if (pose_index == 0) {
+        trajectory.initial_clearance = std::min(trajectory.initial_clearance, clearance);
+      }
+      if (pose_index + 1 == trajectory.poses.size()) {
+        trajectory.terminal_clearance = std::min(trajectory.terminal_clearance, clearance);
+      }
       if (clearance <= 0.0) trajectory.collision_free = false;
     }
 
@@ -244,6 +299,12 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
 
   if (!std::isfinite(trajectory.minimum_clearance)) {
     trajectory.minimum_clearance = config_.obstacle_distance_threshold;
+  }
+  if (!std::isfinite(trajectory.initial_clearance)) {
+    trajectory.initial_clearance = config_.obstacle_distance_threshold;
+  }
+  if (!std::isfinite(trajectory.terminal_clearance)) {
+    trajectory.terminal_clearance = config_.obstacle_distance_threshold;
   }
   road_cost /= std::max<std::size_t>(1, trajectory.poses.size());
 

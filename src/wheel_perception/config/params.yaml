@@ -138,6 +138,14 @@
         relative_switch_margin: 0.01 # 新轨迹净空改善超过 1% 才切换
         minimum_clearance: 0.30          # 仅在上一轨迹净空充足时保持
         clearance_switch_margin: 0.10   # 新轨迹净空明显改善时及时切换
+      # 仅当存在满足 BLE 可执行域、全程安全、终点净空改善的滚动转弯轨迹时，
+      # 才相对提高停车和其他非改善轨迹的代价；近距离急停优先级不变。
+      stop_preference:
+        enabled: true
+        penalty: 6.0                     # 有限评分差，避免无条件强制运动
+        minimum_moving_clearance: 0.10   # m，扣除 robot_radius 后的全程最小净空
+        minimum_clearance_gain: 0.05     # m，终点净空相对起点的最小改善
+
 
       obstacle_distance_threshold: 5.0  # 只评价此前向距离内的障碍点
       robot_radius: 0.45                 # 含乘员/轮椅外廓的碰撞半径

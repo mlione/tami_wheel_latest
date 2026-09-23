@@ -148,6 +148,10 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("dwa.trajectory_hold.relative_switch_margin", 0.05);
     declare_parameter("dwa.trajectory_hold.minimum_clearance", 0.20);
     declare_parameter("dwa.trajectory_hold.clearance_switch_margin", 0.30);
+    declare_parameter("dwa.stop_preference.enabled", false);
+    declare_parameter("dwa.stop_preference.penalty", 0.0);
+    declare_parameter("dwa.stop_preference.minimum_moving_clearance", 0.10);
+    declare_parameter("dwa.stop_preference.minimum_clearance_gain", 0.05);
     declare_parameter("dwa.obstacle_distance_threshold", 2.5);
     declare_parameter("dwa.robot_radius", 0.45);
     declare_parameter("dwa.road_margin", 0.15);
@@ -254,6 +258,14 @@ class ControllerNode : public rclcpp::Node {
         get_parameter("dwa.trajectory_hold.minimum_clearance").as_double();
     dwa_config.clearance_switch_margin =
         get_parameter("dwa.trajectory_hold.clearance_switch_margin").as_double();
+    dwa_config.enable_stop_preference =
+        get_parameter("dwa.stop_preference.enabled").as_bool();
+    dwa_config.stop_penalty =
+        get_parameter("dwa.stop_preference.penalty").as_double();
+    dwa_config.minimum_moving_clearance =
+        get_parameter("dwa.stop_preference.minimum_moving_clearance").as_double();
+    dwa_config.minimum_clearance_gain =
+        get_parameter("dwa.stop_preference.minimum_clearance_gain").as_double();
     dwa_config.obstacle_distance_threshold =
         get_parameter("dwa.obstacle_distance_threshold").as_double();
     dwa_config.robot_radius = get_parameter("dwa.robot_radius").as_double();
