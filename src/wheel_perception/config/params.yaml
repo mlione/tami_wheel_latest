@@ -172,6 +172,13 @@
         max_z: 1.0                       # 排除树冠等高处点；实车需按相机安装高度标定
       visualization:
         max_candidates: 100
+      # 室内 DWA 单独测试；正常部署保持 off。visualize 只输出轨迹，
+      # 始终向 /cmd_vel 发零速度；drive 必须通过 launch 显式解锁。
+      indoor_test:
+        mode: "off"                # off | visualize | drive
+        allow_motion: false        # drive 模式的第二道人工解锁
+        max_velocity: 0.30         # drive 线速度硬上限 (m/s)
+        preview_velocity: 0.30     # visualize 假设的当前速度，不是实测速度
 
     # === 最终安全层：优先级高于 DWA 与 LQR ===
     safety:

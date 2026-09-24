@@ -4,7 +4,9 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
-from launch.actions import ExecuteProcess, TimerAction
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
+from launch.substitutions import LaunchConfiguration
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 
 def generate_launch_description():
@@ -46,6 +48,19 @@ def generate_launch_description():
 
     # ========================================================================
 
+    dataset_default = str(param_dict.get("zed", {}).get("use_dataset_mode", True)).lower()
+    dataset_override = {
+        "zed.use_dataset_mode": ParameterValue(
+            LaunchConfiguration("use_dataset_mode"), value_type=bool)
+    }
+    indoor_override = {
+        **dataset_override,
+        "dwa.indoor_test.mode": ParameterValue(
+            LaunchConfiguration("indoor_mode"), value_type=str),
+        "dwa.indoor_test.allow_motion": ParameterValue(
+            LaunchConfiguration("indoor_allow_motion"), value_type=bool),
+    }
+
     # 2. 定义 TF 静态变换。与 FusionNode 使用同一份外参，
     # 避免 RViz 点云坐标和 /odom 杆臂修正不一致。
     odometry_config = param_dict.get('zed', {}).get('odometry', {})
@@ -75,7 +90,7 @@ def generate_launch_description():
         name='fusion_node',
         namespace='',
         # 【关键修改】这里传的是 Python 字典，不是文件路径！
-        parameters=[param_dict], 
+        parameters=[param_dict, dataset_override],
         extra_arguments=[{'use_intra_process_comms': True}]
     )
 
@@ -86,7 +101,7 @@ def generate_launch_description():
         name='controller_node',
         namespace='',
         # 控制节点也可以用同样的字典，或者继续用文件路径（如果它没问题的话）
-        parameters=[param_dict], 
+        parameters=[param_dict, indoor_override],
         extra_arguments=[{'use_intra_process_comms': True}]
     )
 
@@ -130,6 +145,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument("use_dataset_mode", default_value=dataset_default),
+        DeclareLaunchArgument("indoor_mode", default_value="off"),
+        DeclareLaunchArgument("indoor_allow_motion", default_value="false"),
         tf_publisher,
         container,
         TimerAction(period=2.0, actions=[lifecycle_cmd]),

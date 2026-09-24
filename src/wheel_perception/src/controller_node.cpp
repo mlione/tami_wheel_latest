@@ -7,6 +7,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -45,6 +46,8 @@ geometry_msgs::msg::Quaternion yawToQuaternion(double yaw) {
 
 class ControllerNode : public rclcpp::Node {
  public:
+  enum class IndoorTestMode { Off, Visualize, Drive };
+
   explicit ControllerNode(const rclcpp::NodeOptions& options)
       : Node("controller_node", options) {
     declareParameters();
@@ -68,6 +71,8 @@ class ControllerNode : public rclcpp::Node {
 
     pub_cmd_ = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     pub_dwa_cmd_ = create_publisher<geometry_msgs::msg::Twist>("dwa/planner_cmd", 10);
+    pub_indoor_test_cmd_ =
+        create_publisher<geometry_msgs::msg::Twist>("dwa/indoor_test_cmd", 10);
     pub_local_trajectory_ = create_publisher<nav_msgs::msg::Path>("dwa/local_trajectory", 10);
     pub_best_path_ = create_publisher<nav_msgs::msg::Path>("dwa/best_path", 10);
     pub_best_path_marker_ =
@@ -81,8 +86,11 @@ class ControllerNode : public rclcpp::Node {
     watchdog_timer_ = create_wall_timer(
         std::chrono::milliseconds(100), std::bind(&ControllerNode::watchdogCallback, this));
 
-    RCLCPP_INFO(get_logger(),
-                "Hierarchical controller ready: ObstacleFusion -> DWA -> LQR -> safety -> cmd_vel");
+    RCLCPP_INFO(get_logger(), "Controller ready: indoor mode=%s%s",
+                indoor_test_mode_ == IndoorTestMode::Off ? "off" :
+                (indoor_test_mode_ == IndoorTestMode::Drive ? "drive" : "visualize"),
+                indoor_test_mode_ == IndoorTestMode::Visualize
+                    ? " (cmd_vel held at zero)" : "");
   }
 
  private:
@@ -173,6 +181,10 @@ class ControllerNode : public rclcpp::Node {
     declare_parameter("dwa.obstacle_roi.min_z", -0.2);
     declare_parameter("dwa.obstacle_roi.max_z", 1.0);
     declare_parameter("dwa.visualization.max_candidates", 80);
+    declare_parameter("dwa.indoor_test.mode", "off");
+    declare_parameter("dwa.indoor_test.allow_motion", false);
+    declare_parameter("dwa.indoor_test.max_velocity", 0.30);
+    declare_parameter("dwa.indoor_test.preview_velocity", 0.30);
 
     declare_parameter("safety.emergency_stop_distance", 0.8);
     declare_parameter("safety.perception_timeout", 0.5);
@@ -184,6 +196,19 @@ class ControllerNode : public rclcpp::Node {
 
   void configureControllers() {
     dataset_mode_ = get_parameter("zed.use_dataset_mode").as_bool();
+    const std::string indoor_mode = get_parameter("dwa.indoor_test.mode").as_string();
+    if (indoor_mode == "visualize") {
+      indoor_test_mode_ = IndoorTestMode::Visualize;
+    } else if (indoor_mode == "drive") {
+      indoor_test_mode_ = IndoorTestMode::Drive;
+    } else if (indoor_mode != "off") {
+      throw std::invalid_argument("dwa.indoor_test.mode must be off, visualize, or drive");
+    }
+    if (indoor_test_mode_ == IndoorTestMode::Drive &&
+        (!get_parameter("dwa.indoor_test.allow_motion").as_bool() || dataset_mode_)) {
+      throw std::invalid_argument(
+          "indoor drive requires allow_motion=true and zed.use_dataset_mode=false");
+    }
     base_frame_id_ = get_parameter("zed.odometry.base_frame").as_string();
     camera_translation_in_base_ = Eigen::Vector3d(
         get_parameter("zed.odometry.extrinsic.translation_x").as_double(),
@@ -216,6 +241,13 @@ class ControllerNode : public rclcpp::Node {
 
     dwa::DWAPlanner::Config dwa_config;
     dwa_config.max_velocity = get_parameter("dwa.max_velocity").as_double();
+    if (indoor_test_mode_ == IndoorTestMode::Drive) {
+      const double indoor_limit = get_parameter("dwa.indoor_test.max_velocity").as_double();
+      if (!std::isfinite(indoor_limit) || indoor_limit < 0.0) {
+        throw std::invalid_argument("dwa.indoor_test.max_velocity must be nonnegative");
+      }
+      dwa_config.max_velocity = std::min(dwa_config.max_velocity, indoor_limit);
+    }
     dwa_config.min_velocity = get_parameter("dwa.min_velocity").as_double();
     dwa_config.max_angular_velocity = get_parameter("dwa.max_angular_velocity").as_double();
     dwa_config.max_acceleration = get_parameter("dwa.max_acceleration").as_double();
@@ -269,9 +301,23 @@ class ControllerNode : public rclcpp::Node {
     dwa_config.obstacle_distance_threshold =
         get_parameter("dwa.obstacle_distance_threshold").as_double();
     dwa_config.robot_radius = get_parameter("dwa.robot_radius").as_double();
+    if (indoor_test_mode_ == IndoorTestMode::Drive) {
+      // Keep at least a modest gap beyond the circular wheelchair footprint.
+      indoor_drive_emergency_distance_ = std::max(
+          get_parameter("safety.emergency_stop_distance").as_double(),
+          dwa_config.robot_radius + 0.35);
+    }
     dwa_config.road_margin = get_parameter("dwa.road_margin").as_double();
     dwa_config.enable_hardware_constraints =
         get_parameter("dwa.hardware_constraints.enabled").as_bool();
+    if (indoor_test_mode_ == IndoorTestMode::Drive &&
+        (!dwa_config.enable_hardware_constraints ||
+         get_parameter("safety.perception_timeout").as_double() <= 0.0 ||
+         get_parameter("velocity_feedback.timeout").as_double() <= 0.0 ||
+         get_parameter("safety.emergency_stop_distance").as_double() <= 0.0)) {
+      throw std::invalid_argument(
+          "indoor drive requires BLE constraints, perception/odom timeouts, and emergency stop");
+    }
     dwa_config.minimum_moving_velocity =
         get_parameter("dwa.hardware_constraints.minimum_moving_velocity").as_double();
     dwa_config.gear_0001_selection_threshold =
@@ -284,6 +330,13 @@ class ControllerNode : public rclcpp::Node {
         get_parameter("dwa.hardware_constraints.gear_0003_max_angular").as_double();
     dwa_config.gear_0005_maximum_angular_velocity =
         get_parameter("dwa.hardware_constraints.gear_0005_max_angular").as_double();
+    max_dwa_velocity_ = dwa_config.max_velocity;
+    if (indoor_test_mode_ == IndoorTestMode::Visualize) {
+      const double preview = get_parameter("dwa.indoor_test.preview_velocity").as_double();
+      if (!std::isfinite(preview) || preview < 0.0) {
+        throw std::invalid_argument("dwa.indoor_test.preview_velocity must be nonnegative");
+      }
+    }
     max_angular_velocity_ = dwa_config.max_angular_velocity;
     simulation_dt_ = dwa_config.simulation_time_step;
     max_angular_acceleration_ = dwa_config.max_angular_acceleration;
@@ -292,6 +345,10 @@ class ControllerNode : public rclcpp::Node {
     minimum_turning_radius_ = dwa_config.minimum_turning_radius;
     minimum_moving_velocity_ = dwa_config.enable_hardware_constraints
         ? dwa_config.minimum_moving_velocity : 0.0;
+    if (indoor_test_mode_ == IndoorTestMode::Drive &&
+        dwa_config.max_velocity < minimum_moving_velocity_) {
+      throw std::invalid_argument("indoor max_velocity is below BLE minimum moving velocity");
+    }
     prediction_time_ = dwa_config.prediction_time;
     cruise_velocity_ = std::clamp(
         get_parameter("dwa.cruise_velocity").as_double(),
@@ -409,6 +466,15 @@ class ControllerNode : public rclcpp::Node {
            camera_translation_in_base_;
   }
 
+  dwa::RoadModel makePlanningRoadModel(
+      const wheel_msgs::msg::PerceptionOutput& message) const {
+    if (indoor_test_mode_ != IndoorTestMode::Off) {
+      // Laboratory mode has no reliable road edge. Heading zero means +X.
+      return {};
+    }
+    return makeBaseRoadModel(message);
+  }
+
   dwa::RoadModel makeBaseRoadModel(
       const wheel_msgs::msg::PerceptionOutput& message) const {
     dwa::RoadModel road;
@@ -428,7 +494,14 @@ class ControllerNode : public rclcpp::Node {
   }
 
   void cloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr message) {
-    if (message->width == 0 || message->height == 0) return;
+    if (message->width == 0 || message->height == 0) {
+      if (indoor_test_mode_ != IndoorTestMode::Off) {
+        std::lock_guard<std::mutex> lock(obstacle_mutex_);
+        obstacles_.clear();
+        last_cloud_time_ = now();
+      }
+      return;
+    }
 
     const std::size_t maximum = static_cast<std::size_t>(
         std::max<int64_t>(1, get_parameter("dwa.max_obstacle_points").as_int()));
@@ -502,6 +575,7 @@ class ControllerNode : public rclcpp::Node {
 
     std::lock_guard<std::mutex> lock(obstacle_mutex_);
     obstacles_ = std::move(points);
+    last_cloud_time_ = now();
   }
 
   void perceptionCallback(const wheel_msgs::msg::PerceptionOutput::SharedPtr message) {
@@ -513,23 +587,38 @@ class ControllerNode : public rclcpp::Node {
     last_control_time_ = callback_time;
     last_perception_time_ = callback_time;
     watchdog_stopped_ = false;
-    const double emergency_distance =
-        get_parameter("safety.emergency_stop_distance").as_double();
+    const double emergency_distance = indoor_test_mode_ == IndoorTestMode::Drive
+        ? indoor_drive_emergency_distance_
+        : get_parameter("safety.emergency_stop_distance").as_double();
     if (message->min_distance > 0.01 && message->min_distance < emergency_distance) {
       publishStop("emergency obstacle distance");
       return;
     }
 
     std::vector<dwa::ObstaclePoint> obstacles;
+    bool cloud_fresh = false;
     {
       std::lock_guard<std::mutex> lock(obstacle_mutex_);
       obstacles = obstacles_;
+      const double timeout = get_parameter("safety.perception_timeout").as_double();
+      cloud_fresh = last_cloud_time_.nanoseconds() > 0 &&
+          callback_time >= last_cloud_time_ &&
+          (callback_time - last_cloud_time_).seconds() <= timeout;
+    }
+    if (indoor_test_mode_ != IndoorTestMode::Off && !cloud_fresh) {
+      publishStop("indoor test obstacle cloud unavailable or stale");
+      return;
     }
 
-    const dwa::RoadModel road = makeBaseRoadModel(*message);
+    const dwa::RoadModel road = makePlanningRoadModel(*message);
 
     const auto motion = planningMotionSnapshot(callback_time);
-    if (!dataset_mode_ && !motion.feedback_fresh) {
+    if (indoor_test_mode_ == IndoorTestMode::Drive && !motion.feedback_fresh) {
+      publishStop("indoor drive requires fresh /odom twist");
+      return;
+    }
+    if (indoor_test_mode_ == IndoorTestMode::Off &&
+        !dataset_mode_ && !motion.feedback_fresh) {
       RCLCPP_WARN_THROTTLE(
           get_logger(), *get_clock(), 2000,
           "Velocity feedback unavailable or stale; using last controller output");
@@ -538,12 +627,19 @@ class ControllerNode : public rclcpp::Node {
         return;
       }
     }
-    const dwa::Velocity planning_velocity = motion.velocity;
-    const bool use_dwa = updateDwaActivation(obstacles);
+    const bool indoor_test = indoor_test_mode_ != IndoorTestMode::Off;
+    dwa::Velocity planning_velocity = motion.velocity;
+    if (indoor_test_mode_ == IndoorTestMode::Visualize) {
+      // Hypothetical snapshot only: no robot motion is inferred from this speed.
+      const double preview = get_parameter("dwa.indoor_test.preview_velocity").as_double();
+      planning_velocity = {std::clamp(preview, 0.0, max_dwa_velocity_), 0.0};
+    }
+    const bool use_dwa = indoor_test || updateDwaActivation(obstacles);
     dwa::DWAPlanner::Result result;
     if (use_dwa) {
       result = dwa_->plan(motion.pose, planning_velocity, road, obstacles,
-                          motion_history_, control_dt);
+                          indoor_test_mode_ == IndoorTestMode::Visualize
+                              ? dwa::MotionHistory{} : motion_history_, control_dt);
     } else {
       result.valid = true;
       result.best = makeCruiseTrajectory(road, planning_velocity, control_dt);
@@ -551,8 +647,10 @@ class ControllerNode : public rclcpp::Node {
     publishVisualization(result, use_dwa);
 
     if (use_dwa && !result.valid &&
-        get_parameter("safety.stop_on_no_path").as_bool()) {
-      publishStop("DWA found no collision-free road-valid path");
+        (indoor_test || get_parameter("safety.stop_on_no_path").as_bool())) {
+      if (indoor_test) logIndoorPlan(
+          result, geometry_msgs::msg::Twist{}, indoor_test_mode_ == IndoorTestMode::Drive);
+      publishStop("DWA found no collision-free path", indoor_test_mode_ != IndoorTestMode::Visualize);
       return;
     }
     if (!result.valid) return;
@@ -561,38 +659,45 @@ class ControllerNode : public rclcpp::Node {
     planner_command.linear.x = result.best.command.linear;
     planner_command.angular.z = result.best.command.angular;
     pub_dwa_cmd_->publish(planner_command);
+    if (indoor_test) pub_indoor_test_cmd_->publish(planner_command);
 
-    const auto& reference = selectLookahead(result.best);
-    const double lateral_error = -reference.y;
-    const double heading_error = -reference.yaw;
-    const double reference_w = result.best.command.angular;
-    const double raw_tracked_w = lqr_->computeTracking(
-        lateral_error, heading_error, reference_w, control_dt);
-    // DWA limits the feedback correction around its checked reference command.
-    // Cruise has its own steering limit because its reference angular velocity
-    // is zero. Both modes still pass through the actuator/rate limits below.
-    double tracked_w = use_dwa
-        ? reference_w + std::clamp(
-            raw_tracked_w - reference_w,
-            -max_dwa_tracking_correction_, max_dwa_tracking_correction_)
-        : std::clamp(raw_tracked_w,
-                     -max_cruise_angular_velocity_, max_cruise_angular_velocity_);
-    tracked_w = std::clamp(tracked_w, -max_angular_velocity_, max_angular_velocity_);
-    const double max_delta_w = max_angular_acceleration_ * control_dt;
-    tracked_w = std::clamp(tracked_w, last_tracked_angular_ - max_delta_w,
-                           last_tracked_angular_ + max_delta_w);
-    if (result.best.command.linear < minimum_turning_velocity_) {
-      tracked_w = 0.0;
-    } else if (minimum_turning_radius_ > 1e-6) {
-      const double curvature_limited_w =
-          std::abs(result.best.command.linear) / minimum_turning_radius_;
-      tracked_w = std::clamp(tracked_w, -curvature_limited_w, curvature_limited_w);
+    if (indoor_test_mode_ == IndoorTestMode::Visualize) {
+      pub_cmd_->publish(geometry_msgs::msg::Twist{});
+      motion_history_ = {};
+      {
+        std::lock_guard<std::mutex> lock(velocity_mutex_);
+        last_output_velocity_ = {};
+      }
+      last_tracked_angular_ = 0.0;
+      logIndoorPlan(result, planner_command, false);
+      return;
     }
-    // LQR is downstream of DWA and can otherwise push a valid planner command
-    // outside the BLE wheelchair's executable envelope.
-    const double hardware_limited_w =
-        dwa_->maximumHardwareAngularVelocity(result.best.command.linear);
-    tracked_w = std::clamp(tracked_w, -hardware_limited_w, hardware_limited_w);
+
+    double lateral_error = 0.0;
+    double heading_error = 0.0;
+    const double reference_w = result.best.command.angular;
+    double requested_w = reference_w;
+    if (!indoor_test) {
+      const auto& reference = selectLookahead(result.best);
+      lateral_error = -reference.y;
+      heading_error = -reference.yaw;
+      const double raw_tracked_w = lqr_->computeTracking(
+          lateral_error, heading_error, reference_w, control_dt);
+      // Normal DWA bounds LQR correction; road cruise has its own yaw cap.
+      requested_w = use_dwa
+          ? reference_w + std::clamp(
+                raw_tracked_w - reference_w,
+                -max_dwa_tracking_correction_, max_dwa_tracking_correction_)
+          : std::clamp(raw_tracked_w,
+                       -max_cruise_angular_velocity_, max_cruise_angular_velocity_);
+    }
+    const double tracked_w = limitAngularCommand(
+        result.best.command.linear, requested_w, control_dt);
+    if (indoor_test_mode_ == IndoorTestMode::Drive &&
+        std::abs(tracked_w - reference_w) > 1e-6) {
+      publishStop("actuator limit changed checked DWA trajectory");
+      return;
+    }
 
     geometry_msgs::msg::Twist command;
     command.linear.x = result.best.command.linear;
@@ -620,6 +725,10 @@ class ControllerNode : public rclcpp::Node {
     }
     last_tracked_angular_ = tracked_w;
 
+    if (indoor_test) {
+      logIndoorPlan(result, command, true);
+      return;
+    }
     RCLCPP_INFO_THROTTLE(
         get_logger(), *get_clock(), 500,
         "%s+LQR: v=%.2f w_ref=%.2f w_track=%.2f velocity_source=%s "
@@ -632,6 +741,39 @@ class ControllerNode : public rclcpp::Node {
         lateral_error, heading_error,
         road.right_distance, road.yaw_error, road.has_right_edge ? "true" : "false",
         result.best.minimum_clearance, result.best.score, obstacles.size());
+  }
+
+  double limitAngularCommand(double linear, double angular, double control_dt) const {
+    double limited = std::clamp(angular, -max_angular_velocity_, max_angular_velocity_);
+    const double max_delta_w = max_angular_acceleration_ * control_dt;
+    limited = std::clamp(limited, last_tracked_angular_ - max_delta_w,
+                         last_tracked_angular_ + max_delta_w);
+    if (linear < minimum_turning_velocity_) {
+      return 0.0;
+    }
+    if (minimum_turning_radius_ > 1e-6) {
+      const double curvature_limited_w = std::abs(linear) / minimum_turning_radius_;
+      limited = std::clamp(limited, -curvature_limited_w, curvature_limited_w);
+    }
+    const double hardware_limited_w = dwa_->maximumHardwareAngularVelocity(linear);
+    return std::clamp(limited, -hardware_limited_w, hardware_limited_w);
+  }
+
+  void logIndoorPlan(const dwa::DWAPlanner::Result& result,
+                     const geometry_msgs::msg::Twist& command, bool executable) {
+    const auto feasible = std::count_if(result.candidates.begin(), result.candidates.end(),
+        [](const dwa::Trajectory& candidate) {
+          return candidate.collision_free && candidate.inside_road &&
+                 candidate.dynamic_feasible;
+        });
+    RCLCPP_INFO_THROTTLE(
+        get_logger(), *get_clock(), 500,
+        "INDOOR_DWA %s: v=%.2f w=%.2f candidates=%zu feasible=%zu "
+        "clearance=%.2f score=%.2f",
+        executable ? "DRIVE" : "PREVIEW", command.linear.x, command.angular.z,
+        result.candidates.size(), static_cast<std::size_t>(feasible),
+        result.valid ? result.best.minimum_clearance : 0.0,
+        result.valid ? result.best.score : 0.0);
   }
 
   bool updateDwaActivation(const std::vector<dwa::ObstaclePoint>& obstacles) {
@@ -712,10 +854,11 @@ class ControllerNode : public rclcpp::Node {
     return trajectory.poses[index];
   }
 
-  void publishStop(const std::string& reason) {
+  void publishStop(const std::string& reason, bool clear_candidates = true) {
     geometry_msgs::msg::Twist stop;
     pub_cmd_->publish(stop);
     pub_dwa_cmd_->publish(stop);
+    if (indoor_test_mode_ != IndoorTestMode::Off) pub_indoor_test_cmd_->publish(stop);
     motion_history_ = {};
     {
       std::lock_guard<std::mutex> lock(velocity_mutex_);
@@ -739,7 +882,7 @@ class ControllerNode : public rclcpp::Node {
     visualization_msgs::msg::Marker clear;
     clear.action = visualization_msgs::msg::Marker::DELETEALL;
     clear_markers.markers.push_back(clear);
-    pub_candidate_paths_->publish(clear_markers);
+    if (clear_candidates) pub_candidate_paths_->publish(clear_markers);
     RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 500, "Safety stop: %s", reason.c_str());
   }
 
@@ -863,6 +1006,7 @@ class ControllerNode : public rclcpp::Node {
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_cmd_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_dwa_cmd_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_indoor_test_cmd_;
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_local_trajectory_;
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_best_path_;
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr pub_best_path_marker_;
@@ -878,9 +1022,12 @@ class ControllerNode : public rclcpp::Node {
   dwa::Velocity last_output_velocity_;
   bool has_velocity_feedback_{false};
   bool dataset_mode_{true};
+  IndoorTestMode indoor_test_mode_{IndoorTestMode::Off};
   std::string base_frame_id_{"base_link"};
   Eigen::Vector3d camera_translation_in_base_{Eigen::Vector3d::Zero()};
   Eigen::Matrix3d camera_rotation_in_base_{Eigen::Matrix3d::Identity()};
+  double max_dwa_velocity_{1.0};
+  double indoor_drive_emergency_distance_{0.8};
   double max_angular_velocity_{1.0};
   double max_linear_acceleration_{0.5};
   double max_angular_acceleration_{1.5};
@@ -903,6 +1050,7 @@ class ControllerNode : public rclcpp::Node {
   rclcpp::Time last_odom_stamp_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_velocity_feedback_time_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_perception_time_{0, 0, RCL_ROS_TIME};
+  rclcpp::Time last_cloud_time_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_control_time_{0, 0, RCL_ROS_TIME};
   rclcpp::TimerBase::SharedPtr watchdog_timer_;
   bool watchdog_stopped_{false};

@@ -231,6 +231,53 @@ ros2 topic echo /zed/diagnostics/sdk_twist --field twist
 ros2 run tf2_ros tf2_echo base_link zed_left_camera_frame
 ```
 
+## 室内 DWA 单独测试（不依赖道路边界）
+
+室内专用 launch 沿用同一套 ZED、TensorRT、ObstacleFusion 和 DWA 参数，
+但用正前方（base_link +X）作为参考方向，忽略室内不可靠的道路边界，
+每帧运行 DWA，跳过 LQR。正常 `run_launch.py` 默认仍是原来的 DWA＋LQR。
+
+先检查 `ai.engine_path` 指向本机可用的 TensorRT engine，并检查相机外参、
+`perception.roi`、`dwa.obstacle_roi` 能稳定保留雪糕筒点云。
+**建议先不启动 BLE**，运行只规划模式：
+
+```bash
+cd ~/tami/tami_wheel_latest
+source /opt/ros/humble/setup.bash
+source install/setup.sh
+ros2 launch wheel_perception indoor_dwa_test.launch.py
+```
+
+此模式的 `/cmd_vel` 始终为零；`/dwa/indoor_test_cmd` 和
+`/dwa/planner_cmd` 是**假设当前速度为 0.30 m/s**时的规划结果，
+不代表静止轮椅实际可执行的起步命令。可通过
+`dwa.indoor_test.preview_velocity` 在原 YAML 中改变该假设。
+RViz 使用上面的配置，重点看 `/dwa/obstacle_cloud`、蓝色最优路径、
+浅绿色/红色候选路径及蓝色停车点。终端会打印候选数、可行数、净空与分数。
+
+```bash
+ros2 topic echo /cmd_vel --field linear.x
+ros2 topic echo /dwa/indoor_test_cmd
+ros2 topic echo /dwa/obstacle_cloud --once
+ros2 topic echo /odom --field twist.twist
+```
+
+只有在雪糕筒点云稳定、候选路径与近距离停车反复验证后，才考虑
+**无人乘坐、物理急停可用、有安全员**的低速移动测试：
+
+```bash
+ros2 launch wheel_perception indoor_dwa_test.launch.py mode:=drive allow_motion:=true
+```
+
+另开终端单独启动 BLE 桥（上面的 launch **不会**启动 BLE）。移动测试要求
+真实且新鲜的 `/odom.twist` 和障碍点云；任何一项超时、DWA 无安全路径、
+急停距离触发，都会向 `/cmd_vel` 发零速度。室内移动模式的急停阈值
+至少为 `robot_radius + 0.35 m`（当前参数下为 0.80 m），正常模式的
+0.50 m 不变。室内线速度上限 `dwa.indoor_test.max_velocity` 默认为
+0.30 m/s，仍受 BLE 最低速度
+0.15 m/s 和角速度约束。若后置限幅改变 DWA 检查过的角速度，也直接停车。
+这不是载人自主运行配置；相机漏检雪糕筒的问题必须先解决。
+
 ## 实车启动
 
 先启动感知与控制：
