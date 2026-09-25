@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <utility>
 
 namespace wheel_control::dwa {
@@ -185,16 +186,29 @@ bool DWAPlanner::applyConditionalStopPenalty(Result& result) const {
     return false;
   }
 
+  // Reuse the already evaluated straight trajectory at each sampled speed.
+  // A colliding straight trajectory still provides a valid clearance baseline.
+  // If zero yaw rate is outside the dynamic window, do not force motion.
+  std::map<double, double> straight_clearance_by_speed;
+  for (const auto& candidate : result.candidates) {
+    if (std::abs(candidate.command.angular) <= kEpsilon) {
+      straight_clearance_by_speed[candidate.command.linear] =
+          candidate.minimum_clearance;
+    }
+  }
+
   const auto is_feasible = [](const Trajectory& candidate) {
     return candidate.collision_free && candidate.inside_road &&
            candidate.dynamic_feasible && std::isfinite(candidate.score);
   };
   const auto is_safe_avoidance = [&](const Trajectory& candidate) {
+    const auto straight = straight_clearance_by_speed.find(candidate.command.linear);
     return is_feasible(candidate) &&
            candidate.command.linear > config_.minimum_turning_velocity + kEpsilon &&
            std::abs(candidate.command.angular) > kEpsilon &&
            candidate.minimum_clearance >= config_.minimum_moving_clearance &&
-           candidate.terminal_clearance - candidate.initial_clearance >=
+           straight != straight_clearance_by_speed.end() &&
+           candidate.minimum_clearance - straight->second >=
                config_.minimum_clearance_gain + kEpsilon;
   };
   const bool has_safe_avoidance = std::any_of(
