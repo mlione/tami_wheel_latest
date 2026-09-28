@@ -62,7 +62,7 @@
       voxel_size: 0.1      # [新增] 体素网格大小 (0.05 = 5cm)
       road_fit:
         # 道路边界方向统一为朝 +X；超出此范围时保持上一可信拟合。
-        max_abs_yaw: 0.7   # rad，约 40 度
+        max_abs_yaw: 1.2   # rad，约 68.8 度
 
       # --- 几何避障逻辑 (椭圆方程) ---
       # 判据: ellipse_x * x^2 + ellipse_y * y^2 < thres
