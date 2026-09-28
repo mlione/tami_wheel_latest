@@ -32,8 +32,11 @@ struct ObstaclePoint {
 struct RoadModel {
   bool has_right_edge{false};
   bool has_width{false};
+  // base_link Y-intercept geometry: right line y = tan(yaw_error) * x
+  // - right_distance; width is the Y separation of parallel boundaries.
   double right_distance{0.0};
   double width{0.0};
+  // Preserve the existing lateral (Y-direction) target-offset convention.
   double target_right_distance{0.0};
   double yaw_error{0.0};
 };
@@ -109,6 +112,8 @@ class DWAPlanner {
 
   struct Result {
     bool valid{false};
+    // Measured-motion and last-published-command yaw windows do not overlap.
+    bool command_window_empty{false};
     Trajectory best;
     std::vector<Trajectory> candidates;
   };
@@ -120,7 +125,8 @@ class DWAPlanner {
               const RoadModel& road,
               const std::vector<ObstaclePoint>& obstacles,
               const MotionHistory& history,
-              double control_dt) const;
+              double control_dt,
+              const Velocity* last_sent_command = nullptr) const;
 
   [[nodiscard]] bool isHardwareFeasible(const Velocity& command) const;
   [[nodiscard]] double maximumHardwareAngularVelocity(double linear_velocity) const;

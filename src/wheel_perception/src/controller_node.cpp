@@ -445,6 +445,7 @@ class ControllerNode : public rclcpp::Node {
   struct PlanningMotionSnapshot {
     dwa::Pose2D pose;
     dwa::Velocity velocity;
+    dwa::Velocity last_sent_command;
     bool feedback_fresh{false};
   };
 
@@ -457,6 +458,7 @@ class ControllerNode : public rclcpp::Node {
         velocityFeedbackFreshLocked(reference_time);
     snapshot.velocity = dataset_mode_ || !snapshot.feedback_fresh
         ? last_output_velocity_ : measured_velocity_;
+    snapshot.last_sent_command = last_output_velocity_;
     return snapshot;
   }
 
@@ -637,9 +639,12 @@ class ControllerNode : public rclcpp::Node {
     const bool use_dwa = indoor_test || updateDwaActivation(obstacles);
     dwa::DWAPlanner::Result result;
     if (use_dwa) {
+      const dwa::Velocity* last_sent = indoor_test_mode_ == IndoorTestMode::Drive
+          ? &motion.last_sent_command : nullptr;
       result = dwa_->plan(motion.pose, planning_velocity, road, obstacles,
                           indoor_test_mode_ == IndoorTestMode::Visualize
-                              ? dwa::MotionHistory{} : motion_history_, control_dt);
+                              ? dwa::MotionHistory{} : motion_history_,
+                          control_dt, last_sent);
     } else {
       result.valid = true;
       result.best = makeCruiseTrajectory(road, planning_velocity, control_dt);
@@ -648,9 +653,17 @@ class ControllerNode : public rclcpp::Node {
 
     if (use_dwa && !result.valid &&
         (indoor_test || get_parameter("safety.stop_on_no_path").as_bool())) {
+      if (result.command_window_empty) {
+        RCLCPP_WARN_THROTTLE(
+            get_logger(), *get_clock(), 1000,
+            "INDOOR_DWA NO_WINDOW_INTERSECTION: odom_w=%.3f sent_w=%.3f dt=%.3f",
+            motion.velocity.angular, motion.last_sent_command.angular, control_dt);
+      }
       if (indoor_test) logIndoorPlan(
           result, geometry_msgs::msg::Twist{}, indoor_test_mode_ == IndoorTestMode::Drive);
-      publishStop("DWA found no collision-free path", indoor_test_mode_ != IndoorTestMode::Visualize);
+      publishStop(result.command_window_empty ? "DWA command windows do not overlap"
+                                               : "DWA found no collision-free path",
+                  indoor_test_mode_ != IndoorTestMode::Visualize);
       return;
     }
     if (!result.valid) return;
@@ -835,7 +848,7 @@ class ControllerNode : public rclcpp::Node {
         ? road.target_right_distance - road.right_distance
         : 0.0;
     const double road_yaw = road.has_right_edge
-        ? std::clamp(road.yaw_error, -1.2, 1.2)
+        ? road.yaw_error
         : 0.0;
     const double road_slope = std::tan(road_yaw);
     for (double time = 0.0; time <= prediction_time_ + 1e-6;

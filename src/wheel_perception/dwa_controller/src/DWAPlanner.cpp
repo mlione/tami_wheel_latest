@@ -1,4 +1,5 @@
 #include "wheel_perception/dwa_controller/DWAPlanner.hpp"
+#include "wheel_perception/core/road_geometry.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -40,13 +41,24 @@ DWAPlanner::DWAPlanner(Config config) : config_(std::move(config)) {
 DWAPlanner::Result DWAPlanner::plan(
     const Pose2D& robot_state, const Velocity& current_velocity,
     const RoadModel& road, const std::vector<ObstaclePoint>& obstacles,
-    const MotionHistory& history, double control_dt) const {
+    const MotionHistory& history, double control_dt,
+    const Velocity* last_sent_command) const {
   Result result;
   // Planning geometry is local to base_link, but odometry state is still a
   // required safety input: invalid localization must never produce a command.
   if (!std::isfinite(robot_state.x) || !std::isfinite(robot_state.y) ||
       !std::isfinite(robot_state.yaw) || !std::isfinite(current_velocity.linear) ||
       !std::isfinite(current_velocity.angular)) {
+    return result;
+  }
+  // A finite forward-facing line is required for Y-intercept road geometry.
+  // Reject degenerate geometry instead of silently changing its direction.
+  if (!std::isfinite(road.yaw_error) ||
+      (road.has_right_edge &&
+       (!std::isfinite(road.right_distance) ||
+        !std::isfinite(road.target_right_distance) ||
+        std::cos(road.yaw_error) <= kEpsilon ||
+        (road.has_width && (!std::isfinite(road.width) || road.width <= 0.0))))) {
     return result;
   }
 
@@ -58,12 +70,24 @@ DWAPlanner::Result DWAPlanner::plan(
                                   config_.min_velocity, config_.max_velocity);
   const double max_v = std::clamp(current_velocity.linear + config_.max_acceleration * dt,
                                   config_.min_velocity, config_.max_velocity);
-  const double min_w = std::clamp(
+  double min_w = std::clamp(
       current_velocity.angular - config_.max_angular_acceleration * dt,
       -config_.max_angular_velocity, config_.max_angular_velocity);
-  const double max_w = std::clamp(
+  double max_w = std::clamp(
       current_velocity.angular + config_.max_angular_acceleration * dt,
       -config_.max_angular_velocity, config_.max_angular_velocity);
+  if (last_sent_command != nullptr) {
+    if (!std::isfinite(last_sent_command->angular)) return result;
+    // The output limiter slews relative to the last command actually sent,
+    // not relative to odometry. Intersect both windows before scoring paths.
+    const double max_delta_w = config_.max_angular_acceleration * dt;
+    min_w = std::max(min_w, last_sent_command->angular - max_delta_w);
+    max_w = std::min(max_w, last_sent_command->angular + max_delta_w);
+    if (min_w > max_w) {
+      result.command_window_empty = true;
+      return result;
+    }
+  }
 
   auto linear_samples = samples(min_v, max_v, config_.velocity_resolution);
   auto angular_samples = samples(min_w, max_w, config_.angular_resolution);
@@ -258,8 +282,8 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
   trajectory.dynamic_feasible = true;
   double road_cost = 0.0;
 
-  const double road_slope = std::tan(std::clamp(
-      road.yaw_error, -1.2, 1.2));
+  const double road_yaw = road.yaw_error;
+  const double road_slope = std::tan(road_yaw);
   const double target_offset = road.has_right_edge
       ? road.target_right_distance - road.right_distance
       : 0.0;
@@ -293,17 +317,20 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
 
     if (road.has_right_edge) {
       const double center_y = target_offset + road_slope * pose.x;
+      // Tracking cost retains the configured lateral (Y) offset convention.
       road_cost += std::abs(pose.y - center_y);
-      const double right_y =
-          right_at_origin + road_slope * pose.x + road_boundary_clearance;
-      if (pose.y < right_y) {
+      const double right_clearance =
+          wheel_perception::core::road_geometry::signedDistanceToLine(
+              pose.x, pose.y, road_yaw, right_at_origin);
+      if (right_clearance + kEpsilon < road_boundary_clearance) {
         trajectory.inside_road = false;
         road_cost += kInvalidRoadPenalty;
       }
       if (road.has_width) {
-        const double left_y =
-            left_at_origin + road_slope * pose.x - road_boundary_clearance;
-        if (pose.y > left_y) {
+        const double left_clearance =
+            -wheel_perception::core::road_geometry::signedDistanceToLine(
+                pose.x, pose.y, road_yaw, left_at_origin);
+        if (left_clearance + kEpsilon < road_boundary_clearance) {
           trajectory.inside_road = false;
           road_cost += kInvalidRoadPenalty;
         }

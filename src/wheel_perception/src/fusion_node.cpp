@@ -26,6 +26,7 @@
 #include <Eigen/Geometry>
 
 #include "wheel_perception/core/zed_driver.hpp"
+#include "wheel_perception/core/road_geometry.hpp"
 
 
 using namespace wheel_perception;
@@ -39,7 +40,7 @@ struct SceneMetrics {
 
     // 巡线相关
     bool has_line = false;
-    float road_dist = 0.0f;      // 对应 msg.right_distance
+    float road_dist = 0.0f;      // 相机原点到拟合右边界的垂直距离；发布时转换为 base_link Y 截距
     float road_yaw_rad = 0.0f;   // 对应 msg.road_yaw_error (弧度)
     bool has_road_width = false;
     float left_distance = 0.0f;
@@ -1228,12 +1229,10 @@ void update_loop() {
             camera_rotation_in_base_ * camera_line_direction;
         const double base_yaw =
             std::atan2(base_line_direction.y(), base_line_direction.x());
-        if (std::abs(base_line_direction.x()) <= 1e-6) {
-            return {base_line_point.y(), base_yaw};
-        }
-        const double parameter = -base_line_point.x() / base_line_direction.x();
         return {
-            base_line_point.y() + parameter * base_line_direction.y(),
+            core::road_geometry::lateralInterceptFromPointDirection(
+                base_line_point.x(), base_line_point.y(),
+                base_line_direction.x(), base_line_direction.y()),
             base_yaw};
     }
 
@@ -1262,16 +1261,25 @@ void update_loop() {
         // 2. 巡线与 LQR 信息
         msg->has_road_edge = metrics.has_line;
         if (metrics.has_line) {
+            // The fit supplies perpendicular distance, not a Y intercept.
+            // Build a point on the fitted line before applying the extrinsic.
+            const double camera_right_intercept =
+                core::road_geometry::lateralInterceptFromSignedNormalDistance(
+                    -metrics.road_dist, metrics.road_yaw_rad);
             const auto [right_boundary_y, base_yaw] =
-                transformCameraRoadLineToBase(-metrics.road_dist,
+                transformCameraRoadLineToBase(camera_right_intercept,
                                               metrics.road_yaw_rad);
-            msg->right_distance = static_cast<float>(-right_boundary_y);
-            msg->road_yaw_error = static_cast<float>(base_yaw);
+            msg->has_road_edge = std::isfinite(right_boundary_y) &&
+                std::isfinite(base_yaw) && std::cos(base_yaw) > 1e-6;
+            if (msg->has_road_edge) {
+                msg->right_distance = static_cast<float>(-right_boundary_y);
+                msg->road_yaw_error = static_cast<float>(base_yaw);
+            }
         } else {
             msg->right_distance = metrics.road_dist;
             msg->road_yaw_error = metrics.road_yaw_rad;
         }
-        msg->has_road_width = metrics.has_road_width;
+        msg->has_road_width = metrics.has_road_width && msg->has_road_edge;
         if (metrics.has_road_width) {
             const auto [left_boundary_y, unused_yaw] =
                 transformCameraRoadLineToBase(metrics.left_distance,

@@ -5,6 +5,7 @@
 #include <limits>
 
 #include "wheel_perception/dwa_controller/DWAPlanner.hpp"
+#include "wheel_perception/core/road_geometry.hpp"
 
 namespace {
 using wheel_control::dwa::DWAPlanner;
@@ -431,6 +432,180 @@ TEST(DWAPlanner, NarrowStartupWindowDoesNotForceAnIneffectiveTurn) {
   EXPECT_NEAR(baseline.best.command.linear, 0.0, 1e-6);
   EXPECT_NEAR(preferred.best.command.linear, 0.0, 1e-6);
   EXPECT_DOUBLE_EQ(preferred.best.score, baseline.best.score);
+}
+
+TEST(DWAPlanner, RejectsDisjointMeasuredAndSentYawWindowsBeforeScoring) {
+  DWAPlanner::Config config;
+  config.max_angular_acceleration = 1.5;
+  DWAPlanner planner(config);
+  const Velocity measured{0.20, -0.279};
+  const Velocity last_sent{0.0, 0.0};
+
+  const auto result = planner.plan(Pose2D{}, measured, RoadModel{}, {},
+                                   MotionHistory{}, 0.056, &last_sent);
+
+  EXPECT_FALSE(result.valid);
+  EXPECT_TRUE(result.command_window_empty);
+  EXPECT_TRUE(result.candidates.empty());
+}
+
+TEST(DWAPlanner, IndoorCandidatesFitBothYawWindowsAndOutputLimit) {
+  DWAPlanner::Config config;
+  config.max_angular_acceleration = 1.5;
+  config.minimum_turning_radius = 0.1;
+  DWAPlanner planner(config);
+  const Velocity measured{0.0, -0.07};
+  const Velocity last_sent{0.0, 0.0};
+  constexpr double dt = 0.1;
+
+  const auto result = planner.plan(Pose2D{}, measured, RoadModel{}, {},
+                                   MotionHistory{}, dt, &last_sent);
+
+  ASSERT_TRUE(result.valid);
+  EXPECT_FALSE(result.command_window_empty);
+  for (const auto& candidate : result.candidates) {
+    EXPECT_GE(candidate.command.angular,
+              measured.angular - config.max_angular_acceleration * dt - 1e-6);
+    EXPECT_LE(candidate.command.angular,
+              measured.angular + config.max_angular_acceleration * dt + 1e-6);
+    EXPECT_LE(std::abs(candidate.command.angular - last_sent.angular),
+              config.max_angular_acceleration * dt + 1e-6);
+  }
+}
+
+namespace road_geometry = wheel_perception::core::road_geometry;
+
+TEST(RoadGeometry, NormalDistanceIsNotMistakenForLateralIntercept) {
+  for (double yaw : {-0.7, 0.0, 0.7}) {
+    const double intercept =
+        road_geometry::lateralInterceptFromSignedNormalDistance(-0.4, yaw);
+    EXPECT_NEAR(intercept, -0.4 / std::cos(yaw), 1e-12);
+    EXPECT_NEAR(road_geometry::signedDistanceToLine(0.0, 0.0, yaw, intercept),
+                0.4, 1e-12);
+  }
+}
+
+TEST(RoadGeometry, CameraTranslationAndRotationPreserveTheFittedLine) {
+  constexpr double distance = 0.4;
+  constexpr double tx = 0.45;
+  constexpr double ty = -0.2;
+  for (double camera_yaw : {-0.7, 0.0, 0.7}) {
+    for (double mounting_yaw : {-0.2, 0.0, 0.2}) {
+      const double camera_intercept =
+          road_geometry::lateralInterceptFromSignedNormalDistance(-distance, camera_yaw);
+      const double c = std::cos(mounting_yaw);
+      const double s = std::sin(mounting_yaw);
+      const double base_yaw = camera_yaw + mounting_yaw;
+      const double base_intercept = road_geometry::lateralInterceptFromPointDirection(
+          -s * camera_intercept + tx, c * camera_intercept + ty,
+          std::cos(base_yaw), std::sin(base_yaw));
+      EXPECT_NEAR(road_geometry::signedDistanceToLine(0.0, 0.0, base_yaw, base_intercept),
+                  distance + std::sin(base_yaw) * tx - std::cos(base_yaw) * ty, 1e-12);
+      for (double along : {0.0, 1.0, 3.0}) {
+        const double camera_x = along * std::cos(camera_yaw);
+        const double camera_y = camera_intercept + along * std::sin(camera_yaw);
+        EXPECT_NEAR(road_geometry::signedDistanceToLine(
+                        c * camera_x - s * camera_y + tx,
+                        s * camera_x + c * camera_y + ty, base_yaw, base_intercept),
+                    0.0, 1e-12);
+      }
+    }
+  }
+}
+
+TEST(RoadGeometry, DegenerateLinesDoNotReturnInventedIntercepts) {
+  EXPECT_FALSE(std::isfinite(road_geometry::lateralInterceptFromSignedNormalDistance(
+      -0.4, std::acos(-1.0) / 2.0)));
+  EXPECT_FALSE(std::isfinite(road_geometry::lateralInterceptFromPointDirection(
+      1.0, 2.0, 0.0, 1.0)));
+}
+
+TEST(DWAPlanner, RejectsInsufficientPerpendicularRightMarginOnSlantedRoad) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  for (double yaw : {-0.7, 0.7}) {
+    // A 0.65 m Y gap is only 0.497 m perpendicular, below the 0.60 m requirement.
+    RoadModel road{true, false, 0.65, 0.0, 1.0, yaw};
+    EXPECT_FALSE(DWAPlanner(config).plan({}, {}, road, {}, {}, 0.1).valid);
+  }
+}
+
+TEST(DWAPlanner, RejectsInsufficientPerpendicularLeftMarginOnSlantedRoad) {
+  DWAPlanner::Config config;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  for (double yaw : {-0.7, 0.7}) {
+    RoadModel road{true, true, 1.5, 2.15, 1.0, yaw};
+    EXPECT_FALSE(DWAPlanner(config).plan({}, {}, road, {}, {}, 0.1).valid);
+  }
+}
+
+TEST(DWAPlanner, AcceptsExactPerpendicularRoadMarginAtRest) {
+  DWAPlanner::Config config;
+  config.max_velocity = 0.0;
+  for (double yaw : {-0.7, 0.0, 0.7}) {
+    const double lateral_distance =
+        (config.robot_radius + config.road_margin) / std::cos(yaw);
+    RoadModel road{true, false, lateral_distance, 0.0, 1.0, yaw};
+    EXPECT_TRUE(DWAPlanner(config).plan({}, {}, road, {}, {}, 0.1).valid);
+  }
+}
+
+TEST(DWAPlanner, CorrectedCameraLineRejectsThePreviouslyUnderMarginedTrajectory) {
+  constexpr double yaw = 0.7;
+  const double camera_intercept =
+      road_geometry::lateralInterceptFromSignedNormalDistance(-0.4, yaw);
+  const double base_intercept = road_geometry::lateralInterceptFromPointDirection(
+      0.45, camera_intercept - 0.2, std::cos(yaw), std::sin(yaw));
+  RoadModel road{true, false, -base_intercept, 0.0, 0.8, yaw};
+  MotionHistory history;
+  history.valid = true;
+  history.previous_command = {0.17, 0.0};
+  const auto result = DWAPlanner(DWAPlanner::Config{}).plan(
+      {}, history.previous_command, road, {}, history, 0.1);
+  const auto straight = std::find_if(
+      result.candidates.begin(), result.candidates.end(), [](const Trajectory& candidate) {
+        return std::abs(candidate.command.linear - 0.17) < 1e-9 &&
+               std::abs(candidate.command.angular) < 1e-9;
+      });
+  ASSERT_NE(straight, result.candidates.end());
+  EXPECT_FALSE(straight->inside_road);
+}
+
+TEST(DWAPlanner, AllSlantedRoadCandidatesUsePerpendicularFootprintClearance) {
+  DWAPlanner::Config config;
+  config.max_velocity = 0.6;
+  config.max_acceleration = 10.0;
+  config.max_angular_acceleration = 10.0;
+  config.minimum_turning_radius = 0.1;
+  const double required = config.robot_radius + config.road_margin;
+  for (double yaw : {-0.7, 0.7}) {
+    RoadModel road{true, true, 1.6, 3.2, 1.0, yaw};
+    const auto result = DWAPlanner(config).plan({}, {}, road, {}, {}, 0.1);
+    ASSERT_TRUE(result.valid);
+    ASSERT_FALSE(result.candidates.empty());
+    const double slope = std::tan(yaw);
+    const double normalizer = std::sqrt(1.0 + slope * slope);
+    for (const auto& candidate : result.candidates) {
+      bool inside = true;
+      for (const auto& pose : candidate.poses) {
+        const double right = (pose.y - slope * pose.x + road.right_distance) / normalizer;
+        const double left =
+            (road.width - road.right_distance + slope * pose.x - pose.y) / normalizer;
+        inside = inside && right + 1e-6 >= required && left + 1e-6 >= required;
+      }
+      EXPECT_EQ(candidate.inside_road, inside);
+    }
+  }
+}
+
+TEST(DWAPlanner, RejectsNonFiniteOrVerticalRoadGeometry) {
+  RoadModel road{true, false, 1.0, 0.0, 1.0, std::acos(-1.0) / 2.0};
+  DWAPlanner planner(DWAPlanner::Config{});
+  EXPECT_FALSE(planner.plan({}, {}, road, {}, {}, 0.1).valid);
+  road.yaw_error = std::numeric_limits<double>::quiet_NaN();
+  EXPECT_FALSE(planner.plan({}, {}, road, {}, {}, 0.1).valid);
 }
 
 }  // namespace

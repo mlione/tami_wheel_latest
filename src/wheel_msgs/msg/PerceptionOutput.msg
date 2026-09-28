@@ -11,7 +11,8 @@ geometry_msgs/Point min_point # (x=前, y=左)
 # 直接对应 Python 代码中的 rs_msg.right_distance 和 rs_msg.right_angle
 bool has_road_edge
 
-# [Lateral Error] 车辆距离右侧路沿的横向距离 (对应 Python 的 right_distance)
+# base_link 中右边界在 X=0 的 Y 截距取负值，不是到边界的垂直距离。
+# 右边界模型：Y = tan(road_yaw_error) * X - right_distance。
 # 单位: 米
 float32 right_distance
 
@@ -24,7 +25,9 @@ float32 road_yaw_error
 # 左侧边界只用于估计道路宽度；右侧路沿仍是 LQR 主巡线基准。
 bool has_road_width
 float32 left_distance
+# 平行道路边界的 Y 方向间隔近似值。
 float32 road_width
+# 保留现有 Y 方向目标间距定义；车体安全裕量另按垂直距离检查。
 float32 target_right_distance
 
 # === 3. 调试信息 ===
