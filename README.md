@@ -173,7 +173,19 @@ ros2 topic echo /dwa/planner_cmd
 ros2 topic echo /cmd_vel
 ```
 
-记录一次回放：
+一键录包（实车、室内测试、数据集回放均可；先启动对应节点）：
+
+```bash
+bash record_dwa_bag.sh dwa_test
+# 长时间轻量记录，不录规划点云和 Marker：
+bash record_dwa_bag.sh dwa_test --light
+```
+
+脚本自动保存运行参数快照和 Git 版本，并录制控制、速度反馈、路径与日志。
+输出位于 `bags/测试名称_时间_唯一后缀/`，按 `Ctrl+C` 正常结束录包；
+**结束录包不会停止轮椅**。具体话题、文件结构和注意事项见 [录包说明](录包说明.md)。
+
+手动记录一次回放：
 
 ```bash
 mkdir -p bags
