@@ -557,11 +557,13 @@ void update_loop() {
         // [计时点 0] 帧开始
         auto t0 = std::chrono::high_resolution_clock::now();
         core::ZedGpuFrame frame;
+        rclcpp::Time frame_stamp = this->get_clock()->now();
 
         if (!use_dataset_mode_) {
             if (!driver_ || !driver_->grab(frame)) {
                 return;
             }
+            frame_stamp = rclcpp::Time(static_cast<int64_t>(frame.timestamp_ns), RCL_ROS_TIME);
             publish_odometry(frame);
         }
 
@@ -582,8 +584,16 @@ void update_loop() {
                 if (latest_rgb_ == last_processed_rgb_) return;
                 rgb_msg   = latest_rgb_;
                 depth_msg = latest_depth_;
+                // The replay publishes RGB and depth separately. Never label
+                // geometry from an older depth frame with this RGB timestamp.
+                if (depth_msg &&
+                    (depth_msg->header.stamp.sec != rgb_msg->header.stamp.sec ||
+                     depth_msg->header.stamp.nanosec != rgb_msg->header.stamp.nanosec)) {
+                    return;
+                }
                 last_processed_rgb_ = rgb_msg;
             }
+            frame_stamp = rclcpp::Time(rgb_msg->header.stamp);
             // 1. 将 ROS 话题消息转成 CPU cv::Mat
             auto cv_img = cv_bridge::toCvShare(rgb_msg, "bgra8"); // python 节点发的是 bgra8, 4通道
             img_w = cv_img->image.cols;
@@ -819,7 +829,7 @@ void update_loop() {
             if (publisher->get_subscription_count() == 0) return;
             
             auto msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
-            msg->header.stamp = this->get_clock()->now();
+            msg->header.stamp = frame_stamp;
             msg->header.frame_id = frame_id;
             msg->height = 1; msg->width = pts.size(); msg->is_dense = false;
             sensor_msgs::PointCloud2Modifier modifier(*msg);
@@ -880,7 +890,7 @@ void update_loop() {
 
         if(metrics.is_vertical) out_right0 = true;
         else out_right0 = false;
-        publish_perception_msg(obstacles, metrics);
+        publish_perception_msg(obstacles, metrics, frame_stamp);
         
         static int cnt = 0;
         bool is_viz_published = false;
@@ -1105,8 +1115,9 @@ void update_loop() {
                 if (norm > 1e-4) {
                     raw_dist = std::abs(vx * p_near.y - vy * p_near.x) / norm;
                 }
-                // 5. 过大的航向解视为当帧拟合异常。已有历史时保持上一可信值；
-                // 第一帧就异常时，不声称检测到有效道路边界。
+                // An invalid fit is not a fresh road boundary. Retain the EMA
+                // internally for the next valid fit, but invalidate this frame.
+                // Never publish an old line under a new camera timestamp.
                 const bool yaw_valid = norm > 1e-4f && std::isfinite(raw_yaw) &&
                     std::abs(raw_yaw) <= std::max(max_abs_road_yaw_, 0.0f);
                 if (!yaw_valid) {
@@ -1114,12 +1125,8 @@ void update_loop() {
                         get_logger(), *get_clock(), 1000,
                         "Reject road yaw outlier: raw=%.3f rad limit=%.3f rad points=%zu",
                         raw_yaw, max_abs_road_yaw_, n);
-                    if (first_frame_) {
-                        metrics.has_line = false;
-                        return;
-                    }
-                    raw_dist = ema_dist_;
-                    raw_yaw = ema_angle_;
+                    metrics.has_line = false;
+                    return;
                 }
 
                 // 6. EMA 平滑。角度使用环形差值，避免 +pi/-pi 附近直接平均。
@@ -1236,11 +1243,13 @@ void update_loop() {
             base_yaw};
     }
 
-    void publish_perception_msg(const std::vector<core::Obstacle3DStat>& obstacles, const SceneMetrics& metrics) {
+    void publish_perception_msg(const std::vector<core::Obstacle3DStat>& obstacles,
+                                const SceneMetrics& metrics,
+                                const rclcpp::Time& frame_stamp) {
         if (!pub_perception_) return;
         
         auto msg = std::make_unique<wheel_msgs::msg::PerceptionOutput>();
-        msg->header.stamp = this->get_clock()->now();
+        msg->header.stamp = frame_stamp;
         msg->header.frame_id = "base_link"; // 我们已经转换到了车体坐标系
 
         // 1. 紧急避障信息

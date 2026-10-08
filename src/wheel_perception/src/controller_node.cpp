@@ -1,12 +1,16 @@
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <chrono>
 #include <cmath>
+#include <condition_variable>
 #include <cstddef>
 #include <cstdint>
+#include <deque>
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -53,21 +57,34 @@ class ControllerNode : public rclcpp::Node {
     declareParameters();
     configureControllers();
 
+    // Planning stays in the default mutually exclusive group. Sensor updates
+    // and the watchdog must remain schedulable while DWA is evaluating paths.
+    odom_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    cloud_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    watchdog_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions odom_options;
+    odom_options.callback_group = odom_group_;
+    rclcpp::SubscriptionOptions cloud_options;
+    cloud_options.callback_group = cloud_group_;
+
     sub_perception_ = create_subscription<wheel_msgs::msg::PerceptionOutput>(
-        "perception/output", 10,
+        "perception/output", rclcpp::QoS(rclcpp::KeepLast(1)).reliable(),
         std::bind(&ControllerNode::perceptionCallback, this, std::placeholders::_1));
     if (dataset_mode_) {
       sub_dataset_odom_ = create_subscription<nav_msgs::msg::Odometry>(
           "/zed/odom", rclcpp::SensorDataQoS(),
-          std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1));
+          std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1),
+          odom_options);
     } else {
       sub_odom_ = create_subscription<nav_msgs::msg::Odometry>(
-          "/odom", 10,
-          std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1));
+          "/odom", rclcpp::QoS(rclcpp::KeepLast(1)).reliable(),
+          std::bind(&ControllerNode::odomCallback, this, std::placeholders::_1),
+          odom_options);
     }
     sub_cloud_ = create_subscription<sensor_msgs::msg::PointCloud2>(
-        "zed/point_cloud", rclcpp::SensorDataQoS(),
-        std::bind(&ControllerNode::cloudCallback, this, std::placeholders::_1));
+        "zed/point_cloud", rclcpp::SensorDataQoS().keep_last(2),
+        std::bind(&ControllerNode::cloudCallback, this, std::placeholders::_1),
+        cloud_options);
 
     pub_cmd_ = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     pub_dwa_cmd_ = create_publisher<geometry_msgs::msg::Twist>("dwa/planner_cmd", 10);
@@ -82,9 +99,10 @@ class ControllerNode : public rclcpp::Node {
     pub_dwa_obstacle_cloud_ =
         create_publisher<sensor_msgs::msg::PointCloud2>("dwa/obstacle_cloud", 10);
 
-    last_perception_time_ = now();
+    last_perception_receive_ns_.store(now().nanoseconds());
     watchdog_timer_ = create_wall_timer(
-        std::chrono::milliseconds(100), std::bind(&ControllerNode::watchdogCallback, this));
+        std::chrono::milliseconds(100),
+        std::bind(&ControllerNode::watchdogCallback, this), watchdog_group_);
 
     RCLCPP_INFO(get_logger(), "Controller ready: indoor mode=%s%s",
                 indoor_test_mode_ == IndoorTestMode::Off ? "off" :
@@ -94,6 +112,10 @@ class ControllerNode : public rclcpp::Node {
   }
 
  private:
+  struct ObstacleFrame {
+    std::int64_t stamp_ns{0};
+    std::vector<dwa::ObstaclePoint> points;
+  };
   void declareParameters() {
     // Shared with FusionNode. It selects only the source of velocity feedback;
     // all DWA/LQR/safety parameters remain common to both operating modes.
@@ -188,6 +210,7 @@ class ControllerNode : public rclcpp::Node {
 
     declare_parameter("safety.emergency_stop_distance", 0.8);
     declare_parameter("safety.perception_timeout", 0.5);
+    declare_parameter("safety.max_sensor_age", 0.25);
     declare_parameter("safety.stop_on_no_path", true);
     declare_parameter("velocity_feedback.timeout", 0.3);
     declare_parameter("velocity_feedback.stop_on_timeout", false);
@@ -196,6 +219,10 @@ class ControllerNode : public rclcpp::Node {
 
   void configureControllers() {
     dataset_mode_ = get_parameter("zed.use_dataset_mode").as_bool();
+    max_sensor_age_ = get_parameter("safety.max_sensor_age").as_double();
+    if (!std::isfinite(max_sensor_age_) || max_sensor_age_ <= 0.0) {
+      throw std::invalid_argument("safety.max_sensor_age must be positive and finite");
+    }
     const std::string indoor_mode = get_parameter("dwa.indoor_test.mode").as_string();
     if (indoor_mode == "visualize") {
       indoor_test_mode_ = IndoorTestMode::Visualize;
@@ -495,13 +522,70 @@ class ControllerNode : public rclcpp::Node {
     return road;
   }
 
+  std::optional<dwa::RoadModel> makeObservedRightRoadModel(
+      const wheel_msgs::msg::PerceptionOutput& message) const {
+    if (!message.has_road_edge) return std::nullopt;
+    const auto& a = message.debug_line_pt1;
+    const auto& b = message.debug_line_pt2;
+    const double dx = b.x - a.x;
+    const double dy = b.y - a.y;
+    if (!std::isfinite(a.x) || !std::isfinite(a.y) ||
+        !std::isfinite(b.x) || !std::isfinite(b.y) ||
+        !std::isfinite(dx) || !std::isfinite(dy) ||
+        std::abs(dx) < 0.05 || std::hypot(dx, dy) < 0.10) {
+      return std::nullopt;
+    }
+    const double slope = dy / dx;
+    const double yaw = std::atan2(dx >= 0.0 ? dy : -dy,
+                                  dx >= 0.0 ? dx : -dx);
+    const double right_distance = slope * a.x - a.y;
+    if (!std::isfinite(right_distance) || std::cos(yaw) <= 1e-6) {
+      return std::nullopt;
+    }
+    dwa::RoadModel observed;
+    observed.has_right_edge = true;
+    observed.right_distance = right_distance;
+    observed.yaw_error = yaw;
+    return observed;
+  }
+
+  bool sourceFrameFresh(std::int64_t stamp_ns,
+                        const rclcpp::Time& reference_time) const {
+    const std::int64_t now_ns = reference_time.nanoseconds();
+    return stamp_ns > 0 && now_ns >= stamp_ns &&
+        static_cast<double>(now_ns - stamp_ns) * 1e-9 <= max_sensor_age_;
+  }
+
+  void storeObstacleFrame(std::int64_t stamp_ns,
+                          std::vector<dwa::ObstaclePoint> points) {
+    {
+      std::lock_guard<std::mutex> lock(obstacle_mutex_);
+      obstacle_frames_.push_back({stamp_ns, std::move(points)});
+      while (obstacle_frames_.size() > 3) obstacle_frames_.pop_front();
+    }
+    cloud_cv_.notify_all();
+  }
+
+  std::optional<std::vector<dwa::ObstaclePoint>> matchingObstacleFrame(
+      std::int64_t stamp_ns) {
+    std::unique_lock<std::mutex> lock(obstacle_mutex_);
+    const auto find_frame = [&] {
+      return std::find_if(obstacle_frames_.begin(), obstacle_frames_.end(),
+          [stamp_ns](const ObstacleFrame& frame) {
+            return frame.stamp_ns == stamp_ns;
+          });
+    };
+    cloud_cv_.wait_for(lock, std::chrono::milliseconds(20),
+                       [&] { return find_frame() != obstacle_frames_.end(); });
+    const auto frame = find_frame();
+    if (frame == obstacle_frames_.end()) return std::nullopt;
+    return frame->points;
+  }
+
   void cloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr message) {
+    const auto stamp_ns = rclcpp::Time(message->header.stamp).nanoseconds();
     if (message->width == 0 || message->height == 0) {
-      if (indoor_test_mode_ != IndoorTestMode::Off) {
-        std::lock_guard<std::mutex> lock(obstacle_mutex_);
-        obstacles_.clear();
-        last_cloud_time_ = now();
-      }
+      storeObstacleFrame(stamp_ns, {});
       return;
     }
 
@@ -575,20 +659,33 @@ class ControllerNode : public rclcpp::Node {
       pub_dwa_obstacle_cloud_->publish(std::move(cloud));
     }
 
-    std::lock_guard<std::mutex> lock(obstacle_mutex_);
-    obstacles_ = std::move(points);
-    last_cloud_time_ = now();
+    storeObstacleFrame(stamp_ns, std::move(points));
   }
 
   void perceptionCallback(const wheel_msgs::msg::PerceptionOutput::SharedPtr message) {
     const rclcpp::Time callback_time = now();
+    last_perception_receive_ns_.store(callback_time.nanoseconds());
+    const std::uint64_t stop_epoch = watchdog_stop_epoch_.load();
+    if (watchdog_stopped_.exchange(false)) {
+      motion_history_ = {};
+      last_tracked_angular_ = 0.0;
+      lqr_->reset();
+    }
+    const std::int64_t frame_stamp_ns = rclcpp::Time(message->header.stamp).nanoseconds();
+    if (!sourceFrameFresh(frame_stamp_ns, callback_time)) {
+      RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Reject stale perception frame: age=%.3f s, limit=%.3f s",
+          static_cast<double>(callback_time.nanoseconds() - frame_stamp_ns) * 1e-9,
+          max_sensor_age_);
+      publishStop("perception frame stale or timestamp invalid");
+      return;
+    }
     double control_dt = simulation_dt_;
     if (last_control_time_.nanoseconds() > 0 && callback_time > last_control_time_) {
       control_dt = std::clamp((callback_time - last_control_time_).seconds(), 0.01, 0.25);
     }
     last_control_time_ = callback_time;
-    last_perception_time_ = callback_time;
-    watchdog_stopped_ = false;
     const double emergency_distance = indoor_test_mode_ == IndoorTestMode::Drive
         ? indoor_drive_emergency_distance_
         : get_parameter("safety.emergency_stop_distance").as_double();
@@ -597,22 +694,22 @@ class ControllerNode : public rclcpp::Node {
       return;
     }
 
-    std::vector<dwa::ObstaclePoint> obstacles;
-    bool cloud_fresh = false;
-    {
-      std::lock_guard<std::mutex> lock(obstacle_mutex_);
-      obstacles = obstacles_;
-      const double timeout = get_parameter("safety.perception_timeout").as_double();
-      cloud_fresh = last_cloud_time_.nanoseconds() > 0 &&
-          callback_time >= last_cloud_time_ &&
-          (callback_time - last_cloud_time_).seconds() <= timeout;
-    }
-    if (indoor_test_mode_ != IndoorTestMode::Off && !cloud_fresh) {
-      publishStop("indoor test obstacle cloud unavailable or stale");
+    // Never combine a new road estimate with a previous obstacle cloud.
+    const auto matching_cloud = matchingObstacleFrame(frame_stamp_ns);
+    if (!matching_cloud) {
+      publishStop("obstacle cloud missing for perception frame");
       return;
     }
-
+    const std::vector<dwa::ObstaclePoint>& obstacles = *matching_cloud;
     const dwa::RoadModel road = makePlanningRoadModel(*message);
+    const auto observed_right_road = indoor_test_mode_ == IndoorTestMode::Off
+        ? makeObservedRightRoadModel(*message)
+        : std::optional<dwa::RoadModel>{};
+    if (indoor_test_mode_ == IndoorTestMode::Off &&
+        (!road.has_right_edge || !observed_right_road)) {
+      publishStop("current road boundary unavailable or invalid");
+      return;
+    }
 
     const auto motion = planningMotionSnapshot(callback_time);
     if (indoor_test_mode_ == IndoorTestMode::Drive && !motion.feedback_fresh) {
@@ -649,7 +746,6 @@ class ControllerNode : public rclcpp::Node {
       result.valid = true;
       result.best = makeCruiseTrajectory(road, planning_velocity, control_dt);
     }
-    publishVisualization(result, use_dwa);
 
     if (use_dwa && !result.valid &&
         (indoor_test || get_parameter("safety.stop_on_no_path").as_bool())) {
@@ -666,21 +762,26 @@ class ControllerNode : public rclcpp::Node {
                   indoor_test_mode_ != IndoorTestMode::Visualize);
       return;
     }
-    if (!result.valid) return;
+    if (!result.valid) {
+      publishStop("no valid local trajectory");
+      return;
+    }
 
     geometry_msgs::msg::Twist planner_command;
     planner_command.linear.x = result.best.command.linear;
     planner_command.angular.z = result.best.command.angular;
-    pub_dwa_cmd_->publish(planner_command);
-    if (indoor_test) pub_indoor_test_cmd_->publish(planner_command);
 
     if (indoor_test_mode_ == IndoorTestMode::Visualize) {
-      pub_cmd_->publish(geometry_msgs::msg::Twist{});
-      motion_history_ = {};
+      publishVisualization(result, use_dwa);
       {
-        std::lock_guard<std::mutex> lock(velocity_mutex_);
+        std::lock_guard<std::mutex> command_lock(command_mutex_);
+        pub_dwa_cmd_->publish(planner_command);
+        pub_indoor_test_cmd_->publish(planner_command);
+        pub_cmd_->publish(geometry_msgs::msg::Twist{});
+        std::lock_guard<std::mutex> velocity_lock(velocity_mutex_);
         last_output_velocity_ = {};
       }
+      motion_history_ = {};
       last_tracked_angular_ = 0.0;
       logIndoorPlan(result, planner_command, false);
       return;
@@ -715,7 +816,65 @@ class ControllerNode : public rclcpp::Node {
     geometry_msgs::msg::Twist command;
     command.linear.x = result.best.command.linear;
     command.angular.z = tracked_w;
-    pub_cmd_->publish(command);
+
+    // The blue/green path must describe the command actually sent to BLE,
+    // including LQR correction and the final yaw limiter, not merely the
+    // DWA reference chosen before those changes.
+    dwa::Trajectory checked_trajectory;
+    const dwa::Velocity final_velocity{command.linear.x, command.angular.z};
+    if (!dwa_->assessCommandSafety(
+            final_velocity, road, obstacles, &checked_trajectory)) {
+      const char* failure = checked_trajectory.poses.empty()
+          ? "invalid geometry or actuator command"
+          : (!checked_trajectory.inside_road ? "fitted road boundary"
+                                             : "obstacle collision");
+      RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Final command rejected: %s v=%.2f w=%.2f right=%.2f yaw=%.3f clearance=%.2f",
+          failure, final_velocity.linear, final_velocity.angular,
+          road.right_distance, road.yaw_error, checked_trajectory.minimum_clearance);
+      publishStop(std::string("final command unsafe: ") + failure);
+      return;
+    }
+    // The yellow RViz edge points are the current raw measurement; the EMA
+    // road line can lag behind them. Enforce the raw fit as a second boundary.
+    if (observed_right_road &&
+        !dwa_->assessCommandSafety(
+            final_velocity, *observed_right_road, {}, nullptr)) {
+      publishStop("final command crosses current observed right boundary");
+      return;
+    }
+    result.best.poses = std::move(checked_trajectory.poses);
+    result.best.minimum_clearance = checked_trajectory.minimum_clearance;
+    // Marker publication can be expensive; keep it outside the command lock.
+    // If the watchdog fires meanwhile, the final epoch check below refuses
+    // this command and publishStop clears the just-published path.
+    publishVisualization(result, use_dwa);
+
+    // Serialize the last safety check and cmd_vel publication with watchdog
+    // zero commands. A watchdog stop during planning invalidates this result.
+    bool published = false;
+    {
+      std::lock_guard<std::mutex> command_lock(command_mutex_);
+      const rclcpp::Time publication_time = now();
+      const double receive_age = static_cast<double>(
+          publication_time.nanoseconds() - last_perception_receive_ns_.load()) * 1e-9;
+      if (watchdog_stop_epoch_.load() == stop_epoch &&
+          sourceFrameFresh(frame_stamp_ns, publication_time) &&
+          receive_age >= 0.0 &&
+          receive_age <= get_parameter("safety.perception_timeout").as_double()) {
+        pub_dwa_cmd_->publish(planner_command);
+        if (indoor_test) pub_indoor_test_cmd_->publish(planner_command);
+        pub_cmd_->publish(command);
+        std::lock_guard<std::mutex> velocity_lock(velocity_mutex_);
+        last_output_velocity_ = {command.linear.x, command.angular.z};
+        published = true;
+      }
+    }
+    if (!published) {
+      publishStop("planning result expired before command publication");
+      return;
+    }
 
     if (use_dwa) {
       const dwa::Velocity previous_dwa_command = motion_history_.valid
@@ -731,10 +890,6 @@ class ControllerNode : public rclcpp::Node {
       // A later DWA activation starts from the actual last controller output,
       // not from stale DWA state left over from a previous obstacle.
       motion_history_ = {};
-    }
-    {
-      std::lock_guard<std::mutex> lock(velocity_mutex_);
-      last_output_velocity_ = {result.best.command.linear, tracked_w};
     }
     last_tracked_angular_ = tracked_w;
 
@@ -867,25 +1022,14 @@ class ControllerNode : public rclcpp::Node {
     return trajectory.poses[index];
   }
 
-  void publishStop(const std::string& reason, bool clear_candidates = true) {
-    geometry_msgs::msg::Twist stop;
-    pub_cmd_->publish(stop);
-    pub_dwa_cmd_->publish(stop);
-    if (indoor_test_mode_ != IndoorTestMode::Off) pub_indoor_test_cmd_->publish(stop);
-    motion_history_ = {};
-    {
-      std::lock_guard<std::mutex> lock(velocity_mutex_);
-      last_output_velocity_ = {};
-    }
-    last_tracked_angular_ = 0.0;
-    lqr_->reset();
+  void clearPathVisualization(bool clear_candidates) {
     nav_msgs::msg::Path empty_path;
     empty_path.header.stamp = now();
     empty_path.header.frame_id = "base_link";
     pub_local_trajectory_->publish(empty_path);
     pub_best_path_->publish(empty_path);
     visualization_msgs::msg::Marker clear_best_path;
-    clear_best_path.header.stamp = now();
+    clear_best_path.header.stamp = empty_path.header.stamp;
     clear_best_path.header.frame_id = "base_link";
     clear_best_path.ns = "selected_local_path";
     clear_best_path.id = 0;
@@ -896,16 +1040,52 @@ class ControllerNode : public rclcpp::Node {
     clear.action = visualization_msgs::msg::Marker::DELETEALL;
     clear_markers.markers.push_back(clear);
     if (clear_candidates) pub_candidate_paths_->publish(clear_markers);
+  }
+
+  void publishStop(const std::string& reason, bool clear_candidates = true) {
+    {
+      std::lock_guard<std::mutex> command_lock(command_mutex_);
+      watchdog_stop_epoch_.fetch_add(1);
+      geometry_msgs::msg::Twist stop;
+      pub_cmd_->publish(stop);
+      pub_dwa_cmd_->publish(stop);
+      if (indoor_test_mode_ != IndoorTestMode::Off) pub_indoor_test_cmd_->publish(stop);
+      {
+        std::lock_guard<std::mutex> velocity_lock(velocity_mutex_);
+        last_output_velocity_ = {};
+      }
+      clearPathVisualization(clear_candidates);
+    }
+    motion_history_ = {};
+    last_tracked_angular_ = 0.0;
+    lqr_->reset();
     RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 500, "Safety stop: %s", reason.c_str());
   }
 
   void watchdogCallback() {
     const double timeout = get_parameter("safety.perception_timeout").as_double();
-    if (!watchdog_stopped_ && timeout > 0.0 &&
-        (now() - last_perception_time_).seconds() > timeout) {
-      watchdog_stopped_ = true;
-      publishStop("perception timeout");
+    if (timeout <= 0.0) return;
+    const auto timed_out = [&] {
+      const std::int64_t age_ns = now().nanoseconds() -
+          last_perception_receive_ns_.load();
+      return age_ns >= 0 && static_cast<double>(age_ns) * 1e-9 > timeout;
+    };
+    if (!timed_out()) return;
+    std::lock_guard<std::mutex> command_lock(command_mutex_);
+    if (watchdog_stopped_.load() || !timed_out()) return;
+    watchdog_stopped_.store(true);
+    watchdog_stop_epoch_.fetch_add(1);
+    geometry_msgs::msg::Twist stop;
+    pub_cmd_->publish(stop);
+    pub_dwa_cmd_->publish(stop);
+    if (indoor_test_mode_ != IndoorTestMode::Off) pub_indoor_test_cmd_->publish(stop);
+    {
+      std::lock_guard<std::mutex> velocity_lock(velocity_mutex_);
+      last_output_velocity_ = {};
     }
+    clearPathVisualization(true);
+    RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 500,
+                         "Safety stop: perception callback timeout");
   }
 
   nav_msgs::msg::Path toPath(const dwa::Trajectory& trajectory) const {
@@ -1013,6 +1193,9 @@ class ControllerNode : public rclcpp::Node {
 
   std::unique_ptr<LqrController> lqr_;
   std::unique_ptr<dwa::DWAPlanner> dwa_;
+  rclcpp::CallbackGroup::SharedPtr odom_group_;
+  rclcpp::CallbackGroup::SharedPtr cloud_group_;
+  rclcpp::CallbackGroup::SharedPtr watchdog_group_;
   rclcpp::Subscription<wheel_msgs::msg::PerceptionOutput>::SharedPtr sub_perception_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_odom_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_dataset_odom_;
@@ -1027,8 +1210,10 @@ class ControllerNode : public rclcpp::Node {
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_dwa_obstacle_cloud_;
 
   std::mutex obstacle_mutex_;
+  std::condition_variable cloud_cv_;
+  std::deque<ObstacleFrame> obstacle_frames_;
   std::mutex velocity_mutex_;
-  std::vector<dwa::ObstaclePoint> obstacles_;
+  std::mutex command_mutex_;
   dwa::Pose2D robot_state_;
   dwa::Velocity measured_velocity_;
   dwa::MotionHistory motion_history_;
@@ -1040,6 +1225,7 @@ class ControllerNode : public rclcpp::Node {
   Eigen::Vector3d camera_translation_in_base_{Eigen::Vector3d::Zero()};
   Eigen::Matrix3d camera_rotation_in_base_{Eigen::Matrix3d::Identity()};
   double max_dwa_velocity_{1.0};
+  double max_sensor_age_{0.25};
   double indoor_drive_emergency_distance_{0.8};
   double max_angular_velocity_{1.0};
   double max_linear_acceleration_{0.5};
@@ -1062,11 +1248,11 @@ class ControllerNode : public rclcpp::Node {
   double last_tracked_angular_{0.0};
   rclcpp::Time last_odom_stamp_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_velocity_feedback_time_{0, 0, RCL_ROS_TIME};
-  rclcpp::Time last_perception_time_{0, 0, RCL_ROS_TIME};
-  rclcpp::Time last_cloud_time_{0, 0, RCL_ROS_TIME};
   rclcpp::Time last_control_time_{0, 0, RCL_ROS_TIME};
   rclcpp::TimerBase::SharedPtr watchdog_timer_;
-  bool watchdog_stopped_{false};
+  std::atomic<std::int64_t> last_perception_receive_ns_{0};
+  std::atomic<std::uint64_t> watchdog_stop_epoch_{0};
+  std::atomic<bool> watchdog_stopped_{false};
 };
 
 }  // namespace wheel_control

@@ -128,6 +128,14 @@ class DWAPlanner {
               double control_dt,
               const Velocity* last_sent_command = nullptr) const;
 
+  // Re-check the command actually sent after LQR and actuator limiting. This
+  // uses the same footprint, obstacle and road geometry as candidate scoring.
+  // It deliberately omits the scoring/history terms: this is a safety test.
+  [[nodiscard]] bool assessCommandSafety(
+      const Velocity& command, const RoadModel& road,
+      const std::vector<ObstaclePoint>& obstacles,
+      Trajectory* checked_trajectory = nullptr) const;
+
   [[nodiscard]] bool isHardwareFeasible(const Velocity& command) const;
   [[nodiscard]] double maximumHardwareAngularVelocity(double linear_velocity) const;
 

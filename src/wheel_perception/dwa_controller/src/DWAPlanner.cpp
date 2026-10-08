@@ -405,6 +405,41 @@ void DWAPlanner::evaluate(Trajectory& trajectory, const RoadModel& road,
   }
 }
 
+bool DWAPlanner::assessCommandSafety(
+    const Velocity& command, const RoadModel& road,
+    const std::vector<ObstaclePoint>& obstacles,
+    Trajectory* checked_trajectory) const {
+  if (!std::isfinite(command.linear) || !std::isfinite(command.angular) ||
+      command.linear < config_.min_velocity - kEpsilon ||
+      command.linear > config_.max_velocity + kEpsilon ||
+      std::abs(command.angular) > config_.max_angular_velocity + kEpsilon ||
+      !isHardwareFeasible(command) ||
+      (command.linear < config_.minimum_turning_velocity &&
+       std::abs(command.angular) > kEpsilon) ||
+      (config_.minimum_turning_radius > kEpsilon &&
+       std::abs(command.angular) > kEpsilon &&
+       std::abs(command.linear / command.angular) + kEpsilon <
+           config_.minimum_turning_radius) ||
+      !std::isfinite(road.yaw_error) ||
+      (road.has_right_edge &&
+       (!std::isfinite(road.right_distance) ||
+        !std::isfinite(road.target_right_distance) ||
+        std::cos(road.yaw_error) <= kEpsilon ||
+        (road.has_width &&
+         (!std::isfinite(road.width) || road.width <= 0.0))))) {
+    return false;
+  }
+
+  Trajectory trajectory = simulate(command.linear, command.angular);
+  evaluate(trajectory, road, obstacles, MotionHistory{},
+           config_.simulation_time_step);
+  const bool safe = trajectory.collision_free && trajectory.inside_road;
+  if (checked_trajectory != nullptr) {
+    *checked_trajectory = std::move(trajectory);
+  }
+  return safe;
+}
+
 bool DWAPlanner::isHardwareFeasible(const Velocity& command) const {
   if (!config_.enable_hardware_constraints) return true;
   if (!std::isfinite(command.linear) || !std::isfinite(command.angular)) return false;

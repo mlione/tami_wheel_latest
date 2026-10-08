@@ -184,6 +184,7 @@
     safety:
       emergency_stop_distance: 0.5     # m，进入融合危险区立即置零
       perception_timeout: 0.5            # s，感知中断时主动发布停车
+      max_sensor_age: 0.25               # s，按相机采集时间拒绝积压的道路/障碍帧
       stop_on_no_path: true              # 无安全轨迹时停车而非沿用旧指令
 
     # 实车优先使用 /odom.twist；数据集模式仍固定使用本轮回放的上一控制输出。

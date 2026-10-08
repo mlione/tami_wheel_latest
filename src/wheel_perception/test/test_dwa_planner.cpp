@@ -608,4 +608,29 @@ TEST(DWAPlanner, RejectsNonFiniteOrVerticalRoadGeometry) {
   EXPECT_FALSE(planner.plan({}, {}, road, {}, {}, 0.1).valid);
 }
 
+TEST(DWAPlanner, FinalLqrCommandCannotCrossRightBoundary) {
+  DWAPlanner::Config config;
+  config.robot_radius = 0.45;
+  config.road_margin = 0.15;
+  DWAPlanner planner(config);
+  RoadModel road{true, false, 1.0, 0.0, 1.0, 0.0};
+
+  Trajectory checked;
+  EXPECT_TRUE(planner.assessCommandSafety({0.6, 0.0}, road, {}, &checked));
+  EXPECT_TRUE(checked.inside_road);
+  // The pre-LQR straight path is safe, but a rightward yaw correction
+  // would put the full wheelchair footprint across the right boundary.
+  EXPECT_FALSE(planner.assessCommandSafety({0.6, -0.3}, road, {}, &checked));
+  EXPECT_FALSE(checked.inside_road);
+}
+
+TEST(DWAPlanner, FinalCommandCannotHitObstacle) {
+  DWAPlanner planner(DWAPlanner::Config{});
+  RoadModel road{true, false, 1.5, 0.0, 1.0, 0.0};
+  Trajectory checked;
+  EXPECT_FALSE(planner.assessCommandSafety(
+      {0.6, 0.0}, road, {{1.0, 0.0}}, &checked));
+  EXPECT_FALSE(checked.collision_free);
+}
+
 }  // namespace
