@@ -1,63 +1,6 @@
 # 自动驾驶轮椅感知与控制系统
 基于 ROS 2 + ZED 双目相机 + TensorRT 的自动驾驶轮椅感知控制平台，具备实时语义分割巡线、点云障碍物避障、LQR 闭环控制等能力。
 
-## 系统架构
-
-ZED 双目相机
-    │
-    ├─ RGB 图像（GPU） ──→ TensorRT BiSeNet 推理 ──→ 语义 Mask
-    │                                                    │
-    └─ 点云 XYZRGBA（GPU） ──→ CUDA 滤波与分类 ─────────────┤
-                                                         │
-                                              FusionNode（感知）
-                                                         │
-                                            perception/output 话题
-                                                         │
-                                           ControllerNode（控制）
-                                                         │
-                                                   cmd_vel 话题
-                                                         │
-                                               底层蓝牙驱动 → 电机
-
-## 工程
-两个节点以 **ROS 2 Composable Node** 形式运行在同一容器（`wheel_container`）内，通过 **Intra-Process Communication** 实现零拷贝消息传递，降低通信延迟。`FusionNode` 采用 **ROS 2 Lifecycle** 管理，确保相机和推理引擎完全初始化后才进入激活状态。
-
-wheel_cuda/
-├── src/
-│   ├── wheel_perception/          # 核心感知与控制包
-│   │   ├── config/
-│   │   │   ├── params.yaml        # 感知算法参数（ZED、AI、ROI、障碍物）
-│   │   │   └── wheel_config.yaml  # LQR 控制参数与逻辑状态机参数
-│   │   ├── include/wheel_perception/core/
-│   │   │   ├── zed_driver.hpp     # ZED SDK 封装（Pimpl）
-│   │   │   ├── ai_engine.hpp      # TensorRT 推理引擎封装
-│   │   │   ├── obstacle_fusion.hpp# GPU 点云滤波 + 语义融合
-│   │   │   └── lqr_controller.hpp # LQR 横向控制器
-│   │   ├── src/
-│   │   │   ├── fusion_node.cpp    # 感知主节点（Lifecycle）
-│   │   │   ├── controller_node.cpp# 控制主节点
-│   │   │   └── core/
-│   │   │       ├── zed_driver.cpp
-│   │   │       ├── ai_engine.cpp
-│   │   │       ├── obstacle_fusion.cu  # CUDA 点云滤波 Kernel
-│   │   │       └── preprocess.cu       # CUDA 图像预处理 Kernel
-│   │   │       └── global_flags.cpp    # 需要添加全局参数或者标志位在此添加
-│   │   └── launch/
-│   │       └── run_launch.py      # 一键启动（含生命周期管理）
-│   │
-│   ├── wheel_msgs/                # 自定义消息包
-│   │   └── msg/
-│   │       ├── PerceptionOutput.msg  # 感知输出（距离、偏角、障碍物列表）
-│   │       └── ObstacleInfo.msg      # 单个障碍物信息
-│   │
-│   └── vision_opencv/             # cv_bridge（cv::Mat ↔ ROS Image 转换）
-│
-├── BiSeNet/                       # 语义分割模型训练代码
-├── opencv/                        # OpenCV 4.13.0 源码与编译产物
-
-
----
-
 ## 功能模块说明
 
 ### 1. ZED 驱动（`ZedDriver`）
